@@ -13,7 +13,7 @@ if 'RT_USING_FINSH' in dir(rtconfig) and rtconfig.RT_USING_FINSH:
 	objs = objs + SConscript('finsh/SConscript')
 
 if 'RT_USING_DFS' in dir(rtconfig) and rtconfig.RT_USING_DFS:
-	objs = objs + SConscript('devicefilesystem/SConscript')
+	objs = objs + SConscript('filesystem/SConscript')
 
 if 'RT_USING_LWIP' in dir(rtconfig) and rtconfig.RT_USING_LWIP:
 	objs = objs + SConscript('lwip/SConscript')

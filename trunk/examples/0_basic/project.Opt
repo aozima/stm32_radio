@@ -13,7 +13,7 @@
 Target (RT-Thread STM32), 0x0004 // Tools: 'ARM-ADS'
 GRPOPT 1,(STM32_StdPeriph),0,0,0
 GRPOPT 2,(STM32),0,0,0
-GRPOPT 3,(Kernel),0,0,0
+GRPOPT 3,(Kernel),1,0,0
 GRPOPT 4,(Startup),0,0,0
 
 OPTFFF 1,1,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\CMSIS\CM3\CoreSupport\core_cm3.c><core_cm3.c> 
@@ -41,9 +41,9 @@ OPTFFF 1,22,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\sr
 OPTFFF 1,23,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_can.c><stm32f10x_can.c> 
 OPTFFF 1,24,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\misc.c><misc.c> 
 OPTFFF 2,25,1,0,0,0,0,0,<..\..\rt-thread\stm32\serial.c><serial.c> 
-OPTFFF 2,26,1,0,0,0,0,0,<..\..\rt-thread\stm32\cpu.c><cpu.c> 
+OPTFFF 2,26,1,0,0,0,0,0,<..\..\rt-thread\stm32\stack.c><stack.c> 
 OPTFFF 2,27,1,0,0,0,0,0,<..\..\rt-thread\stm32\fault.c><fault.c> 
-OPTFFF 2,28,1,0,0,0,0,0,<..\..\rt-thread\stm32\stack.c><stack.c> 
+OPTFFF 2,28,1,0,0,0,0,0,<..\..\rt-thread\stm32\cpu.c><cpu.c> 
 OPTFFF 2,29,1,0,0,0,0,0,<..\..\rt-thread\stm32\interrupt.c><interrupt.c> 
 OPTFFF 2,30,1,0,0,0,0,0,<..\..\rt-thread\stm32\context_rvds.S><context_rvds.S> 
 OPTFFF 2,31,1,0,0,0,0,0,<..\..\rt-thread\stm32\fault_rvds.S><fault_rvds.S> 
@@ -61,10 +61,10 @@ OPTFFF 3,42,1,0,0,0,0,0,<..\..\rt-thread\kernel\scheduler.c><scheduler.c>
 OPTFFF 3,43,1,0,0,0,0,0,<..\..\rt-thread\kernel\slab.c><slab.c> 
 OPTFFF 3,44,1,0,0,0,0,0,<..\..\rt-thread\kernel\thread.c><thread.c> 
 OPTFFF 3,45,1,0,0,0,0,0,<..\..\rt-thread\kernel\timer.c><timer.c> 
-OPTFFF 4,46,1,0,0,0,0,0,<.\application.c><application.c> 
+OPTFFF 4,46,1,0,0,0,0,0,<.\stm32f10x_it.c><stm32f10x_it.c> 
 OPTFFF 4,47,1,0,0,0,0,0,<.\startup.c><startup.c> 
-OPTFFF 4,48,1,0,0,0,0,0,<.\board.c><board.c> 
-OPTFFF 4,49,1,0,0,0,0,0,<.\stm32f10x_it.c><stm32f10x_it.c> 
+OPTFFF 4,48,1,0,0,0,0,0,<.\application.c><application.c> 
+OPTFFF 4,49,1,0,0,0,0,0,<.\board.c><board.c> 
 
 
 TARGOPT 1, (RT-Thread STM32)
