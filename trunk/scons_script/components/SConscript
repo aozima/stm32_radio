@@ -1,0 +1,24 @@
+# for module compile 
+Import('env')
+Import('rtconfig')
+
+# build each components
+objs = ''
+
+if rtconfig.CROSS_TOOL == 'gcc':
+		rtconfig.RT_USING_MINILIBC = True
+		objs = objs + SConscript('minilibc/SConscript')
+
+if 'RT_USING_FINSH' in dir(rtconfig) and rtconfig.RT_USING_FINSH:
+	objs = objs + SConscript('finsh/SConscript')
+
+if 'RT_USING_DFS' in dir(rtconfig) and rtconfig.RT_USING_DFS:
+	objs = objs + SConscript('devicefilesystem/SConscript')
+
+if 'RT_USING_LWIP' in dir(rtconfig) and rtconfig.RT_USING_LWIP:
+	objs = objs + SConscript('lwip/SConscript')
+
+if 'RT_USING_RTGUI' in dir(rtconfig) and rtconfig.RT_USING_RTGUI:
+	objs = objs + SConscript('gui/SConscript')
+
+Return('objs')

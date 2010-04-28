@@ -1,0 +1,52 @@
+Import('env')
+Import('rtconfig')
+Import('RTT_ROOT')
+Import('projects')
+
+dfs = Split("""
+src/dfs_fs.c
+src/dfs_init.c
+src/dfs_posix.c
+src/dfs_raw.c
+src/dfs_util.c
+""")
+
+# DFS-ELMFAT options
+elmfat = Split("""
+filesystems/elmfat/dfs_elm.c
+filesystems/elmfat/ff.c
+""")
+
+src_local = dfs
+# The set of source files associated with this SConscript file.
+path = [RTT_ROOT + '/rt-thread/devicefilesystem', RTT_ROOT + '/rt-thread/devicefilesystem/include']
+
+if 'RT_DFS_ELM_USE_LFN' in dir(rtconfig) and rtconfig.RT_DFS_ELM_USE_LFN:
+    elmfat += [RTT_ROOT + '/rt-thread/devicefilesystem/filesystems/elmfat/option/cc936.c']
+
+if 'RT_USING_DFS_ELMFAT' in dir(rtconfig) and rtconfig.RT_USING_DFS_ELMFAT:
+    src_local = src_local + elmfat
+
+for index in range(0, len(src_local)):
+	src_local[index] = RTT_ROOT + '/rt-thread/devicefilesystem/' + src_local[index]
+
+# group definitions
+group = {}
+group['name'] = 'Filesystem'
+group['src'] = File(src_local)
+group['CCFLAGS'] = ''
+group['CPPPATH'] = path
+group['CPPDEFINES'] = ''
+group['LINKFLAGS'] = ''
+
+# add group to project list
+projects.append(group)
+
+env.Append(CCFLAGS = group['CCFLAGS'])
+env.Append(CPPPATH = group['CPPPATH'])
+env.Append(CPPDEFINES = group['CPPDEFINES'])
+env.Append(LINKFLAGS = group['LINKFLAGS'])
+
+obj = env.Object(group['src'])
+
+Return('obj')
