@@ -52,4 +52,4 @@ if GetOption('target') == 'mdk':
 	project.MDKProject('project.uV2', projects)
 
 if GetOption('target') == 'builder':
-	project.BuilderProject('.builder.project', projects)
+	project.BuilderProject('.builder.project', project)

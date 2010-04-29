@@ -5,26 +5,27 @@
  *
  * The license and distribution terms for this file may be
  * found in the file LICENSE in this distribution or at
- * http://www.rt-thread.org/license/LICENSE
+ * http://openlab.rt-thread.com/license/LICENSE
  *
  * Change Logs:
  * Date           Author       Notes
- * 2008-08-31     Bernard      first implementation
- * 2010-04-11     Bernard      add touch driver
+ * 2006-08-31     Bernard      first implementation
  */
 
 #include <rthw.h>
 #include <rtthread.h>
 
+#include "stm32f10x.h"
 #include "board.h"
-
-#include <stm32f10x.h>
 
 /**
  * @addtogroup STM32
  */
 
 /*@{*/
+
+extern int  rt_application_init(void);
+
 #ifdef __CC_ARM
 extern int Image$$RW_IRAM1$$ZI$$Limit;
 #elif __ICCARM__
@@ -33,11 +34,6 @@ extern int Image$$RW_IRAM1$$ZI$$Limit;
 extern int __bss_end;
 #endif
 
-#ifdef RT_USING_FINSH
-extern void finsh_system_init(void);
-extern void finsh_set_device(const char* device);
-#endif
-extern int rt_application_init(void);
 #ifdef  DEBUG
 /*******************************************************************************
 * Function Name  : assert_failed
@@ -99,7 +95,7 @@ void rtthread_startup(void)
     /* init hardware device */
 #ifdef RT_USING_DFS
     GPIO_ResetBits(GPIOC,GPIO_Pin_6); /* SD card power up */
-    rt_hw_sdcard_init();
+    rt_hw_spi_flash_init();
 #endif
 
     /* init all device */
@@ -107,12 +103,6 @@ void rtthread_startup(void)
 
     /* init application */
     rt_application_init();
-
-#ifdef RT_USING_FINSH
-    /* init finsh */
-    finsh_system_init();
-    finsh_set_device(FINSH_DEVICE_NAME);
-#endif
 
     /* init idle thread */
     rt_thread_idle_init();
@@ -130,6 +120,8 @@ int main(void)
 
     /* disable interrupt first */
     level = rt_hw_interrupt_disable();
+
+    /* startup RT-Thread RTOS */
     rtthread_startup();
 
     return 0;

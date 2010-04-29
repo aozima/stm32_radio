@@ -177,3 +177,32 @@ def MDKProject(target, script):
         project.write(line)
 
     project.close()
+
+def BuilderProject(target, script):
+    project = file(target, "wb")
+    project_path = os.path.dirname(os.path.abspath(target))
+
+    # write file
+    
+    CPPPATH = []
+    CPPDEFINES = []
+    LINKFLAGS = ''
+    CCFLAGS = ''
+
+    # number of groups 
+    group_index = 1
+    for group in script:
+        # print group['name']
+
+        # generate file items
+        for node in group['src']:
+            fn = node.rfile()
+            name = fn.name
+            path = os.path.dirname(fn.abspath)
+            path = _make_path_relative(project_path, path)
+            path = os.path.join(path, name)
+	    project.write('%s\r\n' % path)
+
+        group_index = group_index + 1
+
+    project.close()
