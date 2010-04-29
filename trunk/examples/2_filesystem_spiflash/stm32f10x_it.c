@@ -126,21 +126,6 @@ void DebugMon_Handler(void)
   */
 
 /*******************************************************************************
-* Function Name  : SysTickHandler
-* Description    : This function handles SysTick Handler.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void SysTickHandler(void)
-{
-	extern void rt_hw_timer_handler(void);
-
-    /* handle os tick */
-    rt_hw_timer_handler();
-}
-
-/*******************************************************************************
 * Function Name  : SDIO_IRQHandler
 * Description    : This function handles SDIO global interrupt request.
 * Input          : None
@@ -161,6 +146,29 @@ void SDIO_IRQHandler(void)
     /* leave interrupt */
     rt_interrupt_leave();
     rt_hw_interrupt_thread_switch();
+#endif
+}
+
+/******************************************************************************/
+/*                 STM32F10x Peripherals Interrupt Handlers                   */
+/*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */
+/*  available peripheral interrupt handler's name please refer to the startup */
+/*  file (startup_stm32f10x_xx.s).                                            */
+/******************************************************************************/
+#include <rtthread.h>
+void USART1_IRQHandler(void)
+{
+#ifdef RT_USING_UART1
+    extern struct rt_device uart1_device;
+	extern void rt_hw_serial_isr(struct rt_device *device);
+
+    /* enter interrupt */
+    rt_interrupt_enter();
+
+    rt_hw_serial_isr(&uart1_device);
+
+    /* leave interrupt */
+    rt_interrupt_leave();
 #endif
 }
 

@@ -25,6 +25,10 @@
 /*@{*/
 
 extern int  rt_application_init(void);
+#ifdef RT_USING_FINSH
+extern void finsh_system_init(void);
+extern void finsh_set_device(const char* device);
+#endif
 
 #ifdef __CC_ARM
 extern int Image$$RW_IRAM1$$ZI$$Limit;
@@ -94,7 +98,6 @@ void rtthread_startup(void)
 
     /* init hardware device */
 #ifdef RT_USING_DFS
-    GPIO_ResetBits(GPIOC,GPIO_Pin_6); /* SD card power up */
     rt_hw_spi_flash_init();
 #endif
 
@@ -103,6 +106,12 @@ void rtthread_startup(void)
 
     /* init application */
     rt_application_init();
+
+#ifdef RT_USING_FINSH
+	/* init finsh */
+	finsh_system_init();
+	finsh_set_device(FINSH_DEVICE_NAME);
+#endif
 
     /* init idle thread */
     rt_thread_idle_init();
