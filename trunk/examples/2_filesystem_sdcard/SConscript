@@ -13,7 +13,7 @@ group['CPPPATH'] = [os.getcwd()]
 group['CPPDEFINES'] = ['USE_STDPERIPH_DRIVER', rtconfig.STM32_TYPE]
 group['LINKFLAGS'] = ''
 
-src = Glob('*.c')
+src = Glob('*.c') + Glob('fmt0371/*.c') + Glob('ili9325/*.c')
 
 group['src'] = File(src)
 

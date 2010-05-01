@@ -18,6 +18,11 @@
 /*@{*/
 
 #include <rtthread.h>
+#include <finsh.h>
+
+#include <stm32f10x.h>
+#include "board.h"
+
 #ifdef RT_USING_DFS
 /* dfs init */
 #include <dfs_init.h>
@@ -39,11 +44,11 @@ void rt_init_thread_entry(void *parameter)
         /* init the elm FAT filesystam*/
         elm_init();
 
-		/* mount spi flash fat as root directory */
-		if (dfs_mount("sd0", "/", "elm", 0, 0) == 0)
-			rt_kprintf("SPI File System initialized!\n");
-		else
-			rt_kprintf("SPI File System init failed!\n");
+        /* mount sd card fat partition 1 as root directory */
+        if (dfs_mount("sd0", "/", "elm", 0, 0) == 0)
+            rt_kprintf("File System initialized!\n");
+        else
+            rt_kprintf("File System init failed!\n");
     }
 #endif
 }
@@ -62,6 +67,7 @@ int rt_application_init()
                                    2048, 80, 20);
 #endif
     if (init_thread != RT_NULL) rt_thread_startup(init_thread);
+
     return 0;
 }
 

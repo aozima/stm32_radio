@@ -120,24 +120,21 @@ void DebugMon_Handler(void)
 /*  available peripheral interrupt handler's name please refer to the startup */
 /*  file (startup_stm32f10x_xx.s).                                            */
 /******************************************************************************/
-
-/**
-  * @}
-  */
-
-/*******************************************************************************
-* Function Name  : SysTickHandler
-* Description    : This function handles SysTick Handler.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void SysTickHandler(void)
+#include <rtthread.h>
+void USART1_IRQHandler(void)
 {
-	extern void rt_hw_timer_handler(void);
+#ifdef RT_USING_UART1
+    extern struct rt_device uart1_device;
+	extern void rt_hw_serial_isr(struct rt_device *device);
 
-    /* handle os tick */
-    rt_hw_timer_handler();
+    /* enter interrupt */
+    rt_interrupt_enter();
+
+    rt_hw_serial_isr(&uart1_device);
+
+    /* leave interrupt */
+    rt_interrupt_leave();
+#endif
 }
 
 /*******************************************************************************
@@ -160,8 +157,12 @@ void SDIO_IRQHandler(void)
 
     /* leave interrupt */
     rt_interrupt_leave();
-    rt_hw_interrupt_thread_switch();
 #endif
 }
+
+/**
+  * @}
+  */
+
 
 /******************* (C) COPYRIGHT 2009 STMicroelectronics *****END OF FILE****/

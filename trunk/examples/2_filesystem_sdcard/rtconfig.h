@@ -8,52 +8,57 @@
 /* RT_ALIGN_SIZE*/
 #define RT_ALIGN_SIZE	4
 
-/* PRIORITY_MAX */
+/* PRIORITY_MAX*/
 #define RT_THREAD_PRIORITY_MAX	32
 
-/* Tick per Second */
+/* Tick per Second*/
 #define RT_TICK_PER_SECOND	100
 
 /* SECTION: RT_DEBUG */
-/* Thread Debug */
+/* Thread Debug*/
 #define RT_DEBUG
-#define RT_THREAD_DEBUG
+/* #define RT_THREAD_DEBUG */
 
 #define RT_USING_OVERFLOW_CHECK
 
-/* Using Hook */
+/* Using Hook*/
 #define RT_USING_HOOK
 
 /* SECTION: IPC */
 /* Using Semaphore*/
 #define RT_USING_SEMAPHORE
 
-/* Using Mutex */
+/* Using Mutex*/
 #define RT_USING_MUTEX
 
-/* Using Event */
+/* Using Event*/
 #define RT_USING_EVENT
 
-/* Using MailBox */
+/* Using MailBox*/
 #define RT_USING_MAILBOX
 
-/* Using Message Queue */
+/* Using Message Queue*/
 #define RT_USING_MESSAGEQUEUE
 
 /* SECTION: Memory Management */
 /* Using Memory Pool Management*/
 #define RT_USING_MEMPOOL
 
-/* Using Dynamic Heap Management */
+/* Using Dynamic Heap Management*/
 #define RT_USING_HEAP
 
-/* Using Small MM */
+/* Using Small MM*/
 #define RT_USING_SMALL_MEM
 
+/* Using SLAB Allocator*/
+/* #define RT_USING_SLAB */
+
 /* SECTION: Device System */
-/* Using Device System */
+/* Using Device System*/
 #define RT_USING_DEVICE
 #define RT_USING_UART1
+// #define RT_USING_UART2
+// #define RT_USING_UART3
 
 /* SECTION: Console options */
 /* the buffer size of console*/
@@ -67,8 +72,15 @@
 #define FINSH_USING_DESCRIPTION
 #define FINSH_DEVICE_NAME   "uart1"
 
-/* SECTION: device filesystem */
+/* SECTION: C++ support */
+/* Using C++ support*/
+/* #define RT_USING_CPLUSPLUS */
+
 #define RT_USING_DFS
+/* #define RT_USING_DFS_EFSL */
+/* byte alignment for EFSL */
+#define BYTE_ALIGNMENT
+
 #define RT_USING_DFS_ELMFAT
 #define RT_DFS_ELM_WORD_ACCESS
 #define RT_DFS_ELM_DRIVES			2
