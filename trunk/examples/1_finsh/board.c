@@ -1,7 +1,7 @@
 /*
  * File      : board.c
  * This file is part of RT-Thread RTOS
- * COPYRIGHT (C) 2009 RT-Thread Develop Team
+ * COPYRIGHT (C) 2006 - 2009 RT-Thread Develop Team
  *
  * The license and distribution terms for this file may be
  * found in the file LICENSE in this distribution or at
@@ -9,7 +9,7 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2009-01-05     Bernard      first implementation
+ * 2006-08-23     Bernard      first implementation
  */
 
 #include <rthw.h>
@@ -17,93 +17,29 @@
 
 #include "stm32f10x.h"
 #include "board.h"
-#include "usart.h"
 
-/**
- * @addtogroup STM32
- */
+static void delay(void)
+{
+    volatile unsigned int dl;
+    for(dl=0; dl<2500000; dl++);
+}
 
-/*@{*/
-
-///* init console to support rt_kprintf */
-//static void rt_hw_console_init()
-//{
-//    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
-//
-//    /* Enable USART1 and GPIOA clocks */
-//    RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
-//
-//    /* GPIO configuration */
-//    {
-//        GPIO_InitTypeDef GPIO_InitStructure;
-//
-//        GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-//
-//        /* Configure USART Tx as alternate function push-pull */
-//        GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_9;
-//        GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-//        GPIO_Init(GPIOA, &GPIO_InitStructure);
-//
-//        /* Configure USART Rx as input floating */
-//        GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_10;
-//        GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-//        GPIO_Init(GPIOA, &GPIO_InitStructure);
-//    }
-//
-//    /* USART configuration */
-//    {
-//        USART_InitTypeDef USART_InitStructure;
-//
-//        /* USART configured as follow:
-//        - BaudRate = 115200 baud
-//        - Word Length = 8 Bits
-//        - One Stop Bit
-//        - No parity
-//        - Hardware flow control disabled (RTS and CTS signals)
-//        - Receive and transmit enabled
-//        - USART Clock disabled
-//        - USART CPOL: Clock is active low
-//        - USART CPHA: Data is captured on the middle
-//        - USART LastBit: The clock pulse of the last data bit is not output to
-//        the SCLK pin
-//        */
-//        USART_InitStructure.USART_BaudRate = 115200;
-//        USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-//        USART_InitStructure.USART_StopBits = USART_StopBits_1;
-//        USART_InitStructure.USART_Parity = USART_Parity_No;
-//        USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-//        USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-//        USART_Init(USART1, &USART_InitStructure);
-//        /* Enable USART */
-//        USART_Cmd(USART1, ENABLE);
-//    }
-//}
-//
-///* write one character to serial, must not trigger interrupt */
-//static void rt_hw_console_putc(const char c)
-//{
-//    /*
-//    	to be polite with serial console add a line feed
-//    	to the carriage return character
-//    */
-//    if (c=='\n')rt_hw_console_putc('\r');
-//
-//    while (!(USART1->SR & USART_FLAG_TXE));
-//    USART1->DR = (c & 0x1FF);
-//}
-//
-///**
-// * This function is used by rt_kprintf to display a string on console.
-// *
-// * @param str the displayed string
-// */
-//void rt_hw_console_output(const char* str)
-//{
-//    while (*str)
-//    {
-//        rt_hw_console_putc (*str++);
-//    }
-//}
+/*******************************************************************************
+* Function Name  : NVIC_Configuration
+* Description    : Configures Vector Table base location.
+* Input          : None
+* Output         : None
+* Return         : None
+*******************************************************************************/
+void NVIC_Configuration(void)
+{
+    /*
+     * set priority group:
+     * 2 bits for pre-emption priority
+     * 2 bits for subpriority
+     */
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+}
 
 /**
  * This is the timer interrupt service routine.
@@ -120,24 +56,152 @@ void rt_hw_timer_handler(void)
     rt_interrupt_leave();
 }
 
-/**
- * This function will initial STM32 board.
- */
-void rt_hw_board_init()
+static void all_device_reset(void)
 {
-    /* 配置系统时钟并启动PLL,让系统工作在72M,此函数由库中提供 */
-    SystemInit();
+    /* RESET */
+    /* DM9000A          PE5  */
+    /* LCD              PF10 */
+    /* SPI-FLASH        PA3  */
 
-    /* 配置systick分频器 */
-    /* SystemCoreClock为系统主时钟 由库中提供,在system_stm32f10x.c中 */
-    /* RT_TICK_PER_SECOND 为系统节拍,由rtconfig.h中定义 */
-    SysTick_Config( SystemCoreClock / RT_TICK_PER_SECOND );
+    /*  CS */
+    /* DM9000A FSMC_NE4 PG12 */
+    /* LCD     FSMC_NE2 PG9  */
+    /* SPI_FLASH        PA4  */
+    /* CODEC            PC5  */
+    /* TOUCH            PC4  */
 
-//    /*  初始化串口 */
-//    rt_hw_console_init();
+    GPIO_InitTypeDef GPIO_InitStructure;
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOE
+                           | RCC_APB2Periph_GPIOF | RCC_APB2Periph_GPIOG,ENABLE);
 
-    rt_hw_usart_init();
-    rt_console_set_device("uart1");
+    GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+
+    /* SDIO POWER */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+    GPIO_Init(GPIOC,&GPIO_InitStructure);
+    GPIO_SetBits(GPIOC,GPIO_Pin_6); /* SD card power down */
+
+    /* SPI_FLASH CS */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+    GPIO_Init(GPIOA,&GPIO_InitStructure);
+    GPIO_SetBits(GPIOA,GPIO_Pin_4);
+
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+
+    /* CODEC && TOUCH CS */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
+    GPIO_Init(GPIOC,&GPIO_InitStructure);
+    GPIO_SetBits(GPIOC,GPIO_Pin_4 | GPIO_Pin_5);
+
+    /*  DM9000A RESET */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+    GPIO_Init(GPIOE,&GPIO_InitStructure);
+    GPIO_ResetBits(GPIOE,GPIO_Pin_5);
+
+    /* LCD RESET */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+    GPIO_Init(GPIOF,&GPIO_InitStructure);
+    GPIO_ResetBits(GPIOF,GPIO_Pin_10);
+
+    /* SPI_FLASH RESET */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+    GPIO_Init(GPIOA,&GPIO_InitStructure);
+    GPIO_ResetBits(GPIOA,GPIO_Pin_3);
+
+    /* FSMC GPIO configure */
+    {
+        GPIO_InitTypeDef GPIO_InitStructure;
+        RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOE | RCC_APB2Periph_GPIOF
+                               | RCC_APB2Periph_GPIOG, ENABLE);
+        RCC_AHBPeriphClockCmd(RCC_AHBPeriph_FSMC, ENABLE);
+
+        GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF_PP;
+        GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+
+        /*
+        FSMC_D0 ~ FSMC_D3
+        PD14 FSMC_D0   PD15 FSMC_D1   PD0  FSMC_D2   PD1  FSMC_D3
+        */
+        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_14 | GPIO_Pin_15;
+        GPIO_Init(GPIOD,&GPIO_InitStructure);
+
+        /*
+        FSMC_D4 ~ FSMC_D12
+        PE7 ~ PE15  FSMC_D4 ~ FSMC_D12
+        */
+        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10
+                                      | GPIO_Pin_11 | GPIO_Pin_12 | GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15;
+        GPIO_Init(GPIOE,&GPIO_InitStructure);
+
+        /* FSMC_D13 ~ FSMC_D15   PD8 ~ PD10 */
+        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10;
+        GPIO_Init(GPIOD,&GPIO_InitStructure);
+
+        /*
+        FSMC_A0 ~ FSMC_A5   FSMC_A6 ~ FSMC_A9
+        PF0     ~ PF5       PF12    ~ PF15
+        */
+        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3
+                                      | GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_12 | GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15;
+        GPIO_Init(GPIOF,&GPIO_InitStructure);
+
+        /* FSMC_A10 ~ FSMC_A15  PG0 ~ PG5 */
+        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
+        GPIO_Init(GPIOG,&GPIO_InitStructure);
+
+        /* FSMC_A16 ~ FSMC_A18  PD11 ~ PD13 */
+        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_12 | GPIO_Pin_13;
+        GPIO_Init(GPIOD,&GPIO_InitStructure);
+
+        /* RD-PD4 WR-PD5 */
+        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
+        GPIO_Init(GPIOD,&GPIO_InitStructure);
+
+        /* NBL0-PE0 NBL1-PE1 */
+        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1;
+        GPIO_Init(GPIOE,&GPIO_InitStructure);
+
+        /* NE1/NCE2 */
+        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
+        GPIO_Init(GPIOD,&GPIO_InitStructure);
+        /* NE2 */
+        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+        GPIO_Init(GPIOG,&GPIO_InitStructure);
+        /* NE3 */
+        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+        GPIO_Init(GPIOG,&GPIO_InitStructure);
+        /* NE4 */
+        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
+        GPIO_Init(GPIOG,&GPIO_InitStructure);
+    }
+    /* FSMC GPIO configure */
+
+    delay();
+    GPIO_SetBits(GPIOE,GPIO_Pin_5);   /* DM9000A          */
+    GPIO_SetBits(GPIOF,GPIO_Pin_10);  /* LCD              */
+    GPIO_SetBits(GPIOA,GPIO_Pin_3);   /* SPI_FLASH        */
 }
 
-/*@}*/
+/**
+ * This function will initial STM32 Radio board.
+ */
+void rt_hw_board_init(void)
+{
+    /* Configure the system clocks */
+    SystemInit();
+
+    all_device_reset();
+
+    /* NVIC Configuration */
+    NVIC_Configuration();
+
+    /* Configure the SysTick */
+    SysTick_Config( SystemCoreClock / RT_TICK_PER_SECOND );
+
+    /* Console Initialization */
+    rt_hw_usart_init();
+    rt_console_set_device("uart1");
+
+    rt_kprintf("\r\n\r\nSystemInit......\r\n");
+}

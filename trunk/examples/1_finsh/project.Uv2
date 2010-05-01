@@ -153,7 +153,7 @@ Options 1,0,0  // Target 'RT-Thread STM32'
  ADSLDSC ()
  ADSLDIB ()
  ADSLDIC ()
- ADSLDMC ( --keep __fsym_* --keep __vsym_*)
+ ADSLDMC (--keep __fsym_* --keep __vsym_*)
  ADSLDIF ()
  ADSLDDW ()
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103ZE)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103ZE)

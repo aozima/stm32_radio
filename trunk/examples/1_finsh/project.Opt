@@ -15,7 +15,7 @@ GRPOPT 1,(STM32_StdPeriph),0,0,0
 GRPOPT 2,(STM32),0,0,0
 GRPOPT 3,(Kernel),0,0,0
 GRPOPT 4,(finsh),0,0,0
-GRPOPT 5,(Startup),0,0,0
+GRPOPT 5,(Startup),1,0,0
 
 OPTFFF 1,1,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\CMSIS\CM3\CoreSupport\core_cm3.c><core_cm3.c> 
 OPTFFF 1,2,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\system_stm32f10x.c><system_stm32f10x.c> 
@@ -75,7 +75,7 @@ OPTFFF 4,55,1,0,0,0,0,0,<..\..\rt-thread\finsh\finsh_var.c><finsh_var.c>
 OPTFFF 4,56,1,0,0,0,0,0,<..\..\rt-thread\finsh\finsh_vm.c><finsh_vm.c> 
 OPTFFF 4,57,1,0,0,0,0,0,<..\..\rt-thread\finsh\shell.c><shell.c> 
 OPTFFF 4,58,1,0,0,0,0,0,<..\..\rt-thread\finsh\symbol.c><symbol.c> 
-OPTFFF 5,59,1,0,0,0,0,0,<.\application.c><application.c> 
+OPTFFF 5,59,1,301989888,0,0,0,0,<.\application.c><application.c> 
 OPTFFF 5,60,1,0,0,0,0,0,<.\startup.c><startup.c> 
 OPTFFF 5,61,1,0,0,0,0,0,<.\board.c><board.c> 
 OPTFFF 5,62,1,0,0,0,0,0,<.\stm32f10x_it.c><stm32f10x_it.c> 
@@ -84,7 +84,7 @@ OPTFFF 5,63,1,0,0,0,0,0,<.\usart.c><usart.c>
 
 TARGOPT 1, (RT-Thread STM32)
  ADSCLK=8000000
-  OPTTT 0,1,1,0
+  OPTTT 1,1,1,0
   OPTHX 1,65535,0,0,0
   OPTLX 79,66,8,<.\>
   OPTOX 16
@@ -94,6 +94,7 @@ TARGOPT 1, (RT-Thread STM32)
   OPTAX 0
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103ZE)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103ZE)
   OPTDBG 49142,7,()()()()()()()()()() (Segger\JL2CM3.dll)()()()
+  OPTKEY 0,(JL2CM3)(-U20090110 -O590 -S10 -A0 -C0 -JU1 -JI127.0.0.1 -JP0 -N00("ARM CoreSight SW-DP") -D00(1BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -TB1 -TRE0 -FO27 -FD20000000 -FC800 -FN1 -FF0STM32F10x_512 -FS08000000 -FL080000)
   OPTDF 0x0
   OPTLE <>
   OPTLC <>
