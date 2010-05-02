@@ -9,28 +9,28 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2006-08-31     Bernard      first implementation
+ * 2008-08-31     Bernard      first implementation
+ * 2010-04-11     Bernard      add touch driver
  */
 
 #include <rthw.h>
 #include <rtthread.h>
 
-#include "stm32f10x.h"
 #include "board.h"
+#include "spi_flash.h"
+
+#include <stm32f10x.h>
+
+#ifdef RT_USING_LWIP
+#include <netif/ethernetif.h>
+#include "dm9000a.h"
+#endif
 
 /**
  * @addtogroup STM32
  */
 
 /*@{*/
-
-extern int  rt_application_init(void);
-
-#ifdef RT_USING_FINSH
-extern void finsh_system_init(void);
-extern void finsh_set_device(const char* device);
-#endif
-
 #ifdef __CC_ARM
 extern int Image$$RW_IRAM1$$ZI$$Limit;
 #elif __ICCARM__
@@ -39,6 +39,13 @@ extern int Image$$RW_IRAM1$$ZI$$Limit;
 extern int __bss_end;
 #endif
 
+#ifdef RT_USING_FINSH
+extern void finsh_system_init(void);
+extern void finsh_set_device(const char* device);
+#endif
+extern int rt_application_init(void);
+extern rt_err_t codec_hw_init(void);
+extern rt_err_t codec_hw_init(void);
 #ifdef  DEBUG
 /*******************************************************************************
 * Function Name  : assert_failed
@@ -97,6 +104,14 @@ void rtthread_startup(void)
     /* init scheduler system */
     rt_system_scheduler_init();
 
+    codec_hw_init();
+
+    /* init hardware device */
+#ifdef RT_USING_DFS
+    GPIO_ResetBits(GPIOC,GPIO_Pin_6); /* SD card power up */
+    rt_hw_sdcard_init();
+#endif
+
     /* init all device */
     rt_device_init_all();
 
@@ -104,9 +119,9 @@ void rtthread_startup(void)
     rt_application_init();
 
 #ifdef RT_USING_FINSH
-	/* init finsh */
-	finsh_system_init();
-	finsh_set_device(FINSH_DEVICE_NAME);
+    /* init finsh */
+    finsh_system_init();
+    finsh_set_device(FINSH_DEVICE_NAME);
 #endif
 
     /* init idle thread */

@@ -5,7 +5,7 @@
  *
  * The license and distribution terms for this file may be
  * found in the file LICENSE in this distribution or at
- * http://www.rt-thread.org/license/LICENSE
+ * http://openlab.rt-thread.com/license/LICENSE
  *
  * Change Logs:
  * Date           Author       Notes
@@ -25,7 +25,6 @@
 /*@{*/
 
 extern int  rt_application_init(void);
-
 #ifdef RT_USING_FINSH
 extern void finsh_system_init(void);
 extern void finsh_set_device(const char* device);
@@ -96,6 +95,11 @@ void rtthread_startup(void)
 
     /* init scheduler system */
     rt_system_scheduler_init();
+
+    /* init hardware device */
+#ifdef RT_USING_DFS
+    rt_hw_spi_flash_init();
+#endif
 
     /* init all device */
     rt_device_init_all();
