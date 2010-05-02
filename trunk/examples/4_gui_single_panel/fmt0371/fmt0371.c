@@ -1,5 +1,6 @@
 #include "fmt0371.h"
 #include "stm32f10x.h"
+#include "stm32f10x_fsmc.h"
 
 #define FSMC_GPIO_CONFIG
 
