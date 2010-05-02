@@ -5,15 +5,15 @@ import SCons.Script
 RTT_ROOT = os.path.normpath(os.getcwd() + '/../..')
 
 def _get_filetype(fn):
-    if fn.rfind('.c') or fn.rfind('.C') or fn.rfind('.cpp'):
+    if fn.rfind('.c') != -1 or fn.rfind('.C') != -1 or fn.rfind('.cpp') != -1:
         return 1
     
     # assimble file type
-    if fn.rfind('.s') or fn.rfind('.S'):
+    if fn.rfind('.s') != -1 or fn.rfind('.S') != -1:
         return 2
     
     # header type 
-    if fn.rfind('.h'):
+    if fn.rfind('.h') != -1:
         return 5
     
     # other filetype 
@@ -139,7 +139,7 @@ def MDKProject(target, script):
             path = os.path.dirname(fn.abspath)
             path = _make_path_relative(project_path, path)
             path = os.path.join(path, name)
-            lines.insert(line_index, 'File %d,%d<%s><%s>\r\n' 
+            lines.insert(line_index, 'File %d,%d,<%s><%s>\r\n' 
                 % (group_index, _get_filetype(name), path, name))
             line_index += 1
 
@@ -201,7 +201,7 @@ def BuilderProject(target, script):
             path = os.path.dirname(fn.abspath)
             path = _make_path_relative(project_path, path)
             path = os.path.join(path, name)
-	    project.write('%s\r\n' % path)
+        project.write('%s\r\n' % path)
 
         group_index = group_index + 1
 
