@@ -16,7 +16,7 @@ GRPOPT 2,(STM32),0,0,0
 GRPOPT 3,(Kernel),0,0,0
 GRPOPT 4,(finsh),0,0,0
 GRPOPT 5,(Filesystem),0,0,0
-GRPOPT 6,(GUI),0,0,0
+GRPOPT 6,(GUI),1,0,0
 GRPOPT 7,(Startup),0,0,0
 
 OPTFFF 1,1,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\CMSIS\CM3\CoreSupport\core_cm3.c><core_cm3.c> 
@@ -44,9 +44,9 @@ OPTFFF 1,22,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\sr
 OPTFFF 1,23,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_can.c><stm32f10x_can.c> 
 OPTFFF 1,24,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\misc.c><misc.c> 
 OPTFFF 2,25,1,0,0,0,0,0,<..\..\rt-thread\stm32\serial.c><serial.c> 
-OPTFFF 2,26,1,0,0,0,0,0,<..\..\rt-thread\stm32\stack.c><stack.c> 
+OPTFFF 2,26,1,0,0,0,0,0,<..\..\rt-thread\stm32\cpu.c><cpu.c> 
 OPTFFF 2,27,1,0,0,0,0,0,<..\..\rt-thread\stm32\fault.c><fault.c> 
-OPTFFF 2,28,1,0,0,0,0,0,<..\..\rt-thread\stm32\cpu.c><cpu.c> 
+OPTFFF 2,28,1,0,0,0,0,0,<..\..\rt-thread\stm32\stack.c><stack.c> 
 OPTFFF 2,29,1,0,0,0,0,0,<..\..\rt-thread\stm32\interrupt.c><interrupt.c> 
 OPTFFF 2,30,1,0,0,0,0,0,<..\..\rt-thread\stm32\context_rvds.S><context_rvds.S> 
 OPTFFF 2,31,1,0,0,0,0,0,<..\..\rt-thread\stm32\fault_rvds.S><fault_rvds.S> 
@@ -128,13 +128,13 @@ OPTFFF 6,106,1,0,0,0,0,0,<..\..\rt-thread\gui\widgets\filelist_view.c><filelist_
 OPTFFF 6,107,1,0,0,0,0,0,<..\..\rt-thread\gui\widgets\widget.c><widget.c> 
 OPTFFF 6,108,1,0,0,0,0,0,<..\..\rt-thread\gui\widgets\window.c><window.c> 
 OPTFFF 6,109,1,0,0,0,0,0,<..\..\rt-thread\gui\widgets\workbench.c><workbench.c> 
-OPTFFF 7,110,1,0,0,0,0,0,<.\touch.c><touch.c> 
-OPTFFF 7,111,1,0,0,0,0,0,<.\calibration.c><calibration.c> 
-OPTFFF 7,112,1,0,0,0,0,0,<.\key.c><key.c> 
-OPTFFF 7,113,1,0,0,0,0,0,<.\usart.c><usart.c> 
-OPTFFF 7,114,1,0,0,0,0,0,<.\stm32f10x_it.c><stm32f10x_it.c> 
-OPTFFF 7,115,1,0,0,0,0,0,<.\sdcard.c><sdcard.c> 
-OPTFFF 7,116,1,100663296,0,0,0,0,<.\startup.c><startup.c> 
+OPTFFF 7,110,1,218103808,0,0,0,0,<.\touch.c><touch.c> 
+OPTFFF 7,111,1,0,0,0,0,0,<.\key.c><key.c> 
+OPTFFF 7,112,1,0,0,0,0,0,<.\usart.c><usart.c> 
+OPTFFF 7,113,1,0,0,0,0,0,<.\stm32f10x_it.c><stm32f10x_it.c> 
+OPTFFF 7,114,1,0,0,0,0,0,<.\startup.c><startup.c> 
+OPTFFF 7,115,1,0,0,0,0,0,<.\single_panle.c><single_panle.c> 
+OPTFFF 7,116,1,0,0,0,0,0,<.\spi_flash.c><spi_flash.c> 
 OPTFFF 7,117,1,0,0,0,0,0,<.\board.c><board.c> 
 OPTFFF 7,118,1,0,0,0,0,0,<.\application.c><application.c> 
 OPTFFF 7,119,1,0,0,0,0,0,<.\lcd.c><lcd.c> 
@@ -154,8 +154,11 @@ TARGOPT 1, (RT-Thread STM32)
   OPTAX 0
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103ZE)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103ZE)
   OPTDBG 49142,7,()()()()()()()()()() (Segger\JL2CM3.dll)()()()
+  OPTKEY 0,(DLGTARM)((1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(100=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=-1,-1,-1,-1,0)(121=-1,-1,-1,-1,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(124=-1,-1,-1,-1,0)(125=-1,-1,-1,-1,0)(126=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=-1,-1,-1,-1,0)(132=-1,-1,-1,-1,0)(133=-1,-1,-1,-1,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=180,221,497,575,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0))
+  OPTKEY 0,(ARMDBGFLAGS)()
+  OPTKEY 0,(DLGUARM)((105=-1,-1,-1,-1,0)(106=-1,-1,-1,-1,0)(107=-1,-1,-1,-1,0))
   OPTKEY 0,(JL2CM3)(-U20090110 -O590 -S10 -A0 -C0 -JU1 -JI127.0.0.1 -JP0 -N00("ARM CoreSight SW-DP") -D00(1BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -TB1 -TRE0 -FO27 -FD20000000 -FC800 -FN1 -FF0STM32F10x_512 -FS08000000 -FL080000)
-  OPTDF 0x0
+  OPTDF 0x80
   OPTLE <>
   OPTLC <>
 EndOpt

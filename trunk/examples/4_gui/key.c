@@ -116,11 +116,12 @@ static void key_thread_entry(void *parameter)
     }
 }
 
-static rt_thread_t key_tid;
 void rt_hw_key_init(void)
 {
+	rt_thread_t key_tid;
     key_tid = rt_thread_create("key",
                                key_thread_entry, RT_NULL,
                                384, 30, 5);
+
     if (key_tid != RT_NULL) rt_thread_startup(key_tid);
 }

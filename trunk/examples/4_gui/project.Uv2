@@ -36,9 +36,9 @@ File 1,1,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_dma
 File 1,1,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_can.c><stm32f10x_can.c>
 File 1,1,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\misc.c><misc.c>
 File 2,1,<..\..\rt-thread\stm32\serial.c><serial.c>
-File 2,1,<..\..\rt-thread\stm32\stack.c><stack.c>
-File 2,1,<..\..\rt-thread\stm32\fault.c><fault.c>
 File 2,1,<..\..\rt-thread\stm32\cpu.c><cpu.c>
+File 2,1,<..\..\rt-thread\stm32\fault.c><fault.c>
+File 2,1,<..\..\rt-thread\stm32\stack.c><stack.c>
 File 2,1,<..\..\rt-thread\stm32\interrupt.c><interrupt.c>
 File 2,1,<..\..\rt-thread\stm32\context_rvds.S><context_rvds.S>
 File 2,1,<..\..\rt-thread\stm32\fault_rvds.S><fault_rvds.S>
@@ -121,12 +121,12 @@ File 6,1,<..\..\rt-thread\gui\widgets\widget.c><widget.c>
 File 6,1,<..\..\rt-thread\gui\widgets\window.c><window.c>
 File 6,1,<..\..\rt-thread\gui\widgets\workbench.c><workbench.c>
 File 7,1,<.\touch.c><touch.c>
-File 7,1,<.\calibration.c><calibration.c>
 File 7,1,<.\key.c><key.c>
 File 7,1,<.\usart.c><usart.c>
 File 7,1,<.\stm32f10x_it.c><stm32f10x_it.c>
-File 7,1,<.\sdcard.c><sdcard.c>
 File 7,1,<.\startup.c><startup.c>
+File 7,1,<.\single_panle.c><single_panle.c>
+File 7,1,<.\spi_flash.c><spi_flash.c>
 File 7,1,<.\board.c><board.c>
 File 7,1,<.\application.c><application.c>
 File 7,1,<.\lcd.c><lcd.c>

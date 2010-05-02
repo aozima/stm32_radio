@@ -1,4 +1,6 @@
 #include "stm32f10x.h"
+#include "stm32f10x_fsmc.h"
+
 #include "ili9325.h"
 
 /* LCD Registers */
@@ -138,7 +140,11 @@ static void LCD_FSMCConfig(void)
     FSMC_NORSRAMTimingInitTypeDef  p;
 
     /*-- FSMC Configuration ------------------------------------------------------*/
-    /*----------------------- SRAM Bank 4 ----------------------------------------*/
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_FSMC, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOG | RCC_APB2Periph_GPIOE |
+	                     RCC_APB2Periph_GPIOF, ENABLE);
+
+	/*----------------------- SRAM Bank 4 ----------------------------------------*/
     /* FSMC_Bank1_NORSRAM4 configuration */
     p.FSMC_AddressSetupTime = 0;
     p.FSMC_AddressHoldTime = 0;

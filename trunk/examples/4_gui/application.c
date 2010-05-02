@@ -18,12 +18,6 @@
 /*@{*/
 
 #include <rtthread.h>
-#include <finsh.h>
-
-#include <stm32f10x.h>
-#include "board.h"
-#include "lcd.h"
-
 #ifdef RT_USING_DFS
 /* dfs init */
 #include <dfs_init.h>
@@ -52,6 +46,13 @@ void rt_init_thread_entry(void *parameter)
 			rt_kprintf("SPI File System init failed!\n");
     }
 #endif
+
+#ifdef RT_USING_RTGUI
+	{
+		extern void gui_init(void);
+		gui_init();
+	}
+#endif
 }
 
 int rt_application_init()
@@ -68,7 +69,6 @@ int rt_application_init()
                                    2048, 80, 20);
 #endif
     if (init_thread != RT_NULL) rt_thread_startup(init_thread);
-
     return 0;
 }
 

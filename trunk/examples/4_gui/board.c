@@ -1,7 +1,7 @@
 /*
  * File      : board.c
  * This file is part of RT-Thread RTOS
- * COPYRIGHT (C) 2006 - 2009 RT-Thread Develop Team
+ * COPYRIGHT (C) 2009 RT-Thread Develop Team
  *
  * The license and distribution terms for this file may be
  * found in the file LICENSE in this distribution or at
@@ -9,16 +9,15 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2006-08-23     Bernard      first implementation
+ * 2009-01-05     Bernard      first implementation
  */
 
 #include <rthw.h>
 #include <rtthread.h>
 
-#include "stm32f10x.h"
 #include "board.h"
-
-struct rt_semaphore spi1_lock;
+#include "stm32f10x.h"
+#include "stm32f10x_spi.h"
 
 /**
  * @addtogroup STM32
@@ -26,30 +25,6 @@ struct rt_semaphore spi1_lock;
 
 /*@{*/
 
-static void delay(void)
-{
-    volatile unsigned int dl;
-    for(dl=0; dl<2500000; dl++);
-}
-
-/*******************************************************************************
-* Function Name  : NVIC_Configuration
-* Description    : Configures Vector Table base location.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void NVIC_Configuration(void)
-{
-    /*
-     * set priority group:
-     * 2 bits for pre-emption priority
-     * 2 bits for subpriority
-     */
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-}
-
-extern void rt_hw_interrupt_thread_switch(void);
 /**
  * This is the timer interrupt service routine.
  *
@@ -63,6 +38,12 @@ void rt_hw_timer_handler(void)
 
     /* leave interrupt */
     rt_interrupt_leave();
+}
+
+static void delay(void)
+{
+    volatile unsigned int dl;
+    for(dl=0; dl<2500000; dl++);
 }
 
 static void all_device_reset(void)
@@ -193,31 +174,32 @@ static void all_device_reset(void)
 }
 
 /**
- * This function will initial STM32 Radio board.
+ * This function will initial STM32 board.
  */
-void rt_hw_board_init(void)
+void rt_hw_board_init()
 {
-    /* Configure the system clocks */
+    /* 配置系统时钟并启动PLL,让系统工作在72M,此函数由库中提供 */
     SystemInit();
 
-    all_device_reset();
+	/* 复位所有外设 */
+	all_device_reset();
 
-    /* NVIC Configuration */
-    NVIC_Configuration();
+    /*
+     * set priority group:
+     * 2 bits for pre-emption priority
+     * 2 bits for subpriority
+     */
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 
-    /* Configure the SysTick */
+    /* 配置systick分频器 */
+    /* SystemCoreClock为系统主时钟 由库中提供,在system_stm32f10x.c中 */
+    /* RT_TICK_PER_SECOND 为系统节拍,由rtconfig.h中定义 */
     SysTick_Config( SystemCoreClock / RT_TICK_PER_SECOND );
 
-    /* Console Initialization*/
+    /*  初始化串口 */
     rt_hw_usart_init();
+#ifdef RT_USING_FINSH
     rt_console_set_device("uart1");
-
-    rt_kprintf("\r\n\r\nSystemInit......\r\n");
-
-    /* SRAM init */
-    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_FSMC, ENABLE);
-#if STM32_EXT_SRAM
-    FSMC_SRAM_Init();
 #endif
 
     /* SPI1 config */
@@ -253,13 +235,7 @@ void rt_hw_board_init(void)
         /* Enable SPI_MASTER */
         SPI_Cmd(SPI1, ENABLE);
         SPI_CalculateCRC(SPI1, DISABLE);
-
-        if (rt_sem_init(&spi1_lock, "spi1lock", 1, RT_IPC_FLAG_FIFO) != RT_EOK)
-        {
-            rt_kprintf("init spi1 lock semaphore failed\n");
-        }
     }
-
-}/* rt_hw_board_init */
+}
 
 /*@}*/

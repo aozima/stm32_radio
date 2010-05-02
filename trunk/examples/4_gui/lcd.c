@@ -6,6 +6,7 @@
 #include <rtgui/driver.h>
 #include <rtgui/rtgui_server.h>
 #include <rtgui/rtgui_system.h>
+#include <finsh.h>
 
 #if (LCD_VERSION == 1)
 #include "fmt0371/FMT0371.h"
@@ -41,32 +42,6 @@ struct rtgui_graphic_driver _rtgui_lcd_driver =
     rt_hw_lcd_draw_vline,
     rt_hw_lcd_draw_raw_hline
 };
-
-extern  void   info_init(void);
-extern  void   player_init(void);
-void radio_rtgui_init(void)
-{
-    rtgui_rect_t rect;
-
-    rtgui_system_server_init();
-
-    /* register dock panel */
-    rect.x1 = 0;
-    rect.y1 = 0;
-    rect.x2 = 240;
-    rect.y2 = 25;
-    rtgui_panel_register("info", &rect);
-
-    /* register main panel */
-    rect.x1 = 0;
-    rect.y1 = 25;
-    rect.x2 = 320;
-    rect.y2 = 320;
-    rtgui_panel_register("main", &rect);
-    rtgui_panel_set_default_focused("main");
-
-    rt_hw_lcd_init();
-}
 
 #if (LCD_VERSION == 1)
 void rt_hw_lcd_update(rtgui_rect_t *rect)
@@ -383,45 +358,8 @@ rt_err_t rt_hw_lcd_init(void)
     lcd_backlight_init();
     ili9325_Initializtion();
 
-    /* LCD GRAM TEST */
-    {
-        unsigned short temp;
-        unsigned int test_x;
-        unsigned int test_y;
-
-        rt_kprintf("\r\nLCD GRAM test....");
-
-        /* write */
-        temp=0;
-        /* [5:4]-ID~ID0 [3]-AM-1´¹Ö±-0Ë®Æ½ */
-        ili9325_WriteReg(0x0003,(1<<12)|(1<<5)|(1<<4) | (0<<3) );
-        ili9325_SetCursor(0,0);
-        ili9325_WriteRAM_Prepare();
-        for(test_y=0; test_y<76800; test_y++)
-        {
-            ili9325_RAM = temp++ ;
-        }
-
-        /* read */
-        temp=0;
-        for(test_y=0; test_y<320; test_y++)
-        {
-            for(test_x=0; test_x<240; test_x++)
-            {
-                if( ili9325_BGR2RGB( ili9325_ReadGRAM(test_x,test_y) ) != temp++)
-                {
-                    rt_kprintf("  LCD GRAM ERR!!");
-                    while(1);
-                }
-            }
-        }
-        rt_kprintf("  TEST PASS!\r\n");
-    }/* LCD GRAM TEST */
-
-#ifndef DRIVER_TEST
     /* add lcd driver into graphic driver */
     rtgui_graphic_driver_add(&_rtgui_lcd_driver);
-#endif
 
     return RT_EOK;
 }

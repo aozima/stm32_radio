@@ -15,7 +15,7 @@ struct calibration_data
 
 typedef void (*rt_touch_calibration_func_t)(rt_uint16_t x, rt_uint16_t y);
 
-void rtgui_touch_hw_init(void);
+void rt_hw_touch_init(void);
 
 #endif
 

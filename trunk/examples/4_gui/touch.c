@@ -1,4 +1,5 @@
 #include "stm32f10x.h"
+#include "stm32f10x_spi.h"
 
 #include "board.h"
 #include "touch.h"
@@ -43,7 +44,6 @@ struct rtgui_touch_device
 };
 static struct rtgui_touch_device *touch = RT_NULL;
 
-extern unsigned char SPI_WriteByte(unsigned char data);
 rt_inline void EXTI_Enable(rt_uint32_t enable);
 
 rt_inline uint8_t SPI_WriteByte(unsigned char data)
@@ -331,7 +331,7 @@ void EXTI1_IRQHandler(void)
 }
 #endif
 
-void rtgui_touch_hw_init(void)
+void rt_hw_touch_init(void)
 {
 #if (LCD_VERSION == 2)
     touch = (struct rtgui_touch_device*)rt_malloc (sizeof(struct rtgui_touch_device));
@@ -357,5 +357,8 @@ void rtgui_touch_hw_init(void)
 
     /* register touch device to RT-Thread */
     rt_device_register(&(touch->parent), "touch", RT_DEVICE_FLAG_RDWR);
+
+	/* init touch */
+	rt_device_init(&(touch->parent));
 #endif
 }
