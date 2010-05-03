@@ -1,0 +1,27 @@
+import os
+
+Import('env')
+Import('projects')
+Import('RTT_ROOT')
+Import('rtconfig')
+
+# group definitions
+group = {}
+group['name'] = 'Startup'
+group['CCFLAGS'] = ''
+group['CPPPATH'] = [os.getcwd()]
+group['CPPDEFINES'] = ['USE_STDPERIPH_DRIVER', rtconfig.STM32_TYPE]
+group['LINKFLAGS'] = ''
+group['src'] = Glob('*.c') + Glob(RTT_ROOT + '/rt-thread/examples/kernel/*.c')
+
+# add group to project list
+projects.append(group)
+
+env.Append(CCFLAGS = group['CCFLAGS'])
+env.Append(CPPPATH = group['CPPPATH'])
+env.Append(CPPDEFINES = group['CPPDEFINES'])
+env.Append(LINKFLAGS = group['LINKFLAGS'])
+
+obj = env.Object(group['src'])
+
+Return('obj')
