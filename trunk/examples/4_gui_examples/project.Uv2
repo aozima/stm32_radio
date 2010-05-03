@@ -137,6 +137,7 @@ File 7,1,<..\..\rt-thread\examples\gui\demo_fnview.c><demo_fnview.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_listview.c><demo_listview.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_view.c><demo_view.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_view_animation.c><demo_view_animation.c>
+File 7,1,<..\..\rt-thread\examples\gui\demo_view_buffer_animation.c><demo_view_buffer_animation.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_view_box.c><demo_view_box.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_view_button.c><demo_view_button.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_view_checkbox.c><demo_view_checkbox.c>
@@ -152,6 +153,8 @@ File 7,1,<..\..\rt-thread\examples\gui\demo_view_textbox.c><demo_view_textbox.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_view_window.c><demo_view_window.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_workbench.c><demo_workbench.c>
 File 7,1,<..\..\rt-thread\examples\gui\mywidget.c><mywidget.c>
+
+
 
 
 Options 1,0,0  // Target 'RT-Thread STM32'
