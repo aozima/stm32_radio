@@ -48,9 +48,9 @@ OPTFFF 2,26,1,0,0,0,0,0,<..\..\rt-thread\stm32\stack.c><stack.c>
 OPTFFF 2,27,1,0,0,0,0,0,<..\..\rt-thread\stm32\fault.c><fault.c> 
 OPTFFF 2,28,1,0,0,0,0,0,<..\..\rt-thread\stm32\cpu.c><cpu.c> 
 OPTFFF 2,29,1,0,0,0,0,0,<..\..\rt-thread\stm32\interrupt.c><interrupt.c> 
-OPTFFF 2,30,1,0,0,0,0,0,<..\..\rt-thread\stm32\context_rvds.S><context_rvds.S> 
-OPTFFF 2,31,1,0,0,0,0,0,<..\..\rt-thread\stm32\fault_rvds.S><fault_rvds.S> 
-OPTFFF 2,32,1,0,0,0,0,0,<..\..\rt-thread\stm32\start_rvds.S><start_rvds.S> 
+OPTFFF 2,30,2,0,0,0,0,0,<..\..\rt-thread\stm32\context_rvds.S><context_rvds.S> 
+OPTFFF 2,31,2,0,0,0,0,0,<..\..\rt-thread\stm32\fault_rvds.S><fault_rvds.S> 
+OPTFFF 2,32,2,0,0,0,0,0,<..\..\rt-thread\stm32\start_rvds.S><start_rvds.S> 
 OPTFFF 3,33,1,0,0,0,0,0,<..\..\rt-thread\kernel\clock.c><clock.c> 
 OPTFFF 3,34,1,0,0,0,0,0,<..\..\rt-thread\kernel\device.c><device.c> 
 OPTFFF 3,35,1,0,0,0,0,0,<..\..\rt-thread\kernel\idle.c><idle.c> 
@@ -110,7 +110,7 @@ OPTFFF 6,88,1,0,0,0,0,0,<..\..\rt-thread\gui\server\server.c><server.c>
 OPTFFF 6,89,1,0,0,0,0,0,<..\..\rt-thread\gui\server\topwin.c><topwin.c> 
 OPTFFF 6,90,1,0,0,0,0,0,<..\..\rt-thread\gui\widgets\box.c><box.c> 
 OPTFFF 6,91,1,0,0,0,0,0,<..\..\rt-thread\gui\widgets\button.c><button.c> 
-OPTFFF 6,92,1,0,0,0,0,0,<..\..\rt-thread\gui\widgets\checkbox.c><checkbox.c> 
+OPTFFF 6,92,1,805306368,0,0,0,0,<..\..\rt-thread\gui\widgets\checkbox.c><checkbox.c> 
 OPTFFF 6,93,1,0,0,0,0,0,<..\..\rt-thread\gui\widgets\container.c><container.c> 
 OPTFFF 6,94,1,0,0,0,0,0,<..\..\rt-thread\gui\widgets\iconbox.c><iconbox.c> 
 OPTFFF 6,95,1,0,0,0,0,0,<..\..\rt-thread\gui\widgets\label.c><label.c> 
@@ -131,15 +131,16 @@ OPTFFF 6,109,1,0,0,0,0,0,<..\..\rt-thread\gui\widgets\workbench.c><workbench.c>
 OPTFFF 7,110,1,0,0,0,0,0,<.\touch.c><touch.c> 
 OPTFFF 7,111,1,0,0,0,0,0,<.\calibration.c><calibration.c> 
 OPTFFF 7,112,1,0,0,0,0,0,<.\key.c><key.c> 
-OPTFFF 7,113,1,0,0,0,0,0,<.\usart.c><usart.c> 
-OPTFFF 7,114,1,0,0,0,0,0,<.\stm32f10x_it.c><stm32f10x_it.c> 
-OPTFFF 7,115,1,0,0,0,0,0,<.\sdcard.c><sdcard.c> 
+OPTFFF 7,113,1,0,0,0,0,0,<.\single_panel.c><single_panel.c> 
+OPTFFF 7,114,1,0,0,0,0,0,<.\usart.c><usart.c> 
+OPTFFF 7,115,1,0,0,0,0,0,<.\stm32f10x_it.c><stm32f10x_it.c> 
 OPTFFF 7,116,1,100663296,0,0,0,0,<.\startup.c><startup.c> 
-OPTFFF 7,117,1,0,0,0,0,0,<.\board.c><board.c> 
-OPTFFF 7,118,1,0,0,0,0,0,<.\application.c><application.c> 
-OPTFFF 7,119,1,0,0,0,0,0,<.\lcd.c><lcd.c> 
-OPTFFF 7,120,1,0,0,0,0,0,<fmt0371\fmt0371.c><fmt0371.c> 
-OPTFFF 7,121,1,0,0,0,0,0,<ili9325\ili9325.c><ili9325.c> 
+OPTFFF 7,117,1,0,0,0,0,0,<.\spi_flash.c><spi_flash.c> 
+OPTFFF 7,118,1,0,0,0,0,0,<.\board.c><board.c> 
+OPTFFF 7,119,1,0,0,0,0,0,<.\application.c><application.c> 
+OPTFFF 7,120,1,0,0,0,0,0,<.\lcd.c><lcd.c> 
+OPTFFF 7,121,1,0,0,0,0,0,<fmt0371\fmt0371.c><fmt0371.c> 
+OPTFFF 7,122,1,0,0,0,0,0,<ili9325\ili9325.c><ili9325.c> 
 
 
 TARGOPT 1, (RT-Thread STM32)

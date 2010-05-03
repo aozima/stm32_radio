@@ -40,9 +40,9 @@ File 2,1,<..\..\rt-thread\stm32\stack.c><stack.c>
 File 2,1,<..\..\rt-thread\stm32\fault.c><fault.c>
 File 2,1,<..\..\rt-thread\stm32\cpu.c><cpu.c>
 File 2,1,<..\..\rt-thread\stm32\interrupt.c><interrupt.c>
-File 2,1,<..\..\rt-thread\stm32\context_rvds.S><context_rvds.S>
-File 2,1,<..\..\rt-thread\stm32\fault_rvds.S><fault_rvds.S>
-File 2,1,<..\..\rt-thread\stm32\start_rvds.S><start_rvds.S>
+File 2,2,<..\..\rt-thread\stm32\context_rvds.S><context_rvds.S>
+File 2,2,<..\..\rt-thread\stm32\fault_rvds.S><fault_rvds.S>
+File 2,2,<..\..\rt-thread\stm32\start_rvds.S><start_rvds.S>
 File 3,1,<..\..\rt-thread\kernel\clock.c><clock.c>
 File 3,1,<..\..\rt-thread\kernel\device.c><device.c>
 File 3,1,<..\..\rt-thread\kernel\idle.c><idle.c>
@@ -123,10 +123,11 @@ File 6,1,<..\..\rt-thread\gui\widgets\workbench.c><workbench.c>
 File 7,1,<.\touch.c><touch.c>
 File 7,1,<.\calibration.c><calibration.c>
 File 7,1,<.\key.c><key.c>
+File 7,1,<.\single_panel.c><single_panel.c>
 File 7,1,<.\usart.c><usart.c>
 File 7,1,<.\stm32f10x_it.c><stm32f10x_it.c>
-File 7,1,<.\sdcard.c><sdcard.c>
 File 7,1,<.\startup.c><startup.c>
+File 7,1,<.\spi_flash.c><spi_flash.c>
 File 7,1,<.\board.c><board.c>
 File 7,1,<.\application.c><application.c>
 File 7,1,<.\lcd.c><lcd.c>

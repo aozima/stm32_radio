@@ -340,10 +340,10 @@ void rt_hw_touch_init(void)
     /* clear device structure */
     rt_memset(&(touch->parent), 0, sizeof(struct rt_device));
     touch->calibrating = FALSE;
-    touch->min_x = 0;
-    touch->max_x = 240;
-    touch->min_y = 0;
-    touch->max_y = 320;
+    touch->min_x = 1808;
+    touch->max_x = 171;
+    touch->min_y = 206;
+    touch->max_y = 1919;
 
     /* init device structure */
     touch->parent.type = RT_Device_Class_Unknown;
