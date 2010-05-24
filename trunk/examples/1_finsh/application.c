@@ -13,10 +13,10 @@ void fun_a(void)
 }
 FINSH_FUNCTION_EXPORT(fun_a, fun_a desc);
 
-void fun_b(void)
+void int_is(int a)
 {
-    rt_kprintf("fun_b done.\r\n");
+	rt_kprintf("int is: %d\n", a);
 }
-FINSH_FUNCTION_EXPORT(fun_b, fun_b desc);
+FINSH_FUNCTION_EXPORT(int_is, show a integer);
 
 /*@}*/
