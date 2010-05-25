@@ -51,7 +51,7 @@ struct telnet_session
 
 	/* telnet protocol */
 	rt_uint8_t state;
-	rt_uint8_t shell_option;
+	rt_uint8_t echo_mode;
 
 };
 struct telnet_session* telnet;
@@ -393,7 +393,7 @@ void telnet_process_close(struct telnet_session* telnet, struct netconn *conn)
 	netconn_close(conn);
 
 	/* restore shell option */
-	finsh_set_option(telnet->shell_option);
+	finsh_set_echo(telnet->echo_mode);
 
 	rt_kprintf("resume console to uart0\n");
 }
@@ -453,8 +453,9 @@ void telnet_thread(void* parameter)
 		/* set init state */
 		telnet->state = STATE_NORMAL;
 
-		telnet->shell_option = finsh_get_option();
-		finsh_set_option(telnet->shell_option & ~FINSH_OPTION_ECHO);
+		telnet->echo_mode = finsh_get_echo();
+		/* disable echo mode */
+		finsh_set_echo(0);
 
 		while (1)
 		{
