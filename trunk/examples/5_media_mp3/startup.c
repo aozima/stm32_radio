@@ -15,10 +15,9 @@
 
 #include <rthw.h>
 #include <rtthread.h>
+#include <stm32f10x.h>
 
 #include "board.h"
-
-#include <stm32f10x.h>
 
 #ifdef RT_USING_LWIP
 #include <netif/ethernetif.h>

@@ -1,11 +1,12 @@
 #include <finsh.h>
 #include <dfs_posix.h>
 #include "stm32f10x.h"
+#include "netbuffer.h"
 
 static rt_err_t wav_tx_done(rt_device_t dev, void *buffer)
 {
 	/* release memory block */
-	// sbuf_release(buffer);
+	sbuf_release(buffer);
 
 	return RT_EOK;
 }
@@ -15,8 +16,7 @@ void wav(char* filename)
     int fd;
 	rt_size_t block_size;
 
-	// block_size = sbuf_get_size();
-	block_size = (block_size / 512) * 512;
+	block_size = sbuf_get_size();
 
     fd = open(filename, O_RDONLY, 0);
     if (fd >= 0)
@@ -32,10 +32,10 @@ void wav(char* filename)
 
 		do
 		{
-			// buf = sbuf_alloc();
+			buf = sbuf_alloc();
 			len = read(fd, (char*)buf, block_size);
 			if (len > 0) rt_device_write(device, 0, buf, len);
-			// else sbuf_release(buf);
+			else sbuf_release(buf);
 		} while (len != 0);
 
 		/* close device and file */
