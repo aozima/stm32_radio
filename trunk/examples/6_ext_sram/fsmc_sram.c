@@ -14,9 +14,10 @@
 * INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
 *******************************************************************************/
 #include "stm32f10x.h"
+#include "stm32f10x_fsmc.h"
+
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-#define Bank1_SRAM3_ADDR    ((u32)0x68000000)
 
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
@@ -63,12 +64,8 @@ void FSMC_SRAM_Init(void)
 
     FSMC_NORSRAMInit(&FSMC_NORSRAMInitStructure);
 
-    FSMC_NORSRAMInitStructure.FSMC_Bank = FSMC_Bank1_NORSRAM4;
-    FSMC_NORSRAMInit(&FSMC_NORSRAMInitStructure);
-
     /* Enable FSMC Bank1_SRAM Bank */
     FSMC_NORSRAMCmd(FSMC_Bank1_NORSRAM3, ENABLE);
-    FSMC_NORSRAMCmd(FSMC_Bank1_NORSRAM4, ENABLE);
 }
 
 /******************* (C) COPYRIGHT 2008 STMicroelectronics *****END OF FILE****/
