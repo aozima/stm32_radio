@@ -1,0 +1,107 @@
+### uVision2 Project, (C) Keil Software
+### Do not modify !
+
+ cExt (*.c)
+ aExt (*.s*; *.src; *.a*)
+ oExt (*.obj)
+ lExt (*.lib)
+ tExt (*.txt; *.h; *.inc)
+ pExt (*.plm)
+ CppX (*.cpp)
+ DaveTm { 0,0,0,0,0,0,0,0 }
+
+Target (RT-Thread STM32), 0x0004 // Tools: 'ARM-ADS'
+GRPOPT 1,(STM32_StdPeriph),0,0,0
+GRPOPT 2,(STM32),0,0,0
+GRPOPT 3,(Kernel),0,0,0
+GRPOPT 4,(finsh),0,0,0
+GRPOPT 5,(Startup),1,0,0
+
+OPTFFF 1,1,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\CMSIS\CM3\CoreSupport\core_cm3.c><core_cm3.c> 
+OPTFFF 1,2,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\system_stm32f10x.c><system_stm32f10x.c> 
+OPTFFF 1,3,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_crc.c><stm32f10x_crc.c> 
+OPTFFF 1,4,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_rcc.c><stm32f10x_rcc.c> 
+OPTFFF 1,5,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_wwdg.c><stm32f10x_wwdg.c> 
+OPTFFF 1,6,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_pwr.c><stm32f10x_pwr.c> 
+OPTFFF 1,7,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_exti.c><stm32f10x_exti.c> 
+OPTFFF 1,8,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_bkp.c><stm32f10x_bkp.c> 
+OPTFFF 1,9,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_i2c.c><stm32f10x_i2c.c> 
+OPTFFF 1,10,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_adc.c><stm32f10x_adc.c> 
+OPTFFF 1,11,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_dac.c><stm32f10x_dac.c> 
+OPTFFF 1,12,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_rtc.c><stm32f10x_rtc.c> 
+OPTFFF 1,13,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_fsmc.c><stm32f10x_fsmc.c> 
+OPTFFF 1,14,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_tim.c><stm32f10x_tim.c> 
+OPTFFF 1,15,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_iwdg.c><stm32f10x_iwdg.c> 
+OPTFFF 1,16,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_spi.c><stm32f10x_spi.c> 
+OPTFFF 1,17,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_flash.c><stm32f10x_flash.c> 
+OPTFFF 1,18,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_sdio.c><stm32f10x_sdio.c> 
+OPTFFF 1,19,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_gpio.c><stm32f10x_gpio.c> 
+OPTFFF 1,20,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_usart.c><stm32f10x_usart.c> 
+OPTFFF 1,21,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_dbgmcu.c><stm32f10x_dbgmcu.c> 
+OPTFFF 1,22,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_dma.c><stm32f10x_dma.c> 
+OPTFFF 1,23,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_can.c><stm32f10x_can.c> 
+OPTFFF 1,24,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\misc.c><misc.c> 
+OPTFFF 2,25,1,0,0,0,0,0,<..\..\rt-thread\stm32\serial.c><serial.c> 
+OPTFFF 2,26,1,0,0,0,0,0,<..\..\rt-thread\stm32\stack.c><stack.c> 
+OPTFFF 2,27,1,0,0,0,0,0,<..\..\rt-thread\stm32\fault.c><fault.c> 
+OPTFFF 2,28,1,0,0,0,0,0,<..\..\rt-thread\stm32\cpu.c><cpu.c> 
+OPTFFF 2,29,1,0,0,0,0,0,<..\..\rt-thread\stm32\interrupt.c><interrupt.c> 
+OPTFFF 2,30,2,0,0,0,0,0,<..\..\rt-thread\stm32\context_rvds.S><context_rvds.S> 
+OPTFFF 2,31,2,0,0,0,0,0,<..\..\rt-thread\stm32\fault_rvds.S><fault_rvds.S> 
+OPTFFF 2,32,2,0,0,0,0,0,<..\..\rt-thread\stm32\start_rvds.S><start_rvds.S> 
+OPTFFF 3,33,1,0,0,0,0,0,<..\..\rt-thread\kernel\clock.c><clock.c> 
+OPTFFF 3,34,1,0,0,0,0,0,<..\..\rt-thread\kernel\device.c><device.c> 
+OPTFFF 3,35,1,0,0,0,0,0,<..\..\rt-thread\kernel\idle.c><idle.c> 
+OPTFFF 3,36,1,0,0,0,0,0,<..\..\rt-thread\kernel\ipc.c><ipc.c> 
+OPTFFF 3,37,1,0,0,0,0,0,<..\..\rt-thread\kernel\irq.c><irq.c> 
+OPTFFF 3,38,1,0,0,0,0,0,<..\..\rt-thread\kernel\kservice.c><kservice.c> 
+OPTFFF 3,39,1,0,0,0,0,0,<..\..\rt-thread\kernel\mem.c><mem.c> 
+OPTFFF 3,40,1,0,0,0,0,0,<..\..\rt-thread\kernel\mempool.c><mempool.c> 
+OPTFFF 3,41,1,0,0,0,0,0,<..\..\rt-thread\kernel\object.c><object.c> 
+OPTFFF 3,42,1,0,0,0,0,0,<..\..\rt-thread\kernel\scheduler.c><scheduler.c> 
+OPTFFF 3,43,1,0,0,0,0,0,<..\..\rt-thread\kernel\slab.c><slab.c> 
+OPTFFF 3,44,1,0,0,0,0,0,<..\..\rt-thread\kernel\thread.c><thread.c> 
+OPTFFF 3,45,1,0,0,0,0,0,<..\..\rt-thread\kernel\timer.c><timer.c> 
+OPTFFF 4,46,1,0,0,0,0,0,<..\..\rt-thread\finsh\cmd.c><cmd.c> 
+OPTFFF 4,47,1,0,0,0,0,0,<..\..\rt-thread\finsh\finsh_compiler.c><finsh_compiler.c> 
+OPTFFF 4,48,1,0,0,0,0,0,<..\..\rt-thread\finsh\finsh_error.c><finsh_error.c> 
+OPTFFF 4,49,1,0,0,0,0,0,<..\..\rt-thread\finsh\finsh_heap.c><finsh_heap.c> 
+OPTFFF 4,50,1,0,0,0,0,0,<..\..\rt-thread\finsh\finsh_init.c><finsh_init.c> 
+OPTFFF 4,51,1,0,0,0,0,0,<..\..\rt-thread\finsh\finsh_node.c><finsh_node.c> 
+OPTFFF 4,52,1,0,0,0,0,0,<..\..\rt-thread\finsh\finsh_ops.c><finsh_ops.c> 
+OPTFFF 4,53,1,0,0,0,0,0,<..\..\rt-thread\finsh\finsh_parser.c><finsh_parser.c> 
+OPTFFF 4,54,1,0,0,0,0,0,<..\..\rt-thread\finsh\finsh_token.c><finsh_token.c> 
+OPTFFF 4,55,1,0,0,0,0,0,<..\..\rt-thread\finsh\finsh_var.c><finsh_var.c> 
+OPTFFF 4,56,1,0,0,0,0,0,<..\..\rt-thread\finsh\finsh_vm.c><finsh_vm.c> 
+OPTFFF 4,57,1,0,0,0,0,0,<..\..\rt-thread\finsh\shell.c><shell.c> 
+OPTFFF 4,58,1,0,0,0,0,0,<..\..\rt-thread\finsh\symbol.c><symbol.c> 
+OPTFFF 5,59,1,301989888,0,0,0,0,<.\application.c><application.c> 
+OPTFFF 5,60,1,0,0,0,0,0,<.\startup.c><startup.c> 
+OPTFFF 5,61,1,0,0,0,0,0,<.\board.c><board.c> 
+OPTFFF 5,62,1,0,0,0,0,0,<.\stm32f10x_it.c><stm32f10x_it.c> 
+OPTFFF 5,63,1,0,0,0,0,0,<.\benchmark.c><benchmark.c> 
+OPTFFF 5,64,1,0,0,0,0,0,<.\usart.c><usart.c> 
+OPTFFF 5,65,1,0,0,0,0,0,<.\fsmc_sram.c><fsmc_sram.c> 
+
+
+TARGOPT 1, (RT-Thread STM32)
+ ADSCLK=8000000
+  OPTTT 1,1,1,0
+  OPTHX 1,65535,0,0,0
+  OPTLX 79,66,8,<.\>
+  OPTOX 16
+  OPTLT 1,1,1,0,1,1,0,1,0,0,0,0
+  OPTXL 1,1,1,1,1,1,1,0,0
+  OPTFL 1,0,1
+  OPTAX 0
+  OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103ZE)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103ZE)
+  OPTDBG 49142,7,()()()()()()()()()() (Segger\JL2CM3.dll)()()()
+  OPTKEY 0,(DLGTARM)((1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(100=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=-1,-1,-1,-1,0)(121=-1,-1,-1,-1,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(124=-1,-1,-1,-1,0)(125=-1,-1,-1,-1,0)(126=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=-1,-1,-1,-1,0)(132=-1,-1,-1,-1,0)(133=-1,-1,-1,-1,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0))
+  OPTKEY 0,(ARMDBGFLAGS)()
+  OPTKEY 0,(DLGUARM)((105=-1,-1,-1,-1,0)(106=-1,-1,-1,-1,0)(107=-1,-1,-1,-1,0))
+  OPTKEY 0,(JL2CM3)(-U20090110 -O590 -S10 -A0 -C0 -JU1 -JI127.0.0.1 -JP0 -N00("ARM CoreSight SW-DP") -D00(1BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -TB1 -TRE0 -FO27 -FD20000000 -FC800 -FN1 -FF0STM32F10x_512 -FS08000000 -FL080000)
+  OPTDF 0x82
+  OPTLE <>
+  OPTLC <>
+EndOpt
+
