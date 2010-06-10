@@ -149,6 +149,8 @@ File 8,1,<.\stm32f10x_it.c><stm32f10x_it.c>
 File 8,1,<.\usart.c><usart.c>
 
 
+
+
 Options 1,0,0  // Target 'RT-Thread STM32'
  Device (STM32F103ZE)
  Vendor (STMicroelectronics)

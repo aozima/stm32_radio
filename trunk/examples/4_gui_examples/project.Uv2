@@ -157,6 +157,8 @@ File 7,1,<..\..\rt-thread\examples\gui\demo_workbench.c><demo_workbench.c>
 File 7,1,<..\..\rt-thread\examples\gui\mywidget.c><mywidget.c>
 
 
+
+
 Options 1,0,0  // Target 'RT-Thread STM32'
  Device (STM32F103ZE)
  Vendor (STMicroelectronics)
@@ -215,7 +217,7 @@ Options 1,0,0  // Target 'RT-Thread STM32'
  ADSCMISC (--diag_suppress=870)
  ADSCDEFN (STM32F10X_HD, USE_STDPERIPH_DRIVER)
  ADSCUDEF ()
- ADSCINCD (..\..\rt-thread\gui\server;..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x;..\..\rt-thread\include;..\..\rt-thread\gui\widgets;..\..\rt-thread\gui\common;..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc;..\..\rt-thread\devicefilesystem;.;..\..\rt-thread\finsh;..\..\rt-thread\devicefilesystem\include;..\..\rt-thread\gui\include;..\..\rt-thread\stm32)
+ ADSCINCD (..\..\rt-thread\gui\server;..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x;..\..\rt-thread\include;..\..\rt-thread\gui\widgets;..\..\rt-thread\gui\common;..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc;..\..\rt-thread\devicefilesystem;.;..\..\rt-thread\finsh;..\..\rt-thread\devicefilesystem\include;..\..\STM32F10x_Libraries\CMSIS\CM3\CoreSupport;..\..\rt-thread\gui\include;..\..\rt-thread\stm32)
  ADSASFLG { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ADSAMISC ()
  ADSADEFN ()
