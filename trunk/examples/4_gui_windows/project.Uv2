@@ -134,9 +134,7 @@ File 7,1,<.\touch.c><touch.c>
 File 7,1,<.\usart.c><usart.c>
 File 7,1,<.\win.c><win.c>
 File 7,1,<fmt0371\fmt0371.c><fmt0371.c>
-File 7,1,<ili9325\ili9325.c><ili9325.c>
-
-
+File 7,1,<.\ili_lcd_general.c><ili_lcd_general.c>
 
 
 Options 1,0,0  // Target 'RT-Thread STM32'

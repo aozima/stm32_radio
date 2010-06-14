@@ -11,7 +11,7 @@
 #include <rtgui/rtgui_system.h>
 
 #if (LCD_VERSION == 2)
-#include "ili9325/ili9325.h"
+#include "ili_lcd_general.h"
 /*
 MISO PA6
 MOSI PA7

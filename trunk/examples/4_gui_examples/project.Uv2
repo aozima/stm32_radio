@@ -133,7 +133,6 @@ File 7,1,<.\stm32f10x_it.c><stm32f10x_it.c>
 File 7,1,<.\touch.c><touch.c>
 File 7,1,<.\usart.c><usart.c>
 File 7,1,<fmt0371\fmt0371.c><fmt0371.c>
-File 7,1,<ili9325\ili9325.c><ili9325.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_fnview.c><demo_fnview.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_listview.c><demo_listview.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_view.c><demo_view.c>
@@ -155,8 +154,7 @@ File 7,1,<..\..\rt-thread\examples\gui\demo_view_textbox.c><demo_view_textbox.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_view_window.c><demo_view_window.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_workbench.c><demo_workbench.c>
 File 7,1,<..\..\rt-thread\examples\gui\mywidget.c><mywidget.c>
-
-
+File 7,1,<.\ili_lcd_general.c><ili_lcd_general.c>
 
 
 Options 1,0,0  // Target 'RT-Thread STM32'
