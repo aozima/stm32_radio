@@ -46,9 +46,9 @@ void rt_init_thread_entry(void *parameter)
 
         /* mount sd card fat partition 1 as SD directory */
         if (dfs_mount("sd0", "/", "elm", 0, 0) == 0)
-            rt_kprintf("File System initialized!\n");
+            rt_kprintf("SD File System initialized!\n");
         else
-            rt_kprintf("File System init failed!\n");
+            rt_kprintf("SD File System init failed!\n");
     }
 #endif
 }
