@@ -38,6 +38,7 @@ static void process_connection(struct netconn *conn)
 		/*  关闭连接 */
 		netconn_close(conn);
 	}
+	netbuf_delete(inbuf);
 }
 
 /* 线程入口 */
