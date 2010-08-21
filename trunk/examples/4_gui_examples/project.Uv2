@@ -35,11 +35,11 @@ File 1,1,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_dbg
 File 1,1,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_dma.c><stm32f10x_dma.c>
 File 1,1,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_can.c><stm32f10x_can.c>
 File 1,1,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\misc.c><misc.c>
-File 2,1,<..\..\rt-thread\stm32\cpu.c><cpu.c>
-File 2,1,<..\..\rt-thread\stm32\fault.c><fault.c>
-File 2,1,<..\..\rt-thread\stm32\interrupt.c><interrupt.c>
 File 2,1,<..\..\rt-thread\stm32\serial.c><serial.c>
 File 2,1,<..\..\rt-thread\stm32\stack.c><stack.c>
+File 2,1,<..\..\rt-thread\stm32\fault.c><fault.c>
+File 2,1,<..\..\rt-thread\stm32\cpu.c><cpu.c>
+File 2,1,<..\..\rt-thread\stm32\interrupt.c><interrupt.c>
 File 2,2,<..\..\rt-thread\stm32\context_rvds.S><context_rvds.S>
 File 2,2,<..\..\rt-thread\stm32\fault_rvds.S><fault_rvds.S>
 File 2,2,<..\..\rt-thread\stm32\start_rvds.S><start_rvds.S>
@@ -121,17 +121,18 @@ File 6,1,<..\..\rt-thread\gui\widgets\filelist_view.c><filelist_view.c>
 File 6,1,<..\..\rt-thread\gui\widgets\widget.c><widget.c>
 File 6,1,<..\..\rt-thread\gui\widgets\window.c><window.c>
 File 6,1,<..\..\rt-thread\gui\widgets\workbench.c><workbench.c>
-File 7,1,<.\application.c><application.c>
-File 7,1,<.\board.c><board.c>
+File 7,1,<.\spi_flash.c><spi_flash.c>
 File 7,1,<.\calibration.c><calibration.c>
 File 7,1,<.\key.c><key.c>
-File 7,1,<.\lcd.c><lcd.c>
+File 7,1,<.\ili_lcd_general.c><ili_lcd_general.c>
 File 7,1,<.\single_panel.c><single_panel.c>
-File 7,1,<.\spi_flash.c><spi_flash.c>
-File 7,1,<.\startup.c><startup.c>
-File 7,1,<.\stm32f10x_it.c><stm32f10x_it.c>
-File 7,1,<.\touch.c><touch.c>
 File 7,1,<.\usart.c><usart.c>
+File 7,1,<.\stm32f10x_it.c><stm32f10x_it.c>
+File 7,1,<.\startup.c><startup.c>
+File 7,1,<.\touch.c><touch.c>
+File 7,1,<.\board.c><board.c>
+File 7,1,<.\application.c><application.c>
+File 7,1,<.\lcd.c><lcd.c>
 File 7,1,<fmt0371\fmt0371.c><fmt0371.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_fnview.c><demo_fnview.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_listview.c><demo_listview.c>
@@ -146,6 +147,7 @@ File 7,1,<..\..\rt-thread\examples\gui\demo_view_dc_buffer.c><demo_view_dc_buffe
 File 7,1,<..\..\rt-thread\examples\gui\demo_view_image.c><demo_view_image.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_view_label.c><demo_view_label.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_view_listbox.c><demo_view_listbox.c>
+File 7,1,<..\..\rt-thread\examples\gui\demo_listview_icon.c><demo_listview_icon.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_view_mywidget.c><demo_view_mywidget.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_view_progressbar.c><demo_view_progressbar.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_view_radiobox.c><demo_view_radiobox.c>
@@ -154,7 +156,6 @@ File 7,1,<..\..\rt-thread\examples\gui\demo_view_textbox.c><demo_view_textbox.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_view_window.c><demo_view_window.c>
 File 7,1,<..\..\rt-thread\examples\gui\demo_workbench.c><demo_workbench.c>
 File 7,1,<..\..\rt-thread\examples\gui\mywidget.c><mywidget.c>
-File 7,1,<.\ili_lcd_general.c><ili_lcd_general.c>
 
 
 Options 1,0,0  // Target 'RT-Thread STM32'
