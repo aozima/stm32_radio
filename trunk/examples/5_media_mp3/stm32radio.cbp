@@ -257,7 +257,77 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="board.h" />
+		<Unit filename="codec.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="codec.h" />
+		<Unit filename="mp3.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mp3.h" />
+		<Unit filename="mp3\mp3dec.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mp3\mp3tabs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mp3\pub\mp3common.h" />
+		<Unit filename="mp3\pub\mp3dec.h" />
+		<Unit filename="mp3\pub\mpadecobjfixpt.h" />
+		<Unit filename="mp3\pub\statname.h" />
+		<Unit filename="mp3\real\arm\asmmisc.s" />
+		<Unit filename="mp3\real\arm\asmpoly.s" />
+		<Unit filename="mp3\real\arm\asmpoly_thumb2.s" />
+		<Unit filename="mp3\real\assembly.h" />
+		<Unit filename="mp3\real\bitstream.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mp3\real\buffers.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mp3\real\coder.h" />
+		<Unit filename="mp3\real\dct32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mp3\real\dequant.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mp3\real\dqchan.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mp3\real\huffman.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mp3\real\hufftabs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mp3\real\imdct.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mp3\real\polyphase.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mp3\real\scalfact.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mp3\real\stproc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mp3\real\subband.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mp3\real\trigtabs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="netbuffer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="netbuffer.h" />
 		<Unit filename="rtconfig.h" />
+		<Unit filename="sdcard.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sdcard.h" />
 		<Unit filename="startup.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -265,6 +335,7 @@
 		<Unit filename="stm32f10x_it.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="stm32f10x_it.h" />
 		<Unit filename="usart.c">
 			<Option compilerVar="CC" />
 		</Unit>

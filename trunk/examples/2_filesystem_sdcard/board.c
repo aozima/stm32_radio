@@ -189,6 +189,7 @@ static void all_device_reset(void)
     GPIO_SetBits(GPIOE,GPIO_Pin_5);   /* DM9000A          */
     GPIO_SetBits(GPIOF,GPIO_Pin_10);  /* LCD              */
     GPIO_SetBits(GPIOA,GPIO_Pin_3);   /* SPI_FLASH        */
+    GPIO_ResetBits(GPIOC,GPIO_Pin_6); /* SD card power up */
 }
 
 /**

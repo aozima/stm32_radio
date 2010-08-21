@@ -42,14 +42,14 @@ OPTFFF 1,21,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\sr
 OPTFFF 1,22,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_dma.c><stm32f10x_dma.c> 
 OPTFFF 1,23,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_can.c><stm32f10x_can.c> 
 OPTFFF 1,24,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\misc.c><misc.c> 
-OPTFFF 2,25,1,0,0,0,0,0,<..\..\rt-thread\stm32\serial.c><serial.c> 
-OPTFFF 2,26,1,0,0,0,0,0,<..\..\rt-thread\stm32\stack.c><stack.c> 
-OPTFFF 2,27,1,0,0,0,0,0,<..\..\rt-thread\stm32\fault.c><fault.c> 
-OPTFFF 2,28,1,0,0,0,0,0,<..\..\rt-thread\stm32\cpu.c><cpu.c> 
-OPTFFF 2,29,1,0,0,0,0,0,<..\..\rt-thread\stm32\interrupt.c><interrupt.c> 
-OPTFFF 2,30,1,0,0,0,0,0,<..\..\rt-thread\stm32\context_rvds.S><context_rvds.S> 
-OPTFFF 2,31,1,0,0,0,0,0,<..\..\rt-thread\stm32\fault_rvds.S><fault_rvds.S> 
-OPTFFF 2,32,1,0,0,0,0,0,<..\..\rt-thread\stm32\start_rvds.S><start_rvds.S> 
+OPTFFF 2,25,1,0,0,0,0,0,<..\..\rt-thread\stm32\cpu.c><cpu.c> 
+OPTFFF 2,26,1,0,0,0,0,0,<..\..\rt-thread\stm32\fault.c><fault.c> 
+OPTFFF 2,27,1,0,0,0,0,0,<..\..\rt-thread\stm32\interrupt.c><interrupt.c> 
+OPTFFF 2,28,1,0,0,0,0,0,<..\..\rt-thread\stm32\serial.c><serial.c> 
+OPTFFF 2,29,1,0,0,0,0,0,<..\..\rt-thread\stm32\stack.c><stack.c> 
+OPTFFF 2,30,2,0,0,0,0,0,<..\..\rt-thread\stm32\context_rvds.S><context_rvds.S> 
+OPTFFF 2,31,2,0,0,0,0,0,<..\..\rt-thread\stm32\fault_rvds.S><fault_rvds.S> 
+OPTFFF 2,32,2,0,0,0,0,0,<..\..\rt-thread\stm32\start_rvds.S><start_rvds.S> 
 OPTFFF 3,33,1,0,0,0,0,0,<..\..\rt-thread\kernel\clock.c><clock.c> 
 OPTFFF 3,34,1,0,0,0,0,0,<..\..\rt-thread\kernel\device.c><device.c> 
 OPTFFF 3,35,1,0,0,0,0,0,<..\..\rt-thread\kernel\idle.c><idle.c> 
@@ -83,12 +83,12 @@ OPTFFF 5,62,1,0,0,0,0,0,<..\..\rt-thread\devicefilesystem\src\dfs_raw.c><dfs_raw
 OPTFFF 5,63,1,0,0,0,0,0,<..\..\rt-thread\devicefilesystem\src\dfs_util.c><dfs_util.c> 
 OPTFFF 5,64,1,0,0,0,0,0,<..\..\rt-thread\devicefilesystem\filesystems\elmfat\dfs_elm.c><dfs_elm.c> 
 OPTFFF 5,65,1,0,0,0,0,0,<..\..\rt-thread\devicefilesystem\filesystems\elmfat\ff.c><ff.c> 
-OPTFFF 6,66,1,553648128,0,136,138,0,<.\spi_flash.c><spi_flash.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,22,0,0,0,29,0,0,0,150,2,0,0,237,0,0,0 }
-OPTFFF 6,67,1,0,0,0,0,0,<.\usart.c><usart.c> 
-OPTFFF 6,68,1,0,0,0,0,0,<.\stm32f10x_it.c><stm32f10x_it.c> 
+OPTFFF 6,66,1,0,0,0,0,0,<.\application.c><application.c> 
+OPTFFF 6,67,1,0,0,0,0,0,<.\board.c><board.c> 
+OPTFFF 6,68,1,0,0,0,0,0,<.\spi_flash.c><spi_flash.c> 
 OPTFFF 6,69,1,0,0,0,0,0,<.\startup.c><startup.c> 
-OPTFFF 6,70,1,2,0,46,46,0,<.\board.c><board.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,243,2,0,0,133,0,0,0 }
-OPTFFF 6,71,1,0,0,0,0,0,<.\application.c><application.c> 
+OPTFFF 6,70,1,1,0,0,0,0,<.\stm32f10x_it.c><stm32f10x_it.c> 
+OPTFFF 6,71,1,0,0,0,0,0,<.\usart.c><usart.c> 
 
 
 TARGOPT 1, (RT-Thread STM32)

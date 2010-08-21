@@ -257,6 +257,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="board.h" />
+		<Unit filename="led.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="led.h" />
 		<Unit filename="rtconfig.h" />
 		<Unit filename="startup.c">
 			<Option compilerVar="CC" />
@@ -269,55 +273,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="usart.h" />
-		<Unit filename="..\..\rt-thread\finsh\cmd.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\finsh\finsh.h" />
-		<Unit filename="..\..\rt-thread\finsh\finsh_compiler.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\finsh\finsh_error.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\finsh\finsh_error.h" />
-		<Unit filename="..\..\rt-thread\finsh\finsh_heap.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\finsh\finsh_heap.h" />
-		<Unit filename="..\..\rt-thread\finsh\finsh_init.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\finsh\finsh_node.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\finsh\finsh_node.h" />
-		<Unit filename="..\..\rt-thread\finsh\finsh_ops.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\finsh\finsh_ops.h" />
-		<Unit filename="..\..\rt-thread\finsh\finsh_parser.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\finsh\finsh_parser.h" />
-		<Unit filename="..\..\rt-thread\finsh\finsh_token.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\finsh\finsh_token.h" />
-		<Unit filename="..\..\rt-thread\finsh\finsh_var.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\finsh\finsh_var.h" />
-		<Unit filename="..\..\rt-thread\finsh\finsh_vm.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\finsh\finsh_vm.h" />
-		<Unit filename="..\..\rt-thread\finsh\shell.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\finsh\shell.h" />
-		<Unit filename="..\..\rt-thread\finsh\symbol.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="..\..\rt-thread\include\rtdef.h" />
 		<Unit filename="..\..\rt-thread\include\rthw.h" />
 		<Unit filename="..\..\rt-thread\include\rtthread.h" />

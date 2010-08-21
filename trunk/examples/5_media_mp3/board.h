@@ -64,7 +64,7 @@
 // <o> CODEC SPI Port
 // <0=>SPI2
 // <1=>SPI3
-#define CODEC_USE_SPI3		0
+#define CODEC_USE_SPI3		1
 
 void rt_hw_board_led_on(int n);
 void rt_hw_board_led_off(int n);

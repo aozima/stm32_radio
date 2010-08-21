@@ -22,6 +22,7 @@
 #define STM32_SRAM_END          (0x20000000 + STM32_SRAM_SIZE * 1024)
 
 void rt_hw_board_init(void);
+extern struct rt_semaphore spi1_lock;
 
 #endif
 
