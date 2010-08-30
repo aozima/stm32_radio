@@ -540,7 +540,7 @@ void telnet_srv()
 	}
 
 	tid = rt_thread_create("telnet", telnet_thread, RT_NULL,
-						   2048, 0x25, 5);
+						   2048, 25, 5);
 	if (tid != RT_NULL)
 		rt_thread_startup(tid);
 }
