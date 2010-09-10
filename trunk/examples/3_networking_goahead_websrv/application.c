@@ -18,6 +18,7 @@
 /*@{*/
 
 #include <rtthread.h>
+#include "board.h"
 
 #ifdef RT_USING_DFS
 /* dfs init */
@@ -37,29 +38,42 @@
 /* thread phase init */
 void rt_init_thread_entry(void *parameter)
 {
-   /* Filesystem Initialization */
+    /* Filesystem Initialization */
 #ifdef RT_USING_DFS
     {
+        /* init hardware device */
+        rt_hw_sdcard_init();
+        rt_hw_spi_flash_init();
+        /* init all device */
+        rt_device_init_all();
+
         /* init the device filesystem */
         dfs_init();
 
         /* init the elm FAT filesystam*/
         elm_init();
 
-		/* mount spi flash fat as root directory */
-		if (dfs_mount("spi0", "/", "elm", 0, 0) == 0)
-			rt_kprintf("SPI File System initialized!\n");
-		else
-			rt_kprintf("SPI File System init failed!\n");
+//        /* mount spi flash fat as root directory */
+//        if (dfs_mount("spi0", "/", "elm", 0, 0) == 0)
+//            rt_kprintf("SPI File System initialized!\n");
+//        else
+//            rt_kprintf("SPI File System init failed!\n");
+
+        /* mount SD card fat as root directory */
+        if (dfs_mount("sd0", "/", "elm", 0, 0) == 0)
+            rt_kprintf("SD card System initialized!\n");
+        else
+            rt_kprintf("SD card System init failed!\n");
     }
 #endif
+
+
+    /* init rtc device */
+    rt_hw_rtc_init();
 
     /* LwIP Initialization */
 #ifdef RT_USING_LWIP
     {
-        extern void lwip_sys_init(void);
-        extern void rt_hw_dm9000_init(void);
-
         eth_system_device_init();
 
         /* register ethernetif device */

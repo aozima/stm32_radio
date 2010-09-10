@@ -96,14 +96,6 @@ void rtthread_startup(void)
     /* init scheduler system */
     rt_system_scheduler_init();
 
-    /* init hardware device */
-#ifdef RT_USING_DFS
-    rt_hw_spi_flash_init();
-#endif
-	
-	/* init rtc device */
-    rt_hw_rtc_init();
-
     /* init all device */
     rt_device_init_all();
 

@@ -132,6 +132,7 @@ File 6,1,<.\stm32f10x_it.c><stm32f10x_it.c>
 File 6,1,<.\usart.c><usart.c>
 File 6,1,<.\spi_flash.c><spi_flash.c>
 File 6,1,<.\rtc.c><rtc.c>
+File 6,1,<.\sdcard.c><sdcard.c>
 File 7,1,<..\..\rt-thread\devicefilesystem\filesystems\elmfat\ff.c><ff.c>
 File 7,1,<..\..\rt-thread\devicefilesystem\filesystems\elmfat\dfs_elm.c><dfs_elm.c>
 File 7,1,<..\..\rt-thread\devicefilesystem\src\dfs_fs.c><dfs_fs.c>
