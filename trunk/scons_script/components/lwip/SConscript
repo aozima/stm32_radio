@@ -61,15 +61,15 @@ src/netif/ppp/vj.c
 """)
 
 for index in range(0, len(src_local)):
-	src_local[index] = RTT_ROOT + '/rt-thread/lwip/' + src_local[index]
+	src_local[index] = RTT_ROOT + '/rt-thread/components/net/lwip/' + src_local[index]
 
 # The set of source files associated with this SConscript file.
-path = [RTT_ROOT + '/rt-thread/lwip/src', 
-    RTT_ROOT + '/rt-thread/lwip/src/include', 
-    RTT_ROOT + '/rt-thread/lwip/src/include/ipv4', 
-    RTT_ROOT + '/rt-thread/lwip/src/arch/include', 
-    RTT_ROOT + '/rt-thread/lwip/src/include/netif', 
-    RTT_ROOT + '/rt-thread/lwip/src/netif/ppp']
+path = [RTT_ROOT + '/rt-thread/components/net/lwip/src', 
+    RTT_ROOT + '/rt-thread/components/net/lwip/src/include', 
+    RTT_ROOT + '/rt-thread/components/net/lwip/src/include/ipv4', 
+    RTT_ROOT + '/rt-thread/components/net/lwip/src/arch/include', 
+    RTT_ROOT + '/rt-thread/components/net/lwip/src/include/netif', 
+    RTT_ROOT + '/rt-thread/components/net/lwip/src/netif/ppp']
 
 # group definitions
 group = {}

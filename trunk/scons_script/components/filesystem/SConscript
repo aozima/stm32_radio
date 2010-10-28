@@ -19,16 +19,16 @@ filesystems/elmfat/ff.c
 
 src_local = dfs
 # The set of source files associated with this SConscript file.
-path = [RTT_ROOT + '/rt-thread/devicefilesystem', RTT_ROOT + '/rt-thread/devicefilesystem/include']
+path = [RTT_ROOT + '/rt-thread/components/dfs', RTT_ROOT + '/rt-thread/components/dfs/include']
 
 if 'RT_DFS_ELM_USE_LFN' in dir(rtconfig) and rtconfig.RT_DFS_ELM_USE_LFN:
-    elmfat += [RTT_ROOT + '/rt-thread/devicefilesystem/filesystems/elmfat/option/cc936.c']
+    elmfat += [RTT_ROOT + '/rt-thread/components/dfs/filesystems/elmfat/option/cc936.c']
 
 if 'RT_USING_DFS_ELMFAT' in dir(rtconfig) and rtconfig.RT_USING_DFS_ELMFAT:
     src_local = src_local + elmfat
 
 for index in range(0, len(src_local)):
-	src_local[index] = RTT_ROOT + '/rt-thread/devicefilesystem/' + src_local[index]
+	src_local[index] = RTT_ROOT + '/rt-thread/components/dfs/' + src_local[index]
 
 # group definitions
 group = {}

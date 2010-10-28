@@ -1,0 +1,24 @@
+Import('env')
+Import('RTT_ROOT')
+Import('projects')
+
+# The set of source files associated with this SConscript file.
+src_local = Glob(RTT_ROOT + '/rt-thread/libcpu/arm/stm32/*.c')
+src_local += Glob(RTT_ROOT + '/rt-thread/libcpu/arm/stm32/*_rvds.S')
+
+# group definitions
+group = {}
+group['name'] = 'STM32'
+group['src'] = File(src_local)
+group['CCFLAGS'] = ''
+group['CPPPATH'] = [RTT_ROOT + '/rt-thread/libcpu/arm/stm32']
+group['CPPDEFINES'] = ''
+group['LINKFLAGS'] = ''
+
+# add group to project list
+projects.append(group)
+
+env.Append(CPPPATH = group['CPPPATH'])
+obj = env.Object(group['src'])
+
+Return('obj')

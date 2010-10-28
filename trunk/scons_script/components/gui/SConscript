@@ -61,12 +61,12 @@ widgets/workbench.c
 src_local = common_src + server_src + widgets_src
 
 for index in range(0, len(src_local)):
-	src_local[index] = RTT_ROOT + '/rt-thread/gui/' + src_local[index]
+	src_local[index] = RTT_ROOT + '/rt-thread/components/rtgui/' + src_local[index]
 
-path = [RTT_ROOT + '/rt-thread/gui/include',
-	RTT_ROOT + '/rt-thread/gui/common', 
-	RTT_ROOT + '/rt-thread/gui/server', 
-	RTT_ROOT + '/rt-thread/gui/widgets']
+path = [RTT_ROOT + '/rt-thread/components/rtgui/include',
+	RTT_ROOT + '/rt-thread/components/rtgui/common', 
+	RTT_ROOT + '/rt-thread/components/rtgui/server', 
+	RTT_ROOT + '/rt-thread/components/rtgui/widgets']
 
 # group definitions
 group = {}

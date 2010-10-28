@@ -6,9 +6,9 @@ Import('rtconfig')
 # group definitions
 group = {}
 group['name'] = 'finsh'
-group['src'] = Glob(RTT_ROOT + '/rt-thread/finsh/*.c')
+group['src'] = Glob(RTT_ROOT + '/rt-thread/components/finsh/*.c')
 group['CCFLAGS'] = ''
-group['CPPPATH'] = [RTT_ROOT + '/rt-thread/finsh']
+group['CPPPATH'] = [RTT_ROOT + '/rt-thread/components/finsh']
 group['CPPDEFINES'] = ''
 if rtconfig.CROSS_TOOL == 'keil':
     group['LINKFLAGS'] = ' --keep __fsym_* --keep __vsym_*'
