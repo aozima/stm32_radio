@@ -23,12 +23,13 @@
  */
 
 /*@{*/
-
+#ifndef SIMULATOR
 static void delay(void)
 {
     volatile unsigned int dl;
     for(dl=0; dl<2500000; dl++);
 }
+#endif
 
 /*******************************************************************************
 * Function Name  : NVIC_Configuration
@@ -62,6 +63,7 @@ void rt_hw_timer_handler(void)
     rt_interrupt_leave();
 }
 
+#ifndef SIMULATOR
 static void all_device_reset(void)
 {
     /* RESET */
@@ -188,6 +190,7 @@ static void all_device_reset(void)
     GPIO_SetBits(GPIOF,GPIO_Pin_10);  /* LCD              */
     GPIO_SetBits(GPIOA,GPIO_Pin_3);   /* SPI_FLASH        */
 }
+#endif
 
 /**
  * This function will initial STM32 Radio board.
@@ -197,7 +200,9 @@ void rt_hw_board_init(void)
     /* Configure the system clocks */
     SystemInit();
 
+#ifndef SIMULATOR
     all_device_reset();
+#endif
 
     /* NVIC Configuration */
     NVIC_Configuration();
