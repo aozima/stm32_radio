@@ -120,6 +120,17 @@ void DebugMon_Handler(void)
 /*  available peripheral interrupt handler's name please refer to the startup */
 /*  file (startup_stm32f10x_xx.s).                                            */
 /******************************************************************************/
+
+/**
+  * @}
+  */
+
+/******************************************************************************/
+/*                 STM32F10x Peripherals Interrupt Handlers                   */
+/*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */
+/*  available peripheral interrupt handler's name please refer to the startup */
+/*  file (startup_stm32f10x_xx.s).                                            */
+/******************************************************************************/
 #include <rtthread.h>
 void USART1_IRQHandler(void)
 {
@@ -137,9 +148,30 @@ void USART1_IRQHandler(void)
 #endif
 }
 
-/**
-  * @}
-  */
+/*******************************************************************************
+* Function Name  : EXTI4_IRQHandler
+* Description    : This function handles External interrupt Line 4 request.
+* Input          : None
+* Output         : None
+* Return         : None
+*******************************************************************************/
+#include <stm32f10x_exti.h>
+void EXTI4_IRQHandler(void)
+{
+#ifdef RT_USING_LWIP
+	extern void rt_dm9000_isr(void);
 
+	/* enter interrupt */
+	rt_interrupt_enter();
+
+	rt_dm9000_isr();
+
+	/* Clear the Key Button EXTI line pending bit */
+	EXTI_ClearITPendingBit(EXTI_Line4);
+
+	/* leave interrupt */
+	rt_interrupt_leave();
+#endif
+}
 
 /******************* (C) COPYRIGHT 2009 STMicroelectronics *****END OF FILE****/

@@ -261,6 +261,11 @@ void rx_callback(struct netconn *conn, enum netconn_evt evt, rt_uint16_t len)
 	{
 		rt_event_send(telnet->nw_event, NW_RX);
 	}
+	
+	if (conn->state == NETCONN_CLOSE)
+	{
+		rt_event_send(telnet->nw_event, NW_CLOSED);
+	} 
 }
 
 /* send telnet option to remote */
@@ -385,9 +390,9 @@ void telnet_process_rx(struct telnet_session* telnet, rt_uint8_t *data, rt_size_
 void telnet_process_close(struct telnet_session* telnet, struct netconn *conn)
 {
 	/* set console */
-	rt_console_set_device("uart0");
+	rt_console_set_device("uart1");
 	/* set finsh device */
-	finsh_set_device("uart0");
+	finsh_set_device("uart1");
 
 	/* close connection */
 	netconn_close(conn);
@@ -433,7 +438,7 @@ void telnet_thread(void* parameter)
 
 	while (1)
 	{
-		rt_kprintf("waiting for connection\n");
+		rt_kprintf("telnet server waiting for connection\n");
 
 		/* Grab new connection. */
 		newconn = netconn_accept(conn);
@@ -465,7 +470,7 @@ void telnet_thread(void* parameter)
 			/* receive network event */
 			result = rt_event_recv(telnet->nw_event,
 								   NW_MASK, RT_EVENT_FLAG_OR | RT_EVENT_FLAG_CLEAR,
-								   RT_WAITING_FOREVER, &event);
+								   RT_TICK_PER_SECOND, &event);
 			if (result == RT_EOK)
 			{
 				/* get event successfully */
@@ -501,6 +506,14 @@ void telnet_thread(void* parameter)
 				if (event & NW_CLOSED)
 				{
 					/* process close */
+					telnet_process_close(telnet, newconn);
+					break;
+				}
+			}
+			else if (result == -RT_ETIMEOUT)
+			{
+				if (newconn->state == NETCONN_CLOSE)
+				{
 					telnet_process_close(telnet, newconn);
 					break;
 				}
