@@ -1,0 +1,2 @@
+src                           https://rt-thread.googlecode.com/svn/trunk/src
+include                       https://rt-thread.googlecode.com/svn/trunk/include
