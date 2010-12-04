@@ -226,7 +226,7 @@ static struct rtgui_list_view* function_view = RT_NULL;
 static rtgui_workbench_t* father_workbench   = RT_NULL;
 
 //销毁本view返回上级菜单
-static void function_action_return(void* paramter)
+static void function_action_return(struct rtgui_widget* widget, void* paramter)
 {
     rtgui_workbench_remove_view(father_workbench, RTGUI_VIEW(function_view));
     rtgui_view_destroy(RTGUI_VIEW(function_view));
@@ -235,19 +235,19 @@ static void function_action_return(void* paramter)
 
 #if ( LCD_VERSION == 2 ) || ( LCD_VERSION == 3 )
 extern void calibration_init(void);
-static void function_calibration(void* parameter)
+static void function_calibration(struct rtgui_widget* widget, void* parameter)
 {
     calibration_init();
 }
 #endif
 
-static void function_remote_study(void* paramter)
+static void function_remote_study(struct rtgui_widget* widget, void* paramter)
 {
     extern void remote_study_ui(rtgui_workbench_t * workbench);
     remote_study_ui(father_workbench);
 }
 
-static void function_drawpad(void* paramter)
+static void function_drawpad(struct rtgui_widget* widget, void* paramter)
 {
     function_sketchpad(father_workbench);
 }
@@ -346,7 +346,7 @@ static void save_handler(struct rtgui_widget* widget, rtgui_event_t* event)
     }
 }
 
-static void function_action_setup(void* paramter)
+static void function_action_setup(struct rtgui_widget* widget, void* paramter)
 {
     rtgui_view_t* view;
     rtgui_rect_t rect;

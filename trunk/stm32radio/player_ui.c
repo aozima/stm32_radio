@@ -383,7 +383,7 @@ static void player_stop()
 	player_stop_req();
 }
 
-static void function_play_radio(void* parameter)
+static void function_play_radio(struct rtgui_widget* widget, void* parameter)
 {
     struct station_list* list;
     struct station_item* item;
@@ -410,7 +410,7 @@ static void function_play_radio(void* parameter)
 }
 
 #include "douban_channel.h"
-static void function_douban_radio(void* parameter)
+static void function_douban_radio(struct rtgui_widget* widget, void* parameter)
 {
 	douban_channel_view(workbench);
 
@@ -418,7 +418,7 @@ static void function_douban_radio(void* parameter)
 	rtgui_view_show(home_view, RT_FALSE);
 }
 
-static void function_radio_list_update(void* parameter)
+static void function_radio_list_update(struct rtgui_widget* widget, void* parameter)
 {
 	extern void update_radio_list_view_init(rtgui_workbench_t* workbench);
 
@@ -426,7 +426,7 @@ static void function_radio_list_update(void* parameter)
     return;
 }
 
-static void function_filelist(void* parameter)
+static void function_filelist(struct rtgui_widget* widget, void* parameter)
 {
     rtgui_rect_t rect;
     rtgui_filelist_view_t *view;
@@ -488,7 +488,7 @@ static void function_filelist(void* parameter)
     return;
 }
 
-static void function_device(void* parameter)
+static void function_device(struct rtgui_widget* widget, void* parameter)
 {
     rtgui_view_t *view;
     extern rtgui_view_t* device_view_create(rtgui_workbench_t* workbench);
@@ -502,13 +502,13 @@ static void function_device(void* parameter)
     return;
 }
 
-static void function_player(void* parameter)
+static void function_player(struct rtgui_widget* widget, void* parameter)
 {
     rtgui_view_show(home_view, RT_FALSE);
     return;
 }
 
-static void function_show_picure(void* parameter)
+static void function_show_picure(struct rtgui_widget* widget, void* parameter)
 {
     rtgui_view_t *view;
 
@@ -522,26 +522,26 @@ static void function_show_picure(void* parameter)
     return;
 }
 
-void function_action(void* parameter)
+void function_action(struct rtgui_widget* widget, void* parameter)
 {
     rt_kprintf("item action!\n");
     return;
 }
 
-static void function_setting(void* parameter)
+static void function_setting(struct rtgui_widget* widget, void* parameter)
 {
     extern void setting_ui(rtgui_workbench_t* workbench);
     setting_ui(workbench);
 }
 
-static void function_cable(void* parameter)
+static void function_cable(struct rtgui_widget* widget, void* parameter)
 {
     extern void USB_cable(void);
     USB_cable();
 }
 
 #ifdef RT_USING_RTI
-static void function_rti(void* parameter)
+static void function_rti(struct rtgui_widget* widget, void* parameter)
 {
 	extern void rti_stub_init(rt_size_t mem_size);
 	rti_stub_init(32 * 1024);

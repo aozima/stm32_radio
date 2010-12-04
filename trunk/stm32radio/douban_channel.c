@@ -6,8 +6,8 @@
 
 static rtgui_list_view_t *_douban_channel_view = RT_NULL;
 
-static void function_douban(void *parameter);
-static void function_return(void *paramter);
+static void function_douban(struct rtgui_widget* widget, void *parameter);
+static void function_return(struct rtgui_widget* widget, void *paramter);
 
 static const struct rtgui_list_item channel_list[] =
 {
@@ -23,7 +23,7 @@ static const struct rtgui_list_item channel_list[] =
     {"∑µªÿ…œº∂", RT_NULL, function_return, RT_NULL },
 };
 
-static void function_douban(void *parameter)
+static void function_douban(struct rtgui_widget* widget, void *parameter)
 {
 	int channel;
 	char channel_url[32];
@@ -43,7 +43,7 @@ static void function_douban(void *parameter)
 	rtgui_view_end_modal(RTGUI_VIEW(_douban_channel_view), RTGUI_MODAL_OK);
 }
 
-static void function_return(void *paramter)
+static void function_return(struct rtgui_widget* widget, void *paramter)
 {
 	rtgui_view_end_modal(RTGUI_VIEW(_douban_channel_view), RTGUI_MODAL_CANCEL);
 }

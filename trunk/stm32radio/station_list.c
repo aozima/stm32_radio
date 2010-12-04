@@ -150,7 +150,7 @@ void station_list_destroy(struct station_list* list)
 	rt_free(list);
 }
 
-static void station_list_selected(void* parameter)
+static void station_list_selected(struct rtgui_widget* widget, void* parameter)
 {
 	rtgui_list_view_t *view;
 
