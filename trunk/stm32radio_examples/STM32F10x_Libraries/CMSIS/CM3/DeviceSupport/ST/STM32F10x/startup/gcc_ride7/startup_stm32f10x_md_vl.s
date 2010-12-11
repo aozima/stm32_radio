@@ -2,8 +2,8 @@
  ******************************************************************************
  * @file      startup_stm32f10x_md_vl.s
  * @author    MCD Application Team
- * @version   V3.2.0
- * @date      03/01/2010
+ * @version   V3.4.0
+ * @date      10/15/2010
  * @brief     STM32F10x Medium Density Value Line Devices vector table for RIDE7
  *            toolchain.
  *            This module performs:
@@ -176,7 +176,7 @@ g_pfnVectors:
   .word  SPI2_IRQHandler
   .word  USART1_IRQHandler
   .word  USART2_IRQHandler
-  .word  0
+  .word  USART3_IRQHandler
   .word  EXTI15_10_IRQHandler
   .word  RTCAlarm_IRQHandler
   .word  CEC_IRQHandler  
@@ -376,6 +376,9 @@ g_pfnVectors:
 
   .weak  USART2_IRQHandler
   .thumb_set USART2_IRQHandler,Default_Handler
+
+  .weak  USART3_IRQHandler
+  .thumb_set USART3_IRQHandler,Default_Handler
 
   .weak  EXTI15_10_IRQHandler
   .thumb_set EXTI15_10_IRQHandler,Default_Handler

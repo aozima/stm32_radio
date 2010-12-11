@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f10x_sdio.h
   * @author  MCD Application Team
-  * @version V3.2.0
-  * @date    03/01/2010
+  * @version V3.4.0
+  * @date    10/15/2010
   * @brief   This file contains all the functions prototypes for the SDIO firmware
   *          library.
   ******************************************************************************
@@ -455,8 +455,8 @@ typedef struct
   * @{
   */
 
-#define SDIO_ReadWaitMode_CLK               ((uint32_t)0x00000000)
-#define SDIO_ReadWaitMode_DATA2             ((uint32_t)0x00000001)
+#define SDIO_ReadWaitMode_CLK               ((uint32_t)0x00000001)
+#define SDIO_ReadWaitMode_DATA2             ((uint32_t)0x00000000)
 #define IS_SDIO_READWAIT_MODE(MODE) (((MODE) == SDIO_ReadWaitMode_CLK) || \
                                      ((MODE) == SDIO_ReadWaitMode_DATA2))
 /**

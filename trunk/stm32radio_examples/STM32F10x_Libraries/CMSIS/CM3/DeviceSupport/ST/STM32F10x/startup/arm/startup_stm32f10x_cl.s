@@ -1,9 +1,9 @@
 ;******************** (C) COPYRIGHT 2010 STMicroelectronics ********************
 ;* File Name          : startup_stm32f10x_cl.s
 ;* Author             : MCD Application Team
-;* Version            : V3.2.0
-;* Date               : 03/01/2010
-;* Description        : STM32F10x Connectivity line devices vector table for RVMDK 
+;* Version            : V3.4.0
+;* Date               : 10/15/2010
+;* Description        : STM32F10x Connectivity line devices vector table for MDK-ARM 
 ;*                      toolchain. 
 ;*                      This module performs:
 ;*                      - Set the initial SP

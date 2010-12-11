@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f10x_tim.h
   * @author  MCD Application Team
-  * @version V3.2.0
-  * @date    03/01/2010
+  * @version V3.4.0
+  * @date    10/15/2010
   * @brief   This file contains all the functions prototypes for the TIM firmware 
   *          library.
   ******************************************************************************
@@ -173,43 +173,109 @@ typedef struct
                                    ((PERIPH) == TIM6) || \
                                    ((PERIPH) == TIM7) || \
                                    ((PERIPH) == TIM8) || \
-                                   ((PERIPH) == TIM15) || \
-                                   ((PERIPH) == TIM16) || \
+                                   ((PERIPH) == TIM9) || \
+                                   ((PERIPH) == TIM10)|| \
+                                   ((PERIPH) == TIM11)|| \
+                                   ((PERIPH) == TIM12)|| \
+                                   ((PERIPH) == TIM13)|| \
+                                   ((PERIPH) == TIM14)|| \
+                                   ((PERIPH) == TIM15)|| \
+                                   ((PERIPH) == TIM16)|| \
                                    ((PERIPH) == TIM17))
 
-#define IS_TIM_18_PERIPH(PERIPH) (((PERIPH) == TIM1) || \
-                                  ((PERIPH) == TIM8))
+/* LIST1: TIM 1 and 8 */
+#define IS_TIM_LIST1_PERIPH(PERIPH)  (((PERIPH) == TIM1) || \
+                                      ((PERIPH) == TIM8))
 
-#define IS_TIM_18151617_PERIPH(PERIPH) (((PERIPH) == TIM1) || \
-                                        ((PERIPH) == TIM8) || \
-                                        ((PERIPH) == TIM15) || \
-                                        ((PERIPH) == TIM16) || \
-                                        ((PERIPH) == TIM17)) 
+/* LIST2: TIM 1, 8, 15 16 and 17 */
+#define IS_TIM_LIST2_PERIPH(PERIPH) (((PERIPH) == TIM1) || \
+                                     ((PERIPH) == TIM8) || \
+                                     ((PERIPH) == TIM15)|| \
+                                     ((PERIPH) == TIM16)|| \
+                                     ((PERIPH) == TIM17)) 
 
-#define IS_TIM_123458_PERIPH(PERIPH) (((PERIPH) == TIM1) || \
+/* LIST3: TIM 1, 2, 3, 4, 5 and 8 */
+#define IS_TIM_LIST3_PERIPH(PERIPH) (((PERIPH) == TIM1) || \
+                                     ((PERIPH) == TIM2) || \
+                                     ((PERIPH) == TIM3) || \
+                                     ((PERIPH) == TIM4) || \
+                                     ((PERIPH) == TIM5) || \
+                                     ((PERIPH) == TIM8)) 
+									                                 
+/* LIST4: TIM 1, 2, 3, 4, 5, 8, 15, 16 and 17 */
+#define IS_TIM_LIST4_PERIPH(PERIPH) (((PERIPH) == TIM1) || \
+                                     ((PERIPH) == TIM2) || \
+                                     ((PERIPH) == TIM3) || \
+                                     ((PERIPH) == TIM4) || \
+                                     ((PERIPH) == TIM5) || \
+                                     ((PERIPH) == TIM8) || \
+                                     ((PERIPH) == TIM15)|| \
+                                     ((PERIPH) == TIM16)|| \
+                                     ((PERIPH) == TIM17))
+
+/* LIST5: TIM 1, 2, 3, 4, 5, 8 and 15 */                                            
+#define IS_TIM_LIST5_PERIPH(PERIPH) (((PERIPH) == TIM1) || \
+                                     ((PERIPH) == TIM2) || \
+                                     ((PERIPH) == TIM3) || \
+                                     ((PERIPH) == TIM4) || \
+                                     ((PERIPH) == TIM5) || \
+                                     ((PERIPH) == TIM8) || \
+                                     ((PERIPH) == TIM15)) 
+
+/* LIST6: TIM 1, 2, 3, 4, 5, 8, 9, 12 and 15 */
+#define IS_TIM_LIST6_PERIPH(PERIPH)  (((PERIPH) == TIM1) || \
                                       ((PERIPH) == TIM2) || \
                                       ((PERIPH) == TIM3) || \
                                       ((PERIPH) == TIM4) || \
                                       ((PERIPH) == TIM5) || \
-                                      ((PERIPH) == TIM8))                                
+                                      ((PERIPH) == TIM8) || \
+                                      ((PERIPH) == TIM9) || \
+									  ((PERIPH) == TIM12)|| \
+                                      ((PERIPH) == TIM15))
 
-#define IS_TIM_123458151617_PERIPH(PERIPH) (((PERIPH) == TIM1) || \
-                                            ((PERIPH) == TIM2) || \
-                                            ((PERIPH) == TIM3) || \
-                                            ((PERIPH) == TIM4) || \
-                                            ((PERIPH) == TIM5) || \
-                                            ((PERIPH) == TIM8) || \
-                                            ((PERIPH) == TIM15) || \
-                                            ((PERIPH) == TIM16) || \
-                                            ((PERIPH) == TIM17))
-                                            
-#define IS_TIM_12345815_PERIPH(PERIPH) (((PERIPH) == TIM1) || \
-                                        ((PERIPH) == TIM2) || \
-                                        ((PERIPH) == TIM3) || \
-                                        ((PERIPH) == TIM4) || \
-                                        ((PERIPH) == TIM5) || \
-                                        ((PERIPH) == TIM8) || \
-                                        ((PERIPH) == TIM15))                                            
+/* LIST7: TIM 1, 2, 3, 4, 5, 6, 7, 8, 9, 12 and 15 */
+#define IS_TIM_LIST7_PERIPH(PERIPH)  (((PERIPH) == TIM1) || \
+                                      ((PERIPH) == TIM2) || \
+                                      ((PERIPH) == TIM3) || \
+                                      ((PERIPH) == TIM4) || \
+                                      ((PERIPH) == TIM5) || \
+                                      ((PERIPH) == TIM6) || \
+                                      ((PERIPH) == TIM7) || \
+                                      ((PERIPH) == TIM8) || \
+                                      ((PERIPH) == TIM9) || \
+                                      ((PERIPH) == TIM12)|| \
+                                      ((PERIPH) == TIM15))                                    
+
+/* LIST8: TIM 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 14, 15, 16 and 17 */                                        
+#define IS_TIM_LIST8_PERIPH(PERIPH)  (((PERIPH) == TIM1) || \
+                                      ((PERIPH) == TIM2) || \
+                                      ((PERIPH) == TIM3) || \
+                                      ((PERIPH) == TIM4) || \
+                                      ((PERIPH) == TIM5) || \
+                                      ((PERIPH) == TIM8) || \
+                                      ((PERIPH) == TIM9) || \
+                                      ((PERIPH) == TIM10)|| \
+                                      ((PERIPH) == TIM11)|| \
+                                      ((PERIPH) == TIM12)|| \
+                                      ((PERIPH) == TIM13)|| \
+                                      ((PERIPH) == TIM14)|| \
+                                      ((PERIPH) == TIM15)|| \
+                                      ((PERIPH) == TIM16)|| \
+                                      ((PERIPH) == TIM17))
+
+/* LIST9: TIM 1, 2, 3, 4, 5, 6, 7, 8, 15, 16, and 17 */
+#define IS_TIM_LIST9_PERIPH(PERIPH)  (((PERIPH) == TIM1) || \
+                                      ((PERIPH) == TIM2) || \
+                                      ((PERIPH) == TIM3) || \
+                                      ((PERIPH) == TIM4) || \
+                                      ((PERIPH) == TIM5) || \
+                                      ((PERIPH) == TIM6) || \
+                                      ((PERIPH) == TIM7) || \
+                                      ((PERIPH) == TIM8) || \
+                                      ((PERIPH) == TIM15)|| \
+                                      ((PERIPH) == TIM16)|| \
+                                      ((PERIPH) == TIM17))  
+                                                                                                                                                                                                                          
 /**
   * @}
   */ 
@@ -485,8 +551,12 @@ typedef struct
 
 #define  TIM_ICPolarity_Rising             ((uint16_t)0x0000)
 #define  TIM_ICPolarity_Falling            ((uint16_t)0x0002)
+#define  TIM_ICPolarity_BothEdge           ((uint16_t)0x000A)
 #define IS_TIM_IC_POLARITY(POLARITY) (((POLARITY) == TIM_ICPolarity_Rising) || \
                                       ((POLARITY) == TIM_ICPolarity_Falling))
+#define IS_TIM_IC_POLARITY_LITE(POLARITY) (((POLARITY) == TIM_ICPolarity_Rising) || \
+                                           ((POLARITY) == TIM_ICPolarity_Falling)|| \
+                                           ((POLARITY) == TIM_ICPolarity_BothEdge))                                      
 /**
   * @}
   */ 

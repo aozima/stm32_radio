@@ -1,11 +1,11 @@
 /**
  ******************************************************************************
- * @file    startup_stm32f10x_cl.s
- * @author  MCD Application Team
- * @version   V3.2.0
- * @date      03/01/2010
- * @brief   STM32F10x Connectivity line Devices vector table for RIDE7 toolchain.
- *          This module performs:
+ * @file      startup_stm32f10x_cl.s
+ * @author    MCD Application Team
+ * @version   V3.4.0
+ * @date      10/15/2010
+ * @brief     STM32F10x Connectivity line Devices vector table for RIDE7 toolchain.
+ *            This module performs:
  *                - Set the initial SP
  *                - Set the initial PC == Reset_Handler,
  *                - Set the vector table entries with the exceptions ISR 
@@ -13,8 +13,8 @@
  *                - Configure the clock system    
  *                - Branches to main in the C library (which eventually
  *                  calls main()).
- *          After Reset the Cortex-M3 processor is in Thread mode,
- *          priority is Privileged, and the Stack is set to Main.
+ *            After Reset the Cortex-M3 processor is in Thread mode,
+ *            priority is Privileged, and the Stack is set to Main.
  *******************************************************************************
  * @copy
  *

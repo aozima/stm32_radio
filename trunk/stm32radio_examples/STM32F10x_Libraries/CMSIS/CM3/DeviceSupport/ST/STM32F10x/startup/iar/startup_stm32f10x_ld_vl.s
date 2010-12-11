@@ -1,8 +1,8 @@
 ;/******************** (C) COPYRIGHT 2010 STMicroelectronics ********************
 ;* File Name          : startup_stm32f10x_ld_vl.s
 ;* Author             : MCD Application Team
-;* Version            : V3.2.0
-;* Date               : 03/01/2010
+;* Version            : V3.4.0
+;* Date               : 10/15/2010
 ;* Description        : STM32F10x Low Density Value Line Devices vector table 
 ;*                      for EWARM5.x toolchain.
 ;*                      This module performs:

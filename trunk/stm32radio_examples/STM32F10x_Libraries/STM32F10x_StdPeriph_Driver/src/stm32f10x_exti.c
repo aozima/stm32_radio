@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f10x_exti.c
   * @author  MCD Application Team
-  * @version V3.2.0
-  * @date    03/01/2010
+  * @version V3.4.0
+  * @date    10/15/2010
   * @brief   This file provides all the EXTI firmware functions.
   ******************************************************************************
   * @copy
@@ -42,7 +42,7 @@
   * @{
   */
 
-#define EXTI_LineNone    ((uint32_t)0x00000)  /* No interrupt selected */
+#define EXTI_LINENONE    ((uint32_t)0x00000)  /* No interrupt selected */
 
 /**
   * @}
@@ -155,7 +155,7 @@ void EXTI_Init(EXTI_InitTypeDef* EXTI_InitStruct)
   */
 void EXTI_StructInit(EXTI_InitTypeDef* EXTI_InitStruct)
 {
-  EXTI_InitStruct->EXTI_Line = EXTI_LineNone;
+  EXTI_InitStruct->EXTI_Line = EXTI_LINENONE;
   EXTI_InitStruct->EXTI_Mode = EXTI_Mode_Interrupt;
   EXTI_InitStruct->EXTI_Trigger = EXTI_Trigger_Falling;
   EXTI_InitStruct->EXTI_LineCmd = DISABLE;

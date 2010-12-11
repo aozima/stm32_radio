@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f10x_dac.h
   * @author  MCD Application Team
-  * @version V3.2.0
-  * @date    03/01/2010
+  * @version V3.4.0
+  * @date    10/15/2010
   * @brief   This file contains all the functions prototypes for the DAC firmware 
   *          library.
   ******************************************************************************
@@ -234,7 +234,7 @@ typedef struct
 /**
   * @}
   */
-#if defined (STM32F10X_LD_VL) || defined (STM32F10X_MD_VL)  
+#if defined (STM32F10X_LD_VL) || defined (STM32F10X_MD_VL)  || defined (STM32F10X_HD_VL)
 /** @defgroup DAC_interrupts_definition 
   * @{
   */ 
@@ -278,7 +278,7 @@ void DAC_DeInit(void);
 void DAC_Init(uint32_t DAC_Channel, DAC_InitTypeDef* DAC_InitStruct);
 void DAC_StructInit(DAC_InitTypeDef* DAC_InitStruct);
 void DAC_Cmd(uint32_t DAC_Channel, FunctionalState NewState);
-#if defined (STM32F10X_LD_VL) || defined (STM32F10X_MD_VL)  
+#if defined (STM32F10X_LD_VL) || defined (STM32F10X_MD_VL) || defined (STM32F10X_HD_VL)
 void DAC_ITConfig(uint32_t DAC_Channel, uint32_t DAC_IT, FunctionalState NewState);
 #endif
 void DAC_DMACmd(uint32_t DAC_Channel, FunctionalState NewState);
@@ -289,7 +289,7 @@ void DAC_SetChannel1Data(uint32_t DAC_Align, uint16_t Data);
 void DAC_SetChannel2Data(uint32_t DAC_Align, uint16_t Data);
 void DAC_SetDualChannelData(uint32_t DAC_Align, uint16_t Data2, uint16_t Data1);
 uint16_t DAC_GetDataOutputValue(uint32_t DAC_Channel);
-#if defined (STM32F10X_LD_VL) || defined (STM32F10X_MD_VL)  
+#if defined (STM32F10X_LD_VL) || defined (STM32F10X_MD_VL) || defined (STM32F10X_HD_VL) 
 FlagStatus DAC_GetFlagStatus(uint32_t DAC_Channel, uint32_t DAC_FLAG);
 void DAC_ClearFlag(uint32_t DAC_Channel, uint32_t DAC_FLAG);
 ITStatus DAC_GetITStatus(uint32_t DAC_Channel, uint32_t DAC_IT);

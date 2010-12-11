@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f10x_dbgmcu.h
   * @author  MCD Application Team
-  * @version V3.2.0
-  * @date    03/01/2010
+  * @version V3.4.0
+  * @date    10/15/2010
   * @brief   This file contains all the functions prototypes for the DBGMCU 
   *          firmware library.
   ******************************************************************************
@@ -70,8 +70,14 @@
 #define DBGMCU_TIM15_STOP            ((uint32_t)0x00400000)
 #define DBGMCU_TIM16_STOP            ((uint32_t)0x00800000)
 #define DBGMCU_TIM17_STOP            ((uint32_t)0x01000000)
-                                                
-#define IS_DBGMCU_PERIPH(PERIPH) ((((PERIPH) & 0xFE0000F8) == 0x00) && ((PERIPH) != 0x00))
+#define DBGMCU_TIM12_STOP            ((uint32_t)0x02000000)
+#define DBGMCU_TIM13_STOP            ((uint32_t)0x04000000)
+#define DBGMCU_TIM14_STOP            ((uint32_t)0x08000000)
+#define DBGMCU_TIM9_STOP             ((uint32_t)0x10000000)
+#define DBGMCU_TIM10_STOP            ((uint32_t)0x20000000)
+#define DBGMCU_TIM11_STOP            ((uint32_t)0x40000000)
+                                              
+#define IS_DBGMCU_PERIPH(PERIPH) ((((PERIPH) & 0x800000F8) == 0x00) && ((PERIPH) != 0x00))
 /**
   * @}
   */ 

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f10x_usart.c
   * @author  MCD Application Team
-  * @version V3.2.0
-  * @date    03/01/2010
+  * @version V3.4.0
+  * @date    10/15/2010
   * @brief   This file provides all the USART firmware functions.
   ******************************************************************************
   * @copy
@@ -431,20 +431,21 @@ void USART_ITConfig(USART_TypeDef* USARTx, uint16_t USART_IT, FunctionalState Ne
   * @brief  Enables or disables the USART’s DMA interface.
   * @param  USARTx: Select the USART or the UART peripheral. 
   *   This parameter can be one of the following values:
-  *   USART1, USART2, USART3 or UART4.  
+  *   USART1, USART2, USART3, UART4 or UART5.
   * @param  USART_DMAReq: specifies the DMA request.
   *   This parameter can be any combination of the following values:
   *     @arg USART_DMAReq_Tx: USART DMA transmit request
   *     @arg USART_DMAReq_Rx: USART DMA receive request
   * @param  NewState: new state of the DMA Request sources.
   *   This parameter can be: ENABLE or DISABLE.
-  * @note The DMA mode is not available for UART5.  
+  * @note The DMA mode is not available for UART5 except in the STM32
+  *       High density value line devices(STM32F10X_HD_VL).  
   * @retval None
   */
 void USART_DMACmd(USART_TypeDef* USARTx, uint16_t USART_DMAReq, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert_param(IS_USART_1234_PERIPH(USARTx));
+  assert_param(IS_USART_ALL_PERIPH(USARTx));
   assert_param(IS_USART_DMAREQ(USART_DMAReq));  
   assert_param(IS_FUNCTIONAL_STATE(NewState)); 
   if (NewState != DISABLE)

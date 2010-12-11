@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f10x_dbgmcu.c
   * @author  MCD Application Team
-  * @version V3.2.0
-  * @date    03/01/2010
+  * @version V3.4.0
+  * @date    10/15/2010
   * @brief   This file provides all the DBGMCU firmware functions.
   ******************************************************************************
   * @copy
@@ -42,7 +42,7 @@
   * @{
   */
 
-#define IDCODE_DEVID_Mask    ((uint32_t)0x00000FFF)
+#define IDCODE_DEVID_MASK    ((uint32_t)0x00000FFF)
 /**
   * @}
   */
@@ -92,7 +92,7 @@ uint32_t DBGMCU_GetREVID(void)
   */
 uint32_t DBGMCU_GetDEVID(void)
 {
-   return(DBGMCU->IDCODE & IDCODE_DEVID_Mask);
+   return(DBGMCU->IDCODE & IDCODE_DEVID_MASK);
 }
 
 /**
@@ -120,6 +120,12 @@ uint32_t DBGMCU_GetDEVID(void)
   *     @arg DBGMCU_TIM15_STOP: TIM15 counter stopped when Core is halted
   *     @arg DBGMCU_TIM16_STOP: TIM16 counter stopped when Core is halted
   *     @arg DBGMCU_TIM17_STOP: TIM17 counter stopped when Core is halted                
+  *     @arg DBGMCU_TIM9_STOP: TIM9 counter stopped when Core is halted
+  *     @arg DBGMCU_TIM10_STOP: TIM10 counter stopped when Core is halted
+  *     @arg DBGMCU_TIM11_STOP: TIM11 counter stopped when Core is halted
+  *     @arg DBGMCU_TIM12_STOP: TIM12 counter stopped when Core is halted
+  *     @arg DBGMCU_TIM13_STOP: TIM13 counter stopped when Core is halted
+  *     @arg DBGMCU_TIM14_STOP: TIM14 counter stopped when Core is halted
   * @param  NewState: new state of the specified peripheral in Debug mode.
   *   This parameter can be: ENABLE or DISABLE.
   * @retval None

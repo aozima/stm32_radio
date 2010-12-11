@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f10x_crc.c
   * @author  MCD Application Team
-  * @version V3.2.0
-  * @date    03/01/2010
+  * @version V3.4.0
+  * @date    10/15/2010
   * @brief   This file provides all the CRC firmware functions.
   ******************************************************************************
   * @copy
@@ -41,10 +41,6 @@
 /** @defgroup CRC_Private_Defines
   * @{
   */
-
-/* CR register bit mask */
-
-#define CR_RESET_Set    ((uint32_t)0x00000001)
 
 /**
   * @}
@@ -86,7 +82,7 @@
 void CRC_ResetDR(void)
 {
   /* Reset CRC generator */
-  CRC->CR = CR_RESET_Set;
+  CRC->CR = CRC_CR_RESET;
 }
 
 /**

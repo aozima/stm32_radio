@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f10x_dac.c
   * @author  MCD Application Team
-  * @version V3.2.0
-  * @date    03/01/2010
+  * @version V3.4.0
+  * @date    10/15/2010
   * @brief   This file provides all the DAC firmware functions.
   ******************************************************************************
   * @copy
@@ -43,29 +43,20 @@
   * @{
   */
 
-/* DAC EN mask */
-#define CR_EN_Set                  ((uint32_t)0x00000001)
-
-/* DAC DMAEN mask */
-#define CR_DMAEN_Set               ((uint32_t)0x00001000)
-
 /* CR register Mask */
-#define CR_CLEAR_Mask              ((uint32_t)0x00000FFE)
-
-/* DAC SWTRIG mask */
-#define SWTRIGR_SWTRIG_Set         ((uint32_t)0x00000001)
+#define CR_CLEAR_MASK              ((uint32_t)0x00000FFE)
 
 /* DAC Dual Channels SWTRIG masks */
-#define DUAL_SWTRIG_Set            ((uint32_t)0x00000003)
-#define DUAL_SWTRIG_Reset          ((uint32_t)0xFFFFFFFC)
+#define DUAL_SWTRIG_SET            ((uint32_t)0x00000003)
+#define DUAL_SWTRIG_RESET          ((uint32_t)0xFFFFFFFC)
 
 /* DHR registers offsets */
-#define DHR12R1_Offset             ((uint32_t)0x00000008)
-#define DHR12R2_Offset             ((uint32_t)0x00000014)
-#define DHR12RD_Offset             ((uint32_t)0x00000020)
+#define DHR12R1_OFFSET             ((uint32_t)0x00000008)
+#define DHR12R2_OFFSET             ((uint32_t)0x00000014)
+#define DHR12RD_OFFSET             ((uint32_t)0x00000020)
 
 /* DOR register offset */
-#define DOR_Offset                 ((uint32_t)0x0000002C)
+#define DOR_OFFSET                 ((uint32_t)0x0000002C)
 /**
   * @}
   */
@@ -134,7 +125,7 @@ void DAC_Init(uint32_t DAC_Channel, DAC_InitTypeDef* DAC_InitStruct)
   /* Get the DAC CR value */
   tmpreg1 = DAC->CR;
   /* Clear BOFFx, TENx, TSELx, WAVEx and MAMPx bits */
-  tmpreg1 &= ~(CR_CLEAR_Mask << DAC_Channel);
+  tmpreg1 &= ~(CR_CLEAR_MASK << DAC_Channel);
   /* Configure for the selected DAC channel: buffer output, trigger, wave genration,
      mask/amplitude for wave genration */
   /* Set TSELx and TENx bits according to DAC_Trigger value */
@@ -186,15 +177,15 @@ void DAC_Cmd(uint32_t DAC_Channel, FunctionalState NewState)
   if (NewState != DISABLE)
   {
     /* Enable the selected DAC channel */
-    DAC->CR |= CR_EN_Set << DAC_Channel;
+    DAC->CR |= (DAC_CR_EN1 << DAC_Channel);
   }
   else
   {
     /* Disable the selected DAC channel */
-    DAC->CR &= ~(CR_EN_Set << DAC_Channel);
+    DAC->CR &= ~(DAC_CR_EN1 << DAC_Channel);
   }
 }
-#if defined (STM32F10X_LD_VL) || defined (STM32F10X_MD_VL)
+#if defined (STM32F10X_LD_VL) || defined (STM32F10X_MD_VL) || defined (STM32F10X_HD_VL)
 /**
   * @brief  Enables or disables the specified DAC interrupts.
   * @param  DAC_Channel: the selected DAC channel. 
@@ -246,12 +237,12 @@ void DAC_DMACmd(uint32_t DAC_Channel, FunctionalState NewState)
   if (NewState != DISABLE)
   {
     /* Enable the selected DAC channel DMA request */
-    DAC->CR |= CR_DMAEN_Set << DAC_Channel;
+    DAC->CR |= (DAC_CR_DMAEN1 << DAC_Channel);
   }
   else
   {
     /* Disable the selected DAC channel DMA request */
-    DAC->CR &= ~(CR_DMAEN_Set << DAC_Channel);
+    DAC->CR &= ~(DAC_CR_DMAEN1 << DAC_Channel);
   }
 }
 
@@ -273,12 +264,12 @@ void DAC_SoftwareTriggerCmd(uint32_t DAC_Channel, FunctionalState NewState)
   if (NewState != DISABLE)
   {
     /* Enable software trigger for the selected DAC channel */
-    DAC->SWTRIGR |= SWTRIGR_SWTRIG_Set << (DAC_Channel >> 4);
+    DAC->SWTRIGR |= (uint32_t)DAC_SWTRIGR_SWTRIG1 << (DAC_Channel >> 4);
   }
   else
   {
     /* Disable software trigger for the selected DAC channel */
-    DAC->SWTRIGR &= ~(SWTRIGR_SWTRIG_Set << (DAC_Channel >> 4));
+    DAC->SWTRIGR &= ~((uint32_t)DAC_SWTRIGR_SWTRIG1 << (DAC_Channel >> 4));
   }
 }
 
@@ -296,12 +287,12 @@ void DAC_DualSoftwareTriggerCmd(FunctionalState NewState)
   if (NewState != DISABLE)
   {
     /* Enable software trigger for both DAC channels */
-    DAC->SWTRIGR |= DUAL_SWTRIG_Set ;
+    DAC->SWTRIGR |= DUAL_SWTRIG_SET ;
   }
   else
   {
     /* Disable software trigger for both DAC channels */
-    DAC->SWTRIGR &= DUAL_SWTRIG_Reset;
+    DAC->SWTRIGR &= DUAL_SWTRIG_RESET;
   }
 }
 
@@ -356,7 +347,7 @@ void DAC_SetChannel1Data(uint32_t DAC_Align, uint16_t Data)
   assert_param(IS_DAC_DATA(Data));
   
   tmp = (uint32_t)DAC_BASE; 
-  tmp += DHR12R1_Offset + DAC_Align;
+  tmp += DHR12R1_OFFSET + DAC_Align;
 
   /* Set the DAC channel1 selected data holding register */
   *(__IO uint32_t *) tmp = Data;
@@ -381,7 +372,7 @@ void DAC_SetChannel2Data(uint32_t DAC_Align, uint16_t Data)
   assert_param(IS_DAC_DATA(Data));
   
   tmp = (uint32_t)DAC_BASE;
-  tmp += DHR12R2_Offset + DAC_Align;
+  tmp += DHR12R2_OFFSET + DAC_Align;
 
   /* Set the DAC channel2 selected data holding register */
   *(__IO uint32_t *)tmp = Data;
@@ -421,7 +412,7 @@ void DAC_SetDualChannelData(uint32_t DAC_Align, uint16_t Data2, uint16_t Data1)
   }
   
   tmp = (uint32_t)DAC_BASE;
-  tmp += DHR12RD_Offset + DAC_Align;
+  tmp += DHR12RD_OFFSET + DAC_Align;
 
   /* Set the dual DAC selected data holding register */
   *(__IO uint32_t *)tmp = data;
@@ -443,13 +434,13 @@ uint16_t DAC_GetDataOutputValue(uint32_t DAC_Channel)
   assert_param(IS_DAC_CHANNEL(DAC_Channel));
   
   tmp = (uint32_t) DAC_BASE ;
-  tmp += DOR_Offset + ((uint32_t)DAC_Channel >> 2);
+  tmp += DOR_OFFSET + ((uint32_t)DAC_Channel >> 2);
   
   /* Returns the DAC channel data output register value */
   return (uint16_t) (*(__IO uint32_t*) tmp);
 }
 
-#if defined (STM32F10X_LD_VL) || defined (STM32F10X_MD_VL)
+#if defined (STM32F10X_LD_VL) || defined (STM32F10X_MD_VL) || defined (STM32F10X_HD_VL)
 /**
   * @brief  Checks whether the specified DAC flag is set or not.
   * @param  DAC_Channel: thee selected DAC channel. 

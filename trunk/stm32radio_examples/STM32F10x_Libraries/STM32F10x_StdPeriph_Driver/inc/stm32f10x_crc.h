@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f10x_crc.h
   * @author  MCD Application Team
-  * @version V3.2.0
-  * @date    03/01/2010
+  * @version V3.4.0
+  * @date    10/15/2010
   * @brief   This file contains all the functions prototypes for the CRC firmware 
   *          library.
   ******************************************************************************
