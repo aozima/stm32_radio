@@ -84,7 +84,7 @@ def _make_path_relative(origin, dest):
         return os.path.join(*segments)
 
 def MDKProject(target, script):
-    template = file(RTT_ROOT + '/scons_script/template.uV2', "rb")
+    template = file(RTT_ROOT + '/scons_script/template.Uv2', "rb")
     lines = template.readlines()
 
     project = file(target, "wb")
