@@ -69,9 +69,16 @@
 
 /* SECTION: device filesystem */
 #define RT_USING_DFS
+/* #define RT_USING_DFS_EFSL */
+/* byte alignment for EFSL */
+#define BYTE_ALIGNMENT
+
 #define RT_USING_DFS_ELMFAT
 #define RT_DFS_ELM_WORD_ACCESS
 #define RT_DFS_ELM_DRIVES			2
+#define RT_DFS_ELM_USE_LFN			0
+#define RT_DFS_ELM_MAX_LFN			255
+#define RT_DFS_ELM_MAX_SECTOR_SIZE  4096
 
 /* SECTION: DFS options */
 /* the max number of mounted filesystem */
