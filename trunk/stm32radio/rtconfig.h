@@ -83,8 +83,9 @@
 
 #define RT_USING_DFS_ELMFAT
 #define RT_DFS_ELM_WORD_ACCESS
+#define RT_DFS_ELM_REENTRANT        1
 #define RT_DFS_ELM_DRIVES			2
-#define RT_DFS_ELM_USE_LFN			1
+#define RT_DFS_ELM_USE_LFN			2
 #define RT_DFS_ELM_MAX_LFN			255
 #define RT_DFS_ELM_MAX_SECTOR_SIZE  4096
 

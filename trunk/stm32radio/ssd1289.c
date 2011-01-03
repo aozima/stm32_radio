@@ -315,7 +315,7 @@ void ssd1289_init(void)
     //数据总线测试,用于测试硬件连接是否正常.
     lcd_data_bus_test();
     //GRAM测试,此测试可以测试LCD控制器内部GRAM.测试通过保证硬件正常
-    lcd_gram_test();
+//    lcd_gram_test();
 
     //清屏
     lcd_clear( Blue );

@@ -374,7 +374,7 @@ void update_radio_list_view_init(rtgui_workbench_t* workbench)
         RT_ASSERT(update_radio_mq != RT_NULL);
 
         update_radio_list_thread = rt_thread_create("update_bg", update_radio_thread, RT_NULL,
-                                   1024 ,20, 5);
+                                   2048 ,20, 5);
 
         if (update_radio_list_thread == RT_NULL) rt_kprintf("updateRadioList thread init failed\n");
         else

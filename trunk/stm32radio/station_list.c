@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <string.h>
 #include <dfs_posix.h>
 #include "station_list.h"

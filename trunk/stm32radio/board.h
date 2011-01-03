@@ -51,7 +51,10 @@
 // 	<i>Default: 1
 #define LCD_VERSION             3
 
-// <o> LCD backlight: <0=>NO <1=>PB9 TIM4_CH4 <2=>PB6 TIM4_CH1
+// <o> LCD backlight:
+// <0=>NO
+// <1=>PB9 TIM4_CH4 ( Version: V0.* V3.0 V3.1 )
+// <2=>PB6 TIM4_CH1 ( Version: V4 )
 // 	<i>Default: 1
 #define LCD_USE_PWM             2
 

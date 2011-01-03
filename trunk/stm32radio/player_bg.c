@@ -9,7 +9,7 @@
 rt_bool_t is_playing = RT_FALSE;
 static rt_mq_t player_thread_mq;
 static struct rt_thread	player_thread_tid;
-static rt_uint8_t player_thread_stack[0x400];
+static rt_uint8_t player_thread_stack[0x800];
 
 rt_bool_t player_is_playing()
 {
@@ -116,7 +116,7 @@ void player_init()
 	RT_ASSERT(player_thread_mq != RT_NULL);
 
 	result = rt_thread_init(&player_thread_tid, "ply_bg", player_thread, RT_NULL,
-		player_thread_stack, sizeof(player_thread_stack), 
+		player_thread_stack, sizeof(player_thread_stack),
 		13, 5);
 
 	if (result != RT_EOK) rt_kprintf("player thread init failed\n");
