@@ -154,11 +154,11 @@ void rt_dm9000_isr()
     last_io = DM9000_IO;
 
     /* Disable all interrupts */
-    dm9000_io_write(DM9000_IMR, IMR_PAR);
+    // dm9000_io_write(DM9000_IMR, IMR_PAR);
 
     /* Got DM9000 interrupt status */
-    int_status = dm9000_io_read(DM9000_ISR);               /* Got ISR */
-    dm9000_io_write(DM9000_ISR, int_status);    /* Clear ISR status */
+    int_status = dm9000_io_read(DM9000_ISR);		/* Got ISR */
+    dm9000_io_write(DM9000_ISR, int_status);    	/* Clear ISR status */
 
     DM9000_TRACE("dm9000 isr: int status %04x\n", int_status);
 
@@ -177,7 +177,9 @@ void rt_dm9000_isr()
     if (int_status & ISR_PRS)
     {
         /* disable receive interrupt */
+		dm9000_io_write(DM9000_IMR, IMR_PAR);
         dm9000_device.imr_all = IMR_PAR | IMR_PTM;
+		dm9000_io_write(DM9000_IMR, dm9000_device.imr_all);
 
         /* a frame has been received */
         eth_device_ready(&(dm9000_device.parent));
@@ -211,7 +213,7 @@ void rt_dm9000_isr()
     }
 
     /* Re-enable interrupt mask */
-    dm9000_io_write(DM9000_IMR, dm9000_device.imr_all);
+    // dm9000_io_write(DM9000_IMR, dm9000_device.imr_all);
 
     DM9000_IO = last_io;
 }
@@ -498,7 +500,6 @@ __error_retry:
                     len -= 2;
                 }
             }
-            DM9000_TRACE("\n");
         }
         else
         {
@@ -550,6 +551,9 @@ __error_retry:
     }
     else
     {
+		/* clear packet received latch status */
+	    dm9000_io_write(DM9000_ISR, ISR_PTS);
+
         /* restore receive interrupt */
         dm9000_device.imr_all = IMR_PAR | IMR_PTM | IMR_PRM;
         dm9000_io_write(DM9000_IMR, dm9000_device.imr_all);
@@ -674,6 +678,7 @@ static void FSMC_Configuration()
 	FSMC_NORSRAMInitStructure.FSMC_MemoryType = FSMC_MemoryType_SRAM;
 	FSMC_NORSRAMInitStructure.FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_16b;
 	FSMC_NORSRAMInitStructure.FSMC_BurstAccessMode = FSMC_BurstAccessMode_Disable;
+	FSMC_NORSRAMInitStructure.FSMC_AsynchronousWait = FSMC_AsynchronousWait_Disable;
 	FSMC_NORSRAMInitStructure.FSMC_WaitSignalPolarity = FSMC_WaitSignalPolarity_Low;
 	FSMC_NORSRAMInitStructure.FSMC_WrapMode = FSMC_WrapMode_Disable;
 	FSMC_NORSRAMInitStructure.FSMC_WaitSignalActive = FSMC_WaitSignalActive_BeforeWaitState;
@@ -689,6 +694,7 @@ static void FSMC_Configuration()
 	/* Enable FSMC Bank1_SRAM Bank4 */
 	FSMC_NORSRAMCmd(FSMC_Bank1_NORSRAM4, ENABLE);
 }
+
 void rt_hw_dm9000_init(void)
 {
     RCC_Configuration();
@@ -725,7 +731,7 @@ void rt_hw_dm9000_init(void)
     dm9000_device.parent.parent.read       = rt_dm9000_read;
     dm9000_device.parent.parent.write      = rt_dm9000_write;
     dm9000_device.parent.parent.control    = rt_dm9000_control;
-    dm9000_device.parent.parent.private    = RT_NULL;
+    dm9000_device.parent.parent.user_data    = RT_NULL;
 
     dm9000_device.parent.eth_rx     = rt_dm9000_rx;
     dm9000_device.parent.eth_tx     = rt_dm9000_tx;

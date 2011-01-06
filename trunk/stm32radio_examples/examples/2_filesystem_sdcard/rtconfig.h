@@ -82,8 +82,12 @@
 #define BYTE_ALIGNMENT
 
 #define RT_USING_DFS_ELMFAT
+#define RT_DFS_ELM_REENTRANT        1
 #define RT_DFS_ELM_WORD_ACCESS
 #define RT_DFS_ELM_DRIVES			2
+#define RT_DFS_ELM_USE_LFN			0
+#define RT_DFS_ELM_MAX_LFN			255
+#define RT_DFS_ELM_MAX_SECTOR_SIZE  2048
 
 /* SECTION: DFS options */
 /* the max number of mounted filesystem */

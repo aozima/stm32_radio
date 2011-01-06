@@ -19,6 +19,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
+#include <stdbool.h>
 #include "sdcard.h"
 #include <rtthread.h>
 
@@ -191,7 +192,7 @@ SD_Error SD_PowerON(void)
 {
   SD_Error errorstatus = SD_OK;
   uint32_t response = 0, count = 0, i = 0;
-  bool validvoltage = FALSE;
+  bool validvoltage = false;
   uint32_t SDType = SD_STD_CAPACITY;
 
   /* Power ON Sequence -------------------------------------------------------*/
@@ -3029,7 +3030,7 @@ static rt_err_t rt_sdcard_close(rt_device_t dev)
 static rt_size_t rt_sdcard_read(rt_device_t dev, rt_off_t pos, void* buffer, rt_size_t size)
 {
 	SD_Error status;
-	rt_uint32_t nr = size / SECTOR_SIZE, retry;
+	rt_uint32_t nr = size, retry;
 
 	rt_sem_take(&sd_lock, RT_WAITING_FOREVER);
 
@@ -3045,7 +3046,7 @@ static rt_size_t rt_sdcard_read(rt_device_t dev, rt_off_t pos, void* buffer, rt_
             /* which is not alignment with 4 or chip SRAM */
             for (index = 0; index < nr; index ++)
             {
-                status = SD_ReadBlock((part.offset + index) * SECTOR_SIZE + pos,
+                status = SD_ReadBlock((part.offset + index) * SECTOR_SIZE + pos*SECTOR_SIZE,
                     (uint32_t*)_sdcard_buffer, SECTOR_SIZE);
 
                 if (status != SD_OK) break;
@@ -3058,12 +3059,12 @@ static rt_size_t rt_sdcard_read(rt_device_t dev, rt_off_t pos, void* buffer, rt_
         {
             if (nr == 1)
             {
-                status = SD_ReadBlock(part.offset * SECTOR_SIZE + pos,
+                status = SD_ReadBlock(part.offset * SECTOR_SIZE + pos*SECTOR_SIZE,
                     (uint32_t*)buffer, SECTOR_SIZE);
             }
             else
             {
-                status = SD_ReadMultiBlocks(part.offset * SECTOR_SIZE + pos,
+                status = SD_ReadMultiBlocks(part.offset * SECTOR_SIZE + pos*SECTOR_SIZE,
                     (uint32_t*)buffer, SECTOR_SIZE, nr);
             }
         }
@@ -3083,7 +3084,7 @@ static rt_size_t rt_sdcard_read(rt_device_t dev, rt_off_t pos, void* buffer, rt_
 static rt_size_t rt_sdcard_write (rt_device_t dev, rt_off_t pos, const void* buffer, rt_size_t size)
 {
 	SD_Error status;
-	rt_uint32_t nr = size / SECTOR_SIZE;
+	rt_uint32_t nr = size;
 
 	rt_sem_take(&sd_lock, RT_WAITING_FOREVER);
 
@@ -3099,7 +3100,7 @@ static rt_size_t rt_sdcard_write (rt_device_t dev, rt_off_t pos, const void* buf
             /* copy to the buffer */
             rt_memcpy(_sdcard_buffer, ((rt_uint8_t*)buffer + index * SECTOR_SIZE), SECTOR_SIZE);
 
-            status = SD_WriteBlock((part.offset + index) * SECTOR_SIZE + pos,
+            status = SD_WriteBlock((part.offset + index) * SECTOR_SIZE + pos*SECTOR_SIZE,
                 (uint32_t*)_sdcard_buffer, SECTOR_SIZE);
 
             if (status != SD_OK) break;
@@ -3109,12 +3110,12 @@ static rt_size_t rt_sdcard_write (rt_device_t dev, rt_off_t pos, const void* buf
 	{
         if (nr == 1)
         {
-            status = SD_WriteBlock(part.offset * SECTOR_SIZE + pos,
+            status = SD_WriteBlock(part.offset * SECTOR_SIZE + pos*SECTOR_SIZE,
                 (uint32_t*)buffer, SECTOR_SIZE);
         }
         else
         {
-            status = SD_WriteMultiBlocks(part.offset * SECTOR_SIZE + pos,
+            status = SD_WriteMultiBlocks(part.offset * SECTOR_SIZE + pos*SECTOR_SIZE,
                 (uint32_t*)buffer, SECTOR_SIZE, nr);
         }
 	}
@@ -3203,7 +3204,7 @@ void rt_hw_sdcard_init()
 		sdcard_device.control = rt_sdcard_control;
 
 		/* no private */
-		sdcard_device.private = &SDCardInfo;
+		sdcard_device.user_data = &SDCardInfo;
 
 		rt_device_register(&sdcard_device, "sd0",
 			RT_DEVICE_FLAG_RDWR | RT_DEVICE_FLAG_REMOVABLE | RT_DEVICE_FLAG_STANDALONE);

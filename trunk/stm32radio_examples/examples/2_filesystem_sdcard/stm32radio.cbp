@@ -38,7 +38,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="board.h" />
-		<Unit filename="led.h" />
+		<Unit filename="fs_test.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="rtconfig.h" />
 		<Unit filename="sdcard.c">
 			<Option compilerVar="CC" />
@@ -56,6 +58,25 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="usart.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\include\dfs.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\include\dfs_def.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\include\dfs_elm.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\include\dfs_file.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\include\dfs_fs.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\include\dfs_init.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\include\dfs_posix.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\src\dfs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\dfs\src\dfs_file.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\dfs\src\dfs_fs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\dfs\src\dfs_posix.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="..\..\rt-thread\include\rtdef.h" />
 		<Unit filename="..\..\rt-thread\include\rthw.h" />
 		<Unit filename="..\..\rt-thread\include\rtthread.h" />

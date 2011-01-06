@@ -1,7 +1,7 @@
 /*
  * File      : board.c
  * This file is part of RT-Thread RTOS
- * COPYRIGHT (C) 2009 RT-Thread Develop Team
+ * COPYRIGHT (C) 2006 - 2009 RT-Thread Develop Team
  *
  * The license and distribution terms for this file may be
  * found in the file LICENSE in this distribution or at
@@ -9,15 +9,16 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2009-01-05     Bernard      first implementation
+ * 2006-08-23     Bernard      first implementation
  */
 
 #include <rthw.h>
 #include <rtthread.h>
 
-#include "board.h"
 #include "stm32f10x.h"
-#include "stm32f10x_spi.h"
+#include "board.h"
+
+struct rt_semaphore spi1_lock;
 
 /**
  * @addtogroup STM32
@@ -25,6 +26,30 @@
 
 /*@{*/
 
+static void delay(void)
+{
+    volatile unsigned int dl;
+    for(dl=0; dl<2500000; dl++);
+}
+
+/*******************************************************************************
+* Function Name  : NVIC_Configuration
+* Description    : Configures Vector Table base location.
+* Input          : None
+* Output         : None
+* Return         : None
+*******************************************************************************/
+void NVIC_Configuration(void)
+{
+    /*
+     * set priority group:
+     * 2 bits for pre-emption priority
+     * 2 bits for subpriority
+     */
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+}
+
+extern void rt_hw_interrupt_thread_switch(void);
 /**
  * This is the timer interrupt service routine.
  *
@@ -40,11 +65,8 @@ void rt_hw_timer_handler(void)
     rt_interrupt_leave();
 }
 
-static void delay(void)
-{
-    volatile unsigned int dl;
-    for(dl=0; dl<2500000; dl++);
-}
+/* NAND Flash */
+#include "fsmc_nand.h"
 
 static void all_device_reset(void)
 {
@@ -61,7 +83,7 @@ static void all_device_reset(void)
     /* TOUCH            PC4  */
 
     GPIO_InitTypeDef GPIO_InitStructure;
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOE
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB | RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOE
                            | RCC_APB2Periph_GPIOF | RCC_APB2Periph_GPIOG,ENABLE);
 
     GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;
@@ -93,6 +115,21 @@ static void all_device_reset(void)
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
     GPIO_Init(GPIOF,&GPIO_InitStructure);
     GPIO_ResetBits(GPIOF,GPIO_Pin_10);
+
+    /* LCD brightness */
+#if ( LCD_USE_PWM == 0 )
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+    GPIO_Init(GPIOF,&GPIO_InitStructure);
+    GPIO_ResetBits(GPIOF,GPIO_Pin_9); /* LCD brightness power off */
+#elif ( LCD_USE_PWM == 1 )
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+    GPIO_Init(GPIOB,&GPIO_InitStructure);
+    GPIO_ResetBits(GPIOB,GPIO_Pin_9); /* LCD brightness power off */
+#elif ( LCD_USE_PWM == 2 )
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+    GPIO_Init(GPIOB,&GPIO_InitStructure);
+    GPIO_ResetBits(GPIOB,GPIO_Pin_9); /* LCD brightness power off */
+#endif
 
     /* SPI_FLASH RESET */
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
@@ -175,33 +212,75 @@ static void all_device_reset(void)
 }
 
 /**
- * This function will initial STM32 board.
+ * This function will initial STM32 Radio board.
  */
-void rt_hw_board_init()
+extern void FSMC_SRAM_Init(void);
+void rt_hw_board_init(void)
 {
-    /* 配置系统时钟并启动PLL,让系统工作在72M,此函数由库中提供 */
+    //NAND_IDTypeDef NAND_ID;
+
+    /* Configure the system clocks */
     SystemInit();
 
-	/* 复位所有外设 */
-	all_device_reset();
+    all_device_reset();
 
-    /*
-     * set priority group:
-     * 2 bits for pre-emption priority
-     * 2 bits for subpriority
-     */
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    /* NVIC Configuration */
+    NVIC_Configuration();
 
-    /* 配置systick分频器 */
-    /* SystemCoreClock为系统主时钟 由库中提供,在system_stm32f10x.c中 */
-    /* RT_TICK_PER_SECOND 为系统节拍,由rtconfig.h中定义 */
+    /* Configure the SysTick */
     SysTick_Config( SystemCoreClock / RT_TICK_PER_SECOND );
 
-    /*  初始化串口 */
+    /* Console Initialization*/
     rt_hw_usart_init();
-#ifdef RT_USING_FINSH
+#if STM32_CONSOLE_USART == 1
     rt_console_set_device("uart1");
+#elif STM32_CONSOLE_USART == 2
+    rt_console_set_device("uart2");
+#elif STM32_CONSOLE_USART == 3
+    rt_console_set_device("uart3");
 #endif
+
+    rt_kprintf("\r\n\r\nSystemInit......\r\n");
+
+    // show SN
+    {
+        uint8_t * sn = (uint8_t *)0x1FFFF7E8;
+        uint32_t i;
+
+        rt_kprintf("CPU SN: ");
+        for(i=0;i<12;i++)
+        {
+            rt_kprintf("%02X",*sn++);
+        }
+        rt_kprintf("\r\n");
+    }
+
+    /* SRAM init */
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_FSMC, ENABLE);
+    FSMC_SRAM_Init();
+
+    /* memtest */
+    {
+        unsigned char * p_extram = (unsigned char *)STM32_EXT_SRAM_BEGIN;
+        unsigned int temp;
+
+        rt_kprintf("\r\nmem testing....");
+        for(temp=0; temp<(STM32_EXT_SRAM_END-STM32_EXT_SRAM_BEGIN); temp++)
+        {
+            *p_extram++ = (unsigned char)temp;
+        }
+
+        p_extram = (unsigned char *)STM32_EXT_SRAM_BEGIN;
+        for(temp=0; temp<(STM32_EXT_SRAM_END-STM32_EXT_SRAM_BEGIN); temp++)
+        {
+            if( *p_extram++ != (unsigned char)temp )
+            {
+                rt_kprintf("\rmemtest fail @ %08X\r\nsystem halt!!!!!",(unsigned int)p_extram);
+                while(1);
+            }
+        }
+        rt_kprintf("\rmem test pass!!\r\n");
+    }/* memtest */
 
     /* SPI1 config */
     {
@@ -226,7 +305,7 @@ void rt_hw_board_init()
         SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
         SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
         SPI_InitStructure.SPI_NSS  = SPI_NSS_Soft;
-        SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_16;/* 72M/64=1.125M */
+        SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_64;/* 72M/64=1.125M */
         SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
         SPI_InitStructure.SPI_CRCPolynomial = 7;
 
@@ -236,7 +315,19 @@ void rt_hw_board_init()
         /* Enable SPI_MASTER */
         SPI_Cmd(SPI1, ENABLE);
         SPI_CalculateCRC(SPI1, DISABLE);
+
+        if (rt_sem_init(&spi1_lock, "spi1lock", 1, RT_IPC_FLAG_FIFO) != RT_EOK)
+        {
+            rt_kprintf("init spi1 lock semaphore failed\n");
+        }
     }
+
+}/* rt_hw_board_init */
+
+void rt_hw_spi1_baud_rate(uint16_t SPI_BaudRatePrescaler)
+{
+    SPI1->CR1 &= ~SPI_BaudRatePrescaler_256;
+    SPI1->CR1 |= SPI_BaudRatePrescaler;
 }
 
 /*@}*/

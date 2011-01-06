@@ -26,7 +26,6 @@
 #define BYPP            ((BPP+7)/8)         /* Bytes per pixel                    */
 
 extern void lcd_Initializtion(void);
-extern void lcd_SetCursor(unsigned int x,unsigned int y);
 extern unsigned int lcd_getdeviceid(void);
 
 //#define _ILI_REVERSE_DIRECTION_

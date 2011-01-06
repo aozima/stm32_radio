@@ -633,6 +633,8 @@
 #define CODEC_CMD_EQ			3
 #define CODEC_CMD_3D			4
 
+#define CODEC_VOLUME_MAX		(63)
+
 struct codec_eq_args
 {
 	uint8_t channel;

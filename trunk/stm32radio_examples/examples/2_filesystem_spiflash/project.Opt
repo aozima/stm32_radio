@@ -42,7 +42,7 @@ OPTFFF 1,21,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\sr
 OPTFFF 1,22,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_can.c><stm32f10x_can.c> 
 OPTFFF 1,23,1,0,0,0,0,0,<..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\misc.c><misc.c> 
 OPTFFF 2,24,1,0,0,0,0,0,<..\..\rt-thread\kernel\clock.c><clock.c> 
-OPTFFF 2,25,1,0,0,0,0,0,<..\..\rt-thread\kernel\device.c><device.c> 
+OPTFFF 2,25,1,100663296,0,0,0,0,<..\..\rt-thread\kernel\device.c><device.c> 
 OPTFFF 2,26,1,0,0,0,0,0,<..\..\rt-thread\kernel\idle.c><idle.c> 
 OPTFFF 2,27,1,0,0,0,0,0,<..\..\rt-thread\kernel\ipc.c><ipc.c> 
 OPTFFF 2,28,1,0,0,0,0,0,<..\..\rt-thread\kernel\irq.c><irq.c> 
@@ -70,10 +70,10 @@ OPTFFF 3,49,1,0,0,0,0,0,<..\..\rt-thread\components\finsh\finsh_vm.c><finsh_vm.c
 OPTFFF 3,50,1,0,0,0,0,0,<..\..\rt-thread\components\finsh\shell.c><shell.c> 
 OPTFFF 3,51,1,0,0,0,0,0,<..\..\rt-thread\components\finsh\symbol.c><symbol.c> 
 OPTFFF 4,52,1,0,0,0,0,0,<..\..\rt-thread\components\dfs\src\dfs.c><dfs.c> 
-OPTFFF 4,53,1,0,0,0,0,0,<..\..\rt-thread\components\dfs\src\dfs_fs.c><dfs_fs.c> 
+OPTFFF 4,53,1,251658240,0,0,0,0,<..\..\rt-thread\components\dfs\src\dfs_fs.c><dfs_fs.c> 
 OPTFFF 4,54,1,0,0,0,0,0,<..\..\rt-thread\components\dfs\src\dfs_file.c><dfs_file.c> 
 OPTFFF 4,55,1,0,0,0,0,0,<..\..\rt-thread\components\dfs\src\dfs_posix.c><dfs_posix.c> 
-OPTFFF 4,56,1,0,0,0,0,0,<..\..\rt-thread\components\dfs\filesystems\elmfat\dfs_elm.c><dfs_elm.c> 
+OPTFFF 4,56,1,251658240,0,0,0,0,<..\..\rt-thread\components\dfs\filesystems\elmfat\dfs_elm.c><dfs_elm.c> 
 OPTFFF 4,57,1,0,0,0,0,0,<..\..\rt-thread\components\dfs\filesystems\elmfat\ff.c><ff.c> 
 OPTFFF 5,58,1,0,0,0,0,0,<..\..\rt-thread\libcpu\arm\stm32\cpu.c><cpu.c> 
 OPTFFF 5,59,1,0,0,0,0,0,<..\..\rt-thread\libcpu\arm\stm32\fault.c><fault.c> 
@@ -88,12 +88,11 @@ OPTFFF 6,67,1,0,0,0,0,0,<.\at45dbxx.c><at45dbxx.c>
 OPTFFF 6,68,1,0,0,0,0,0,<.\board.c><board.c> 
 OPTFFF 6,69,1,0,0,0,0,0,<.\spi_flash.c><spi_flash.c> 
 OPTFFF 6,70,1,0,0,0,0,0,<.\sst25vfxx.c><sst25vfxx.c> 
-OPTFFF 6,71,1,0,0,0,0,0,<.\startup.c><startup.c> 
+OPTFFF 6,71,1,1291845634,0,124,140,0,<.\startup.c><startup.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,66,0,0,0,87,0,0,0,183,3,0,0,41,1,0,0 }
 OPTFFF 6,72,1,0,0,0,0,0,<.\stm32f10x_it.c><stm32f10x_it.c> 
 OPTFFF 6,73,1,0,0,0,0,0,<.\system_stm32f10x.c><system_stm32f10x.c> 
 OPTFFF 6,74,1,0,0,0,0,0,<.\usart.c><usart.c> 
 
-ExtF <E:\work\mcu\rt-thread\stm32radio\trunk\stm32radio_examples\examples\2_filesystem_spiflash\board.h> 24,27,0,{ 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,97,3,0,0,248,0,0,0 }
 
 TARGOPT 1, (RT-Thread STM32)
  ADSCLK=8000000
@@ -111,6 +110,10 @@ TARGOPT 1, (RT-Thread STM32)
   OPTKEY 0,(ARMDBGFLAGS)()
   OPTKEY 0,(DLGUARM)((105=-1,-1,-1,-1,0)(106=-1,-1,-1,-1,0)(107=-1,-1,-1,-1,0))
   OPTKEY 0,(JL2CM3)(-U20100214 -O590 -S10 -A0 -C0 -JU1 -JI127.0.0.1 -JP0 -N00("ARM CoreSight SW-DP") -D00(1BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -TB1 -TRE0 -FO27 -FD20000000 -FC800 -FN1 -FF0STM32F10x_512 -FS08000000 -FL080000)
+  OPTBB 0,0,70,1,134278984,0,0,0,0,1,<device_test.c>()()
+  OPTWA 0,1,(filesystem_operation_table)
+  OPTMM 1,0,(0x20003528      )
+  OPTMM 2,0,(0x20004534      )
   OPTDF 0x80
   OPTLE <>
   OPTLC <>

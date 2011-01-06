@@ -430,7 +430,7 @@ void telnet_thread(void* parameter)
     telnet->device.control	= telnet_control;
 
     /* no private */
-    telnet->device.private = RT_NULL;
+    telnet->device.user_data = RT_NULL;
 
 	/* register telnet device */
     rt_device_register(&telnet->device, "telnet",
