@@ -157,8 +157,8 @@ void rt_dm9000_isr()
     // dm9000_io_write(DM9000_IMR, IMR_PAR);
 
     /* Got DM9000 interrupt status */
-    int_status = dm9000_io_read(DM9000_ISR);               /* Got ISR */
-    dm9000_io_write(DM9000_ISR, int_status);    /* Clear ISR status */
+    int_status = dm9000_io_read(DM9000_ISR);		/* Got ISR */
+    dm9000_io_write(DM9000_ISR, int_status);    	/* Clear ISR status */
 
     DM9000_TRACE("dm9000 isr: int status %04x\n", int_status);
 
@@ -177,9 +177,9 @@ void rt_dm9000_isr()
     if (int_status & ISR_PRS)
     {
         /* disable receive interrupt */
-		dm9000_io_write(DM9000_IMR, IMR_PAR);
+        dm9000_io_write(DM9000_IMR, IMR_PAR);
         dm9000_device.imr_all = IMR_PAR | IMR_PTM;
-		dm9000_io_write(DM9000_IMR, dm9000_device.imr_all);
+        dm9000_io_write(DM9000_IMR, dm9000_device.imr_all);
 
         /* a frame has been received */
         eth_device_ready(&(dm9000_device.parent));
@@ -234,11 +234,8 @@ static rt_err_t rt_dm9000_init(rt_device_t dev)
     value |= dm9000_io_read(DM9000_VIDH) << 8;
     value |= dm9000_io_read(DM9000_PIDL) << 16;
     value |= dm9000_io_read(DM9000_PIDH) << 24;
-    if (value == DM9000_ID)
-    {
-        rt_kprintf("dm9000 id: 0x%x\n", value);
-    }
-    else
+    rt_kprintf("dm9000 id: 0x%x\n", value);
+    if (value != DM9000_ID)
     {
         return -RT_ERROR;
     }
@@ -546,13 +543,13 @@ __error_retry:
             if (p != RT_NULL) pbuf_free(p);
             p = RT_NULL;
 
-			goto __error_retry;
+            goto __error_retry;
         }
     }
     else
     {
-		/* clear packet received latch status */
-	    dm9000_io_write(DM9000_ISR, ISR_PTS);
+        /* clear packet received latch status */
+        dm9000_io_write(DM9000_ISR, ISR_PTS);
 
         /* restore receive interrupt */
         dm9000_device.imr_all = IMR_PAR | IMR_PTM | IMR_PRM;
@@ -618,88 +615,89 @@ static void GPIO_Configuration()
 
 static void FSMC_Configuration()
 {
-	FSMC_NORSRAMInitTypeDef FSMC_NORSRAMInitStructure;
-	FSMC_NORSRAMTimingInitTypeDef p;
-	GPIO_InitTypeDef GPIO_InitStructure;
+    FSMC_NORSRAMInitTypeDef FSMC_NORSRAMInitStructure;
+    FSMC_NORSRAMTimingInitTypeDef p;
+    GPIO_InitTypeDef GPIO_InitStructure;
 
-	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_FSMC, ENABLE);
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOG | RCC_APB2Periph_GPIOE |
-	                     RCC_APB2Periph_GPIOF, ENABLE);
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_FSMC, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOG | RCC_APB2Periph_GPIOE |
+                           RCC_APB2Periph_GPIOF, ENABLE);
 
-	/*-- GPIO Configuration ------------------------------------------------------*/
-	/* SRAM Data lines configuration */
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_8 | GPIO_Pin_9 |
-	                            GPIO_Pin_10 | GPIO_Pin_14 | GPIO_Pin_15;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOD, &GPIO_InitStructure);
+    /*-- GPIO Configuration ------------------------------------------------------*/
+    /* SRAM Data lines configuration */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_8 | GPIO_Pin_9 |
+                                  GPIO_Pin_10 | GPIO_Pin_14 | GPIO_Pin_15;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
 
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 |
-	                            GPIO_Pin_11 | GPIO_Pin_12 | GPIO_Pin_13 | GPIO_Pin_14 |
-	                            GPIO_Pin_15;
-	GPIO_Init(GPIOE, &GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 |
+                                  GPIO_Pin_11 | GPIO_Pin_12 | GPIO_Pin_13 | GPIO_Pin_14 |
+                                  GPIO_Pin_15;
+    GPIO_Init(GPIOE, &GPIO_InitStructure);
 
-	/* SRAM Address lines configuration */
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 |
-	                            GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_12 | GPIO_Pin_13 |
-	                            GPIO_Pin_14 | GPIO_Pin_15;
-	GPIO_Init(GPIOF, &GPIO_InitStructure);
+    /* SRAM Address lines configuration */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 |
+                                  GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_12 | GPIO_Pin_13 |
+                                  GPIO_Pin_14 | GPIO_Pin_15;
+    GPIO_Init(GPIOF, &GPIO_InitStructure);
 
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 |
-	                            GPIO_Pin_4 | GPIO_Pin_5;
-	GPIO_Init(GPIOG, &GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 |
+                                  GPIO_Pin_4 | GPIO_Pin_5;
+    GPIO_Init(GPIOG, &GPIO_InitStructure);
 
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_12 | GPIO_Pin_13;
-	GPIO_Init(GPIOD, &GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_12 | GPIO_Pin_13;
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
 
-	/* NOE and NWE configuration */
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 |GPIO_Pin_5;
-	GPIO_Init(GPIOD, &GPIO_InitStructure);
+    /* NOE and NWE configuration */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 |GPIO_Pin_5;
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
 
-	/* NE3 NE4 configuration */
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_12;
-	GPIO_Init(GPIOG, &GPIO_InitStructure);
+    /* NE3 NE4 configuration */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_12;
+    GPIO_Init(GPIOG, &GPIO_InitStructure);
 
-	/* NBL0, NBL1 configuration */
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1;
-	GPIO_Init(GPIOE, &GPIO_InitStructure);
+    /* NBL0, NBL1 configuration */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1;
+    GPIO_Init(GPIOE, &GPIO_InitStructure);
 
-	/*-- FSMC Configuration ------------------------------------------------------*/
-	p.FSMC_AddressSetupTime = 0;
-	p.FSMC_AddressHoldTime = 0;
-	p.FSMC_DataSetupTime = 2;
-	p.FSMC_BusTurnAroundDuration = 0;
-	p.FSMC_CLKDivision = 0;
-	p.FSMC_DataLatency = 0;
-	p.FSMC_AccessMode = FSMC_AccessMode_A;
+    /*-- FSMC Configuration ------------------------------------------------------*/
+    p.FSMC_AddressSetupTime = 0;
+    p.FSMC_AddressHoldTime = 0;
+    p.FSMC_DataSetupTime = 2;
+    p.FSMC_BusTurnAroundDuration = 0;
+    p.FSMC_CLKDivision = 0;
+    p.FSMC_DataLatency = 0;
+    p.FSMC_AccessMode = FSMC_AccessMode_A;
 
-	FSMC_NORSRAMInitStructure.FSMC_Bank = FSMC_Bank1_NORSRAM4;
-	FSMC_NORSRAMInitStructure.FSMC_DataAddressMux = FSMC_DataAddressMux_Disable;
-	FSMC_NORSRAMInitStructure.FSMC_MemoryType = FSMC_MemoryType_SRAM;
-	FSMC_NORSRAMInitStructure.FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_16b;
-	FSMC_NORSRAMInitStructure.FSMC_BurstAccessMode = FSMC_BurstAccessMode_Disable;
-	FSMC_NORSRAMInitStructure.FSMC_AsynchronousWait = FSMC_AsynchronousWait_Disable;
-	FSMC_NORSRAMInitStructure.FSMC_WaitSignalPolarity = FSMC_WaitSignalPolarity_Low;
-	FSMC_NORSRAMInitStructure.FSMC_WrapMode = FSMC_WrapMode_Disable;
-	FSMC_NORSRAMInitStructure.FSMC_WaitSignalActive = FSMC_WaitSignalActive_BeforeWaitState;
-	FSMC_NORSRAMInitStructure.FSMC_WriteOperation = FSMC_WriteOperation_Enable;
-	FSMC_NORSRAMInitStructure.FSMC_WaitSignal = FSMC_WaitSignal_Disable;
-	FSMC_NORSRAMInitStructure.FSMC_ExtendedMode = FSMC_ExtendedMode_Disable;
-	FSMC_NORSRAMInitStructure.FSMC_WriteBurst = FSMC_WriteBurst_Disable;
-	FSMC_NORSRAMInitStructure.FSMC_ReadWriteTimingStruct = &p;
-	FSMC_NORSRAMInitStructure.FSMC_WriteTimingStruct = &p;
+    FSMC_NORSRAMInitStructure.FSMC_Bank = FSMC_Bank1_NORSRAM4;
+    FSMC_NORSRAMInitStructure.FSMC_DataAddressMux = FSMC_DataAddressMux_Disable;
+    FSMC_NORSRAMInitStructure.FSMC_MemoryType = FSMC_MemoryType_SRAM;
+    FSMC_NORSRAMInitStructure.FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_16b;
+    FSMC_NORSRAMInitStructure.FSMC_BurstAccessMode = FSMC_BurstAccessMode_Disable;
+    FSMC_NORSRAMInitStructure.FSMC_AsynchronousWait = FSMC_AsynchronousWait_Disable;
+    FSMC_NORSRAMInitStructure.FSMC_WaitSignalPolarity = FSMC_WaitSignalPolarity_Low;
+    FSMC_NORSRAMInitStructure.FSMC_WrapMode = FSMC_WrapMode_Disable;
+    FSMC_NORSRAMInitStructure.FSMC_WaitSignalActive = FSMC_WaitSignalActive_BeforeWaitState;
+    FSMC_NORSRAMInitStructure.FSMC_WriteOperation = FSMC_WriteOperation_Enable;
+    FSMC_NORSRAMInitStructure.FSMC_WaitSignal = FSMC_WaitSignal_Disable;
+    FSMC_NORSRAMInitStructure.FSMC_ExtendedMode = FSMC_ExtendedMode_Disable;
+    FSMC_NORSRAMInitStructure.FSMC_WriteBurst = FSMC_WriteBurst_Disable;
+    FSMC_NORSRAMInitStructure.FSMC_ReadWriteTimingStruct = &p;
+    FSMC_NORSRAMInitStructure.FSMC_WriteTimingStruct = &p;
 
-	FSMC_NORSRAMInit(&FSMC_NORSRAMInitStructure);
+    FSMC_NORSRAMInit(&FSMC_NORSRAMInitStructure);
 
-	/* Enable FSMC Bank1_SRAM Bank4 */
-	FSMC_NORSRAMCmd(FSMC_Bank1_NORSRAM4, ENABLE);
+    /* Enable FSMC Bank1_SRAM Bank4 */
+    FSMC_NORSRAMCmd(FSMC_Bank1_NORSRAM4, ENABLE);
 }
+
 void rt_hw_dm9000_init(void)
 {
     RCC_Configuration();
     NVIC_Configuration();
     GPIO_Configuration();
-	FSMC_Configuration();
+    FSMC_Configuration();
 
     rt_sem_init(&sem_ack, "tx_ack", 1, RT_IPC_FLAG_FIFO);
     rt_sem_init(&sem_lock, "eth_lock", 1, RT_IPC_FLAG_FIFO);
