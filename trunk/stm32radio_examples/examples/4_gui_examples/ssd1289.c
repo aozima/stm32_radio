@@ -184,11 +184,11 @@ static void lcd_data_bus_test(void)
 
     if( (temp1 == 0x5555) && (temp2 == 0xAAAA) )
     {
-        printf(" data bus test pass!");
+        printf(" data bus test pass!\r\n");
     }
     else
     {
-        printf(" data bus test error: %04X %04X",temp1,temp2);
+        printf(" data bus test error: %04X %04X\r\n",temp1,temp2);
     }
 }
 
@@ -221,7 +221,7 @@ static void lcd_gram_test(void)
             {
                 if(  lcd_read_gram(test_x,test_y) != temp++)
                 {
-                    printf("  LCD GRAM ERR!!");
+                    printf("  LCD GRAM ERR!!\r\n");
                     return ;
                 }
             }
@@ -239,7 +239,7 @@ void ssd1289_init(void)
     if( deviceid != 0x8989 )
     {
         printf("Invalid LCD ID:%08X\r\n",deviceid);
-        printf("Please check you hardware and configure.");
+        printf("Please check you hardware and configure.\r\n");
     }
     else
     {

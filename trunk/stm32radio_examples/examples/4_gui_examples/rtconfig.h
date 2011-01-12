@@ -57,6 +57,8 @@
 /* Using Device System*/
 #define RT_USING_DEVICE
 #define RT_USING_UART1
+// #define RT_USING_UART2
+// #define RT_USING_UART3
 
 /* SECTION: Console options */
 /* the buffer size of console*/
@@ -70,11 +72,22 @@
 #define FINSH_USING_DESCRIPTION
 #define FINSH_DEVICE_NAME   "uart1"
 
-/* SECTION: device filesystem */
+/* SECTION: C++ support */
+/* Using C++ support*/
+/* #define RT_USING_CPLUSPLUS */
+
 #define RT_USING_DFS
+/* #define RT_USING_DFS_EFSL */
+/* byte alignment for EFSL */
+#define BYTE_ALIGNMENT
+
 #define RT_USING_DFS_ELMFAT
 #define RT_DFS_ELM_WORD_ACCESS
+#define RT_DFS_ELM_REENTRANT        1
 #define RT_DFS_ELM_DRIVES			2
+#define RT_DFS_ELM_USE_LFN			2
+#define RT_DFS_ELM_MAX_LFN			255
+#define RT_DFS_ELM_MAX_SECTOR_SIZE  4096
 
 /* SECTION: DFS options */
 /* the max number of mounted filesystem */
@@ -83,6 +96,74 @@
 #define DFS_FD_MAX					8
 /* the max number of cached sector 		*/
 #define DFS_CACHE_MAX_NUM   		4
+
+/* SECTION: lwip, a lighwight TCP/IP protocol stack */
+/* Using lighweight TCP/IP protocol stack */
+//#define RT_USING_LWIP
+
+/* Trace LwIP protocol */
+/* #define RT_LWIP_DEBUG */
+
+/* LwIP uses RT-Thread Memory Management */
+#define RT_LWIP_USING_RT_MEM
+
+/* Enable ICMP protocol */
+#define RT_LWIP_ICMP
+
+/* Enable IGMP protocol */
+/* #define RT_LWIP_IGMP */
+
+/* Enable UDP protocol */
+#define RT_LWIP_UDP
+
+/* Enable TCP protocol */
+#define RT_LWIP_TCP
+
+/* the number of simulatenously active TCP connections */
+#define RT_LWIP_TCP_PCB_NUM	3
+
+/* TCP sender buffer space */
+#define RT_LWIP_TCP_SND_BUF	2048
+
+/* TCP Window Size */
+#define RT_LWIP_TCP_WND	(1024 * 20)
+
+/* Enable SNMP protocol */
+/* #define RT_LWIP_SNMP */
+
+/* Using DHCP */
+#define RT_LWIP_DHCP
+
+/* Using DNS */
+#define RT_LWIP_DNS
+
+/* ip address of target */
+#define RT_LWIP_IPADDR0	192
+#define RT_LWIP_IPADDR1	168
+#define RT_LWIP_IPADDR2	1
+#define RT_LWIP_IPADDR3	30
+
+/* gateway address of target */
+#define RT_LWIP_GWADDR0	192
+#define RT_LWIP_GWADDR1	168
+#define RT_LWIP_GWADDR2	1
+#define RT_LWIP_GWADDR3	1
+
+/* mask address of target */
+#define RT_LWIP_MSKADDR0	255
+#define RT_LWIP_MSKADDR1	255
+#define RT_LWIP_MSKADDR2	255
+#define RT_LWIP_MSKADDR3	0
+
+/* tcp thread options */
+#define RT_LWIP_TCPTHREAD_PRIORITY		10
+#define RT_LWIP_TCPTHREAD_MBOX_SIZE		4
+#define RT_LWIP_TCPTHREAD_STACKSIZE		1024
+
+/* ethernet if thread options */
+#define RT_LWIP_ETHTHREAD_PRIORITY		12
+#define RT_LWIP_ETHTHREAD_MBOX_SIZE		4
+#define RT_LWIP_ETHTHREAD_STACKSIZE		512
 
 /* SECTION: RT-Thread/GUI */
 #define RT_USING_RTGUI

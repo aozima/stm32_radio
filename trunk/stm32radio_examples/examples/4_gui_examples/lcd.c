@@ -14,30 +14,9 @@ struct rtgui_graphic_driver _rtgui_lcd_driver;
 
 extern  void   info_init(void);
 extern  void   player_init(void);
-void radio_rtgui_init(void)
+void rt_hw_lcd_init(void)
 {
-    rtgui_rect_t rect;
 
-    rtgui_system_server_init();
-
-    /* register dock panel */
-    rect.x1 = 0;
-    rect.y1 = 0;
-    rect.x2 = 240;
-    rect.y2 = 25;
-    rtgui_panel_register("info", &rect);
-    rtgui_panel_set_nofocused("info");
-
-    /* register main panel */
-    rect.x1 = 0;
-    rect.y1 = 25;
-    rect.x2 = 240;
-    rect.y2 = 320;
-    rtgui_panel_register("main", &rect);
-    rtgui_panel_set_default_focused("main");
-
-    //rt_hw_lcd_init();
-    {
 #if LCD_VERSION == 1
 #include "fmt0371/FMT0371.h"
         _rtgui_lcd_driver.name            = "lcd";
@@ -81,13 +60,12 @@ void radio_rtgui_init(void)
         _rtgui_lcd_driver.get_framebuffer = ssd1289_lcd_get_framebuffer;
         ssd1289_init();
 #endif
-    }//rt_hw_lcd_init
 
     /* add lcd driver into graphic driver */
     rtgui_graphic_driver_add(&_rtgui_lcd_driver);
 
-    info_init();
-    player_init();
+//    info_init();
+//    player_init();	//GUI DemoÔÝ²»ÐèÒª
 
     lcd_backlight_init();
 }

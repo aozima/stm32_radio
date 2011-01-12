@@ -22,7 +22,7 @@ static const char  kn_touch_max_x[] = "touch_max_x";
 static const char  kn_touch_min_y[] = "touch_min_y";
 static const char  kn_touch_max_y[] = "touch_max_y";
 
-static void load_default(void)
+void load_default(void)
 {
     rt_kprintf("load_default!\r\n");
     radio_setup.default_volume = 25;
@@ -30,8 +30,8 @@ static void load_default(void)
 
     radio_setup.touch_min_x = 194;
     radio_setup.touch_max_x = 1810;
-    radio_setup.touch_min_y = 1876;
-    radio_setup.touch_max_y = 222;
+    radio_setup.touch_min_y = 147;
+    radio_setup.touch_max_y = 1850;
 
     save_setup();
 }
@@ -243,8 +243,8 @@ static void function_calibration(struct rtgui_widget* widget, void* parameter)
 
 static void function_remote_study(struct rtgui_widget* widget, void* paramter)
 {
-    extern void remote_study_ui(rtgui_workbench_t * workbench);
-    remote_study_ui(father_workbench);
+//    extern void remote_study_ui(rtgui_workbench_t * workbench);
+//    remote_study_ui(father_workbench);	  //GUI Demo暂时不需要
 }
 
 static void function_drawpad(struct rtgui_widget* widget, void* paramter)

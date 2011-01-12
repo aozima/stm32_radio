@@ -11,7 +11,7 @@
 #include "sst25vfxx.h"
 
 /* 0:don'ot use DMA 1:use DMA */
-#define SPI_FLASH_USE_DMA         1
+#define SPI_FLASH_USE_DMA         0
 /* secotr_size = 4096byte,secotr_size % DMA_BUFFER_SIZE == 0 */
 #define DMA_BUFFER_SIZE           512
 
