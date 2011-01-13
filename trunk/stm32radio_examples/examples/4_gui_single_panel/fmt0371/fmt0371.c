@@ -1,8 +1,36 @@
 #include "fmt0371.h"
 #include "stm32f10x.h"
-#include "stm32f10x_fsmc.h"
 
 #define FSMC_GPIO_CONFIG
+
+/************** LCD_RESET ************/
+#define LCD_RST_PORT          GPIOF
+#define LCD_RST_PIN           GPIO_Pin_10
+#define LCD_RST_RCC           RCC_APB2Periph_GPIOF
+#define LCD_RST_0             GPIO_ResetBits(LCD_RST_PORT,LCD_RST_PIN)
+#define LCD_RST_1             GPIO_SetBits(LCD_RST_PORT,LCD_RST_PIN)
+/************** LCD_RESET ************/
+
+#define LCD_ADDR              (*((volatile unsigned char *) 0x64000000)) /* RS = 0 */
+#define LCD_DATA              (*((volatile unsigned char *) 0x64000004)) /* RS = 1 */
+
+#include "rtdef.h"
+rt_inline void LCD_DATA16(rt_uint16_t data)
+{
+    LCD_DATA = data>>8;
+    LCD_DATA = data;
+}
+
+rt_inline rt_uint16_t LCD_DATA16_READ(void)
+{
+    rt_uint16_t temp;
+    temp = (LCD_DATA << 8);
+    temp |= LCD_DATA;
+    return temp;
+}
+#define LCD_WR_CMD(a,b,c)     LCD_ADDR = b;LCD_DATA16(c)
+#define LCD_WR_REG(a)         LCD_ADDR = a
+#define LCD_WR_DATA8(a)       LCD_DATA = a
 
 //static void delay_ms(unsigned int dt)
 //{
@@ -14,66 +42,18 @@ static void FSMC_Init(void)
 {
     FSMC_NORSRAMInitTypeDef  FSMC_NORSRAMInitStructure;
     FSMC_NORSRAMTimingInitTypeDef  p;
-//
-//#ifdef FSMC_GPIO_CONFIG
-//    GPIO_InitTypeDef GPIO_InitStructure;
-//
-//    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOG | RCC_APB2Periph_GPIOE |
-//                           RCC_APB2Periph_GPIOF, ENABLE);
-//
-//    /*-- GPIO Configuration ------------------------------------------------------*/
-//    /* SRAM Data lines configuration */
-//    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_8 | GPIO_Pin_9 |
-//                                  GPIO_Pin_10 | GPIO_Pin_14 | GPIO_Pin_15;
-//    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-//    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-//    GPIO_Init(GPIOD, &GPIO_InitStructure);
-//
-//    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 |
-//                                  GPIO_Pin_11 | GPIO_Pin_12 | GPIO_Pin_13 | GPIO_Pin_14 |
-//                                  GPIO_Pin_15;
-//    GPIO_Init(GPIOE, &GPIO_InitStructure);
-//
-//    /* SRAM Address lines configuration */
-//    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 |
-//                                  GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_12 | GPIO_Pin_13 |
-//                                  GPIO_Pin_14 | GPIO_Pin_15;
-//    GPIO_Init(GPIOF, &GPIO_InitStructure);
-//
-//    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 |
-//                                  GPIO_Pin_4 | GPIO_Pin_5;
-//    GPIO_Init(GPIOG, &GPIO_InitStructure);
-//
-//    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_12 | GPIO_Pin_13;
-//    GPIO_Init(GPIOD, &GPIO_InitStructure);
-//
-//    /* NOE and NWE configuration */
-//    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 |GPIO_Pin_5;
-//    GPIO_Init(GPIOD, &GPIO_InitStructure);
-//
-//    /* NE2 configuration */
-//    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_10;
-//    GPIO_Init(GPIOG, &GPIO_InitStructure);
-//
-//    /* NBL0, NBL1 configuration */
-//    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1;
-//    GPIO_Init(GPIOE, &GPIO_InitStructure);
-//#endif
 
     /*-- FSMC Configuration ------------------------------------------------------*/
-    p.FSMC_AddressSetupTime = 2; // safe value 2
-    p.FSMC_AddressHoldTime = 1;  // safe value 2
-    p.FSMC_DataSetupTime = 3;    // safe value 5
-    p.FSMC_BusTurnAroundDuration = 0;
-    p.FSMC_CLKDivision = 0;
-    p.FSMC_DataLatency = 0;
-    p.FSMC_AccessMode = FSMC_AccessMode_A;
+    p.FSMC_AddressSetupTime = 2;             /* 地址建立时间  */
+    p.FSMC_DataSetupTime = 3;                /* 数据建立时间  */
+    p.FSMC_AccessMode = FSMC_AccessMode_A;   /* FSMC 访问模式 */
 
     FSMC_NORSRAMInitStructure.FSMC_Bank = FSMC_Bank1_NORSRAM2;
     FSMC_NORSRAMInitStructure.FSMC_DataAddressMux = FSMC_DataAddressMux_Disable;
     FSMC_NORSRAMInitStructure.FSMC_MemoryType = FSMC_MemoryType_SRAM;
     FSMC_NORSRAMInitStructure.FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_8b;
     FSMC_NORSRAMInitStructure.FSMC_BurstAccessMode = FSMC_BurstAccessMode_Disable;
+    FSMC_NORSRAMInitStructure.FSMC_AsynchronousWait = FSMC_AsynchronousWait_Disable;
     FSMC_NORSRAMInitStructure.FSMC_WaitSignalPolarity = FSMC_WaitSignalPolarity_Low;
     FSMC_NORSRAMInitStructure.FSMC_WrapMode = FSMC_WrapMode_Disable;
     FSMC_NORSRAMInitStructure.FSMC_WaitSignalActive = FSMC_WaitSignalActive_BeforeWaitState;
@@ -90,7 +70,7 @@ static void FSMC_Init(void)
     FSMC_NORSRAMCmd(FSMC_Bank1_NORSRAM2, ENABLE);
 }
 
-void ftm0371_port_init(void)
+static void ftm0371_port_init(void)
 {
 //    GPIO_InitTypeDef GPIO_InitStructure;
 //
@@ -219,3 +199,217 @@ void ftm0371_init(void)
     LCD_WR_CMD(0,0x10,0x06);		//开显示
     LCD_WR_REG(0x0E);
 }
+
+#if defined(use_rt_gui)
+void fmt_lcd_update(rtgui_rect_t *rect)
+{
+    /* nothing for none-DMA mode driver */
+}
+
+rt_uint8_t * fmt_lcd_get_framebuffer(void)
+{
+    return RT_NULL; /* no framebuffer driver */
+}
+
+void fmt_lcd_set_pixel(rtgui_color_t *c, rt_base_t x, rt_base_t y)
+{
+    unsigned short p;
+
+    /* get color pixel */
+    p = rtgui_color_to_565p(*c);
+
+    /* set X point */
+    LCD_ADDR = 0x02;
+    LCD_DATA = x;
+
+    /* set Y point */
+    LCD_ADDR = 0x03;
+    LCD_DATA16(y);
+
+    /* write pixel */
+    LCD_ADDR = 0x0E;
+    LCD_DATA16(p);
+}
+
+void fmt_lcd_get_pixel(rtgui_color_t *c, rt_base_t x, rt_base_t y)
+{
+    /* set X point */
+    LCD_ADDR = 0x02;
+    LCD_DATA = x;
+
+    /* set Y point */
+    LCD_ADDR = 0x03;
+    LCD_DATA16( y );
+
+    /* read pixel */
+    LCD_ADDR = 0x0F;
+    /* dummy read */
+    x = LCD_DATA;
+
+    *c = rtgui_color_from_565p( LCD_DATA16_READ() );
+}
+
+void fmt_lcd_draw_hline(rtgui_color_t *c, rt_base_t x1, rt_base_t x2, rt_base_t y)
+{
+    unsigned short p;
+
+    /* get color pixel */
+    p = rtgui_color_to_565p(*c);
+
+    /* set X point */
+    LCD_ADDR = 0x02;
+    LCD_DATA = x1;
+
+    /* set Y point */
+    LCD_ADDR = 0x03;
+    LCD_DATA16( y );
+
+    /* write pixel */
+    LCD_ADDR = 0x0E;
+    while (x1 < x2)
+    {
+        LCD_DATA16(p);
+        x1 ++;
+    }
+}
+
+void fmt_lcd_draw_vline(rtgui_color_t *c, rt_base_t x, rt_base_t y1, rt_base_t y2)
+{
+    unsigned short p;
+
+    /* get color pixel */
+    p = rtgui_color_to_565p(*c);
+
+    /* set X point */
+    LCD_ADDR = 0x02;
+    LCD_DATA = x;
+
+    while (y1 < y2)
+    {
+        /* set Y point */
+        LCD_ADDR = 0x03;
+        LCD_DATA16( y1 );
+
+        /* write pixel */
+        LCD_ADDR = 0x0E;
+        LCD_DATA16(p);
+
+        y1 ++;
+    }
+}
+
+void fmt_lcd_draw_raw_hline(rt_uint8_t *pixels, rt_base_t x1, rt_base_t x2, rt_base_t y)
+{
+    rt_uint16_t *ptr;
+
+    /* get pixel */
+    ptr = (rt_uint16_t*) pixels;
+
+    /* set X point */
+    LCD_ADDR = 0x02;
+    LCD_DATA = x1;
+
+    /* set Y point */
+    LCD_ADDR = 0x03;
+    LCD_DATA16( y );
+
+    /* write pixel */
+    LCD_ADDR = 0x0E;
+    while (x1 < x2)
+    {
+        LCD_DATA16(*ptr);
+        x1 ++;
+        ptr ++;
+    }
+}
+
+rt_err_t fmt_lcd_init(void)
+{
+    ftm0371_port_init();
+    ftm0371_init();
+
+    //LCD GRAM test
+    {
+        unsigned int test_x;
+        unsigned int test_y;
+        unsigned short temp;
+
+        rt_kprintf("\r\nLCD GRAM test....");
+
+        //write
+        temp = 0;
+        for( test_y=0; test_y<320; test_y++)
+        {
+            /* set X point */
+            LCD_ADDR = 0x02;
+            LCD_DATA = 0;
+
+            /* set Y point */
+            LCD_ADDR = 0x03;
+            LCD_DATA16( test_y );
+
+            /* write pixel */
+            LCD_ADDR = 0x0E;
+            for(test_x=0; test_x<240; test_x++)
+            {
+                LCD_DATA16(temp++);
+            }
+        }
+
+        temp = 0;
+        for( test_y=0; test_y<320; test_y++)
+        {
+            /* set X point */
+            LCD_ADDR = 0x02;
+            LCD_DATA = 0;
+
+            /* set Y point */
+            LCD_ADDR = 0x03;
+            LCD_DATA16( test_y );
+
+            /* write pixel */
+            LCD_ADDR = 0x0f;
+            /* dummy read */
+            test_x = LCD_DATA;
+            for(test_x=0; test_x<240; test_x++)
+            {
+                if ( LCD_DATA16_READ() != temp++)
+                {
+                    rt_kprintf("  LCD GRAM ERR!!");
+                    while(1);
+                }
+            }
+        }
+        rt_kprintf("  TEST PASS!\r\n");
+    }//LCD GRAM TEST
+
+    return RT_EOK;
+}
+
+//#ifdef RT_USING_FINSH
+//#include <finsh.h>
+//
+//void hline(rt_base_t x1, rt_base_t x2, rt_base_t y, rt_uint32_t pixel)
+//{
+//    fmt_lcd_draw_hline(&pixel, x1, x2, y);
+//}
+//FINSH_FUNCTION_EXPORT(hline, draw a hline);
+//
+//void vline(int x, int y1, int y2, rt_uint32_t pixel)
+//{
+//    fmt_lcd_draw_vline(&pixel, x, y1, y2);
+//}
+//FINSH_FUNCTION_EXPORT(vline, draw a vline);
+//
+//void cls()
+//{
+//    rt_size_t index;
+//    rtgui_color_t white 	= RTGUI_RGB(0xff, 0xff, 0xff);
+//
+//    for (index = 0; index < 320; index ++)
+//        fmt_lcd_draw_hline(&white, 0, 240, index);
+//}
+//FINSH_FUNCTION_EXPORT(cls, clear screen);
+//#endif
+
+#endif
