@@ -96,6 +96,7 @@ File 6,1,<.\sst25vfxx.c><sst25vfxx.c>
 File 6,1,<.\ssd1289.c><ssd1289.c>
 File 6,1,<.\fsmc_sram.c><fsmc_sram.c>
 File 6,1,<.\fsmc_nand.c><fsmc_nand.c>
+File 6,1,<.\at45dbxx.c><at45dbxx.c>
 File 7,1,<..\..\rt-thread\components\rtgui\common\asc12font.c><asc12font.c>
 File 7,1,<..\..\rt-thread\components\rtgui\common\asc16font.c><asc16font.c>
 File 7,1,<..\..\rt-thread\components\rtgui\common\blit.c><blit.c>
