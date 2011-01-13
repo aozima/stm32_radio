@@ -1,0 +1,1542 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; /*
+    2 00000000         ; * File      : start_rvds.s
+    3 00000000         ; * This file is part of RT-Thread RTOS
+    4 00000000         ; * COPYRIGHT (C) 2009, RT-Thread Development Team
+    5 00000000         ; *
+    6 00000000         ; * The license and distribution terms for this file may
+                        be
+    7 00000000         ; * found in the file LICENSE in this distribution or at
+                       
+    8 00000000         ; * http://www.rt-thread.org/license/LICENSE
+    9 00000000         ; *
+   10 00000000         ; * Change Logs:
+   11 00000000         ; * Date           Author       Notes
+   12 00000000         ; * 2009-09-23     Bernard      first implementation
+   13 00000000         ; */
+   14 00000000         
+   15 00000000         ;* <<< Use Configuration Wizard in Context Menu >>>
+   16 00000000         
+   17 00000000         ; Amount of memory (in bytes) allocated for Stack
+   18 00000000         ; Tailor this value to your application needs
+   19 00000000         ; <h> Stack Configuration
+   20 00000000         ;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
+   21 00000000         ; </h>
+   22 00000000         
+   23 00000000 00000200 
+                       Stack_Size
+                               EQU              0x00000200
+   24 00000000         
+   25 00000000                 AREA             STACK, NOINIT, READWRITE, ALIGN
+=3
+   26 00000000         Stack_Mem
+                               SPACE            Stack_Size
+   27 00000200         __initial_sp
+   28 00000200         ; not use external SRAM as data memory
+   29 00000200         
+   30 00000200         ; <h> Heap Configuration
+   31 00000200         ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
+   32 00000200         ; </h>
+   33 00000200         
+   34 00000200 00000000 
+                       Heap_Size
+                               EQU              0x00000000
+   35 00000200         
+   36 00000200                 AREA             HEAP, NOINIT, READWRITE, ALIGN=
+3
+   37 00000000         __heap_base
+   38 00000000         Heap_Mem
+                               SPACE            Heap_Size
+   39 00000000         __heap_limit
+   40 00000000         
+   41 00000000                 PRESERVE8
+   42 00000000                 THUMB
+   43 00000000         
+   44 00000000                 IMPORT           rt_hw_hard_fault
+   45 00000000                 IMPORT           rt_hw_pend_sv
+   46 00000000                 IMPORT           rt_hw_timer_handler
+   47 00000000         
+   48 00000000         ; Vector Table Mapped to Address 0 at Reset
+   49 00000000                 AREA             RESET, DATA, READONLY
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   50 00000000                 EXPORT           __Vectors
+   51 00000000                 EXPORT           __Vectors_End
+   52 00000000                 EXPORT           __Vectors_Size
+   53 00000000         
+   54 00000000 00000000 
+                       __Vectors
+                               DCD              __initial_sp ; Top of Stack
+   55 00000004 00000000        DCD              Reset_Handler ; Reset Handler
+   56 00000008 00000000        DCD              NMI_Handler ; NMI Handler
+   57 0000000C 00000000        DCD              rt_hw_hard_fault ; Hard Fault H
+                                                            andler
+   58 00000010 00000000        DCD              MemManage_Handler 
+                                                            ; MPU Fault Handler
+                                                            
+   59 00000014 00000000        DCD              BusFault_Handler 
+                                                            ; Bus Fault Handler
+                                                            
+   60 00000018 00000000        DCD              UsageFault_Handler ; Usage Faul
+                                                            t Handler
+   61 0000001C 00000000        DCD              0           ; Reserved
+   62 00000020 00000000        DCD              0           ; Reserved
+   63 00000024 00000000        DCD              0           ; Reserved
+   64 00000028 00000000        DCD              0           ; Reserved
+   65 0000002C 00000000        DCD              SVC_Handler ; SVCall Handler
+   66 00000030 00000000        DCD              DebugMon_Handler ; Debug Monito
+                                                            r Handler
+   67 00000034 00000000        DCD              0           ; Reserved
+   68 00000038 00000000        DCD              rt_hw_pend_sv ; PendSV Handler 
+                                                            in RT-Thread
+   69 0000003C 00000000        DCD              rt_hw_timer_handler ; SysTick H
+                                                            andler in RT-Thread
+                                                            
+   70 00000040         
+   71 00000040         ; External Interrupts
+   72 00000040 00000000        DCD              WWDG_IRQHandler 
+                                                            ; Window Watchdog
+   73 00000044 00000000        DCD              PVD_IRQHandler ; PVD through EX
+                                                            TI Line detect
+   74 00000048 00000000        DCD              TAMPER_IRQHandler ; Tamper
+   75 0000004C 00000000        DCD              RTC_IRQHandler ; RTC
+   76 00000050 00000000        DCD              FLASH_IRQHandler ; Flash
+   77 00000054 00000000        DCD              RCC_IRQHandler ; RCC
+   78 00000058 00000000        DCD              EXTI0_IRQHandler ; EXTI Line 0
+   79 0000005C 00000000        DCD              EXTI1_IRQHandler ; EXTI Line 1
+   80 00000060 00000000        DCD              EXTI2_IRQHandler ; EXTI Line 2
+   81 00000064 00000000        DCD              EXTI3_IRQHandler ; EXTI Line 3
+   82 00000068 00000000        DCD              EXTI4_IRQHandler ; EXTI Line 4
+   83 0000006C 00000000        DCD              DMA1_Channel1_IRQHandler 
+                                                            ; DMA1 Channel 1
+   84 00000070 00000000        DCD              DMA1_Channel2_IRQHandler 
+                                                            ; DMA1 Channel 2
+   85 00000074 00000000        DCD              DMA1_Channel3_IRQHandler 
+                                                            ; DMA1 Channel 3
+   86 00000078 00000000        DCD              DMA1_Channel4_IRQHandler 
+                                                            ; DMA1 Channel 4
+   87 0000007C 00000000        DCD              DMA1_Channel5_IRQHandler 
+                                                            ; DMA1 Channel 5
+   88 00000080 00000000        DCD              DMA1_Channel6_IRQHandler 
+                                                            ; DMA1 Channel 6
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   89 00000084 00000000        DCD              DMA1_Channel7_IRQHandler 
+                                                            ; DMA1 Channel 7
+   90 00000088 00000000        DCD              ADC1_2_IRQHandler 
+                                                            ; ADC1 and ADC2
+   91 0000008C 00000000        DCD              USB_HP_CAN1_TX_IRQHandler ; USB
+                                                             High Priority or C
+                                                            AN1 TX
+   92 00000090 00000000        DCD              USB_LP_CAN1_RX0_IRQHandler ; US
+                                                            B Low  Priority or 
+                                                            CAN1 RX0
+   93 00000094 00000000        DCD              CAN1_RX1_IRQHandler ; CAN1 RX1
+   94 00000098 00000000        DCD              CAN1_SCE_IRQHandler ; CAN1 SCE
+   95 0000009C 00000000        DCD              EXTI9_5_IRQHandler 
+                                                            ; EXTI Line 9..5
+   96 000000A0 00000000        DCD              TIM1_BRK_IRQHandler 
+                                                            ; TIM1 Break
+   97 000000A4 00000000        DCD              TIM1_UP_IRQHandler 
+                                                            ; TIM1 Update
+   98 000000A8 00000000        DCD              TIM1_TRG_COM_IRQHandler ; TIM1 
+                                                            Trigger and Commuta
+                                                            tion
+   99 000000AC 00000000        DCD              TIM1_CC_IRQHandler ; TIM1 Captu
+                                                            re Compare
+  100 000000B0 00000000        DCD              TIM2_IRQHandler ; TIM2
+  101 000000B4 00000000        DCD              TIM3_IRQHandler ; TIM3
+  102 000000B8 00000000        DCD              TIM4_IRQHandler ; TIM4
+  103 000000BC 00000000        DCD              I2C1_EV_IRQHandler ; I2C1 Event
+                                                            
+  104 000000C0 00000000        DCD              I2C1_ER_IRQHandler ; I2C1 Error
+                                                            
+  105 000000C4 00000000        DCD              I2C2_EV_IRQHandler ; I2C2 Event
+                                                            
+  106 000000C8 00000000        DCD              I2C2_ER_IRQHandler ; I2C2 Error
+                                                            
+  107 000000CC 00000000        DCD              SPI1_IRQHandler ; SPI1
+  108 000000D0 00000000        DCD              SPI2_IRQHandler ; SPI2
+  109 000000D4 00000000        DCD              USART1_IRQHandler ; USART1
+  110 000000D8 00000000        DCD              USART2_IRQHandler ; USART2
+  111 000000DC 00000000        DCD              USART3_IRQHandler ; USART3
+  112 000000E0 00000000        DCD              EXTI15_10_IRQHandler 
+                                                            ; EXTI Line 15..10
+  113 000000E4 00000000        DCD              RTCAlarm_IRQHandler ; RTC Alarm
+                                                             through EXTI Line
+  114 000000E8 00000000        DCD              OTG_FS_WKUP_IRQHandler ; USB OT
+                                                            G FS Wakeup through
+                                                             EXTI line
+  115 000000EC 00000000        DCD              TIM8_BRK_IRQHandler 
+                                                            ; TIM8 Break
+  116 000000F0 00000000        DCD              TIM8_UP_IRQHandler 
+                                                            ; TIM8 Update
+  117 000000F4 00000000        DCD              TIM8_TRG_COM_IRQHandler ; TIM8 
+                                                            Trigger and Commuta
+                                                            tion
+  118 000000F8 00000000        DCD              TIM8_CC_IRQHandler ; TIM8 Captu
+                                                            re Compare
+  119 000000FC 00000000        DCD              ADC3_IRQHandler ; ADC3
+  120 00000100 00000000        DCD              FSMC_IRQHandler ; FSMC
+  121 00000104 00000000        DCD              SDIO_IRQHandler ; SDIO
+  122 00000108 00000000        DCD              TIM5_IRQHandler ; TIM5
+
+
+
+ARM Macro Assembler    Page 4 
+
+
+  123 0000010C 00000000        DCD              SPI3_IRQHandler ; SPI3
+  124 00000110 00000000        DCD              UART4_IRQHandler ; UART4
+  125 00000114 00000000        DCD              UART5_IRQHandler ; UART5
+  126 00000118 00000000        DCD              TIM6_IRQHandler ; TIM6
+  127 0000011C 00000000        DCD              TIM7_IRQHandler ; TIM7
+  128 00000120 00000000        DCD              DMA2_Channel1_IRQHandler 
+                                                            ; DMA2 Channel1
+  129 00000124 00000000        DCD              DMA2_Channel2_IRQHandler 
+                                                            ; DMA2 Channel2
+  130 00000128 00000000        DCD              DMA2_Channel3_IRQHandler 
+                                                            ; DMA2 Channel3
+  131 0000012C 00000000        DCD              DMA2_Channel4_5_IRQHandler ; DM
+                                                            A2 Channel4 and Cha
+                                                            nnel5
+  132 00000130         ; for STM32F10x Connectivity line devices
+  133 00000130 00000000        DCD              DMA2_Channel5_IRQHandler 
+                                                            ; DMA2 Channel5
+  134 00000134 00000000        DCD              ETH_IRQHandler ; Ethernet
+  135 00000138 00000000        DCD              ETH_WKUP_IRQHandler ; Ethernet 
+                                                            Wakeup through EXTI
+                                                             line
+  136 0000013C 00000000        DCD              CAN2_TX_IRQHandler ; CAN2 TX
+  137 00000140 00000000        DCD              CAN2_RX0_IRQHandler ; CAN2 RX0
+  138 00000144 00000000        DCD              CAN2_RX1_IRQHandler ; CAN2 RX1
+  139 00000148 00000000        DCD              CAN2_SCE_IRQHandler ; CAN2 SCE
+  140 0000014C 00000000        DCD              OTG_FS_IRQHandler ; USB OTG FS
+  141 00000150         
+  142 00000150         __Vectors_End
+  143 00000150         
+  144 00000150 00000150 
+                       __Vectors_Size
+                               EQU              __Vectors_End - __Vectors
+  145 00000150         
+  146 00000150                 AREA             |.text|, CODE, READONLY
+  147 00000000         
+  148 00000000         ; Reset handler routine
+  149 00000000         Reset_Handler
+                               PROC
+  150 00000000                 EXPORT           Reset_Handler             [WEAK
+]
+  151 00000000                 IMPORT           __main
+  152 00000000         
+  153 00000000 4909            LDR              R1, = __initial_sp ; restore or
+                                                            iginal stack pointe
+                                                            r
+  154 00000002 F381 8808       MSR              MSP, R1
+  155 00000006         
+  156 00000006 4809            LDR              R0, =__main
+  157 00000008 4700            BX               R0
+  158 0000000A                 ENDP
+  159 0000000A         
+  160 0000000A         ; Dummy Exception Handlers (infinite loops which can be 
+                       modified)
+  161 0000000A         
+  162 0000000A         NMI_Handler
+                               PROC
+  163 0000000A                 EXPORT           NMI_Handler                [WEA
+K]
+  164 0000000A E7FE            B                .
+
+
+
+ARM Macro Assembler    Page 5 
+
+
+  165 0000000C                 ENDP
+  167 0000000C         HardFault_Handler
+                               PROC
+  168 0000000C                 EXPORT           HardFault_Handler          [WEA
+K]
+  169 0000000C E7FE            B                .
+  170 0000000E                 ENDP
+  172 0000000E         MemManage_Handler
+                               PROC
+  173 0000000E                 EXPORT           MemManage_Handler          [WEA
+K]
+  174 0000000E E7FE            B                .
+  175 00000010                 ENDP
+  177 00000010         BusFault_Handler
+                               PROC
+  178 00000010                 EXPORT           BusFault_Handler           [WEA
+K]
+  179 00000010 E7FE            B                .
+  180 00000012                 ENDP
+  182 00000012         UsageFault_Handler
+                               PROC
+  183 00000012                 EXPORT           UsageFault_Handler         [WEA
+K]
+  184 00000012 E7FE            B                .
+  185 00000014                 ENDP
+  186 00000014         SVC_Handler
+                               PROC
+  187 00000014                 EXPORT           SVC_Handler                [WEA
+K]
+  188 00000014 E7FE            B                .
+  189 00000016                 ENDP
+  191 00000016         DebugMon_Handler
+                               PROC
+  192 00000016                 EXPORT           DebugMon_Handler           [WEA
+K]
+  193 00000016 E7FE            B                .
+  194 00000018                 ENDP
+  195 00000018         
+  196 00000018         Default_Handler
+                               PROC
+  197 00000018         
+  198 00000018                 EXPORT           WWDG_IRQHandler            [WEA
+K]
+  199 00000018                 EXPORT           PVD_IRQHandler             [WEA
+K]
+  200 00000018                 EXPORT           TAMPER_IRQHandler          [WEA
+K]
+  201 00000018                 EXPORT           RTC_IRQHandler             [WEA
+K]
+  202 00000018                 EXPORT           FLASH_IRQHandler           [WEA
+K]
+  203 00000018                 EXPORT           RCC_IRQHandler             [WEA
+K]
+  204 00000018                 EXPORT           EXTI0_IRQHandler           [WEA
+K]
+  205 00000018                 EXPORT           EXTI1_IRQHandler           [WEA
+K]
+  206 00000018                 EXPORT           EXTI2_IRQHandler           [WEA
+K]
+
+
+
+ARM Macro Assembler    Page 6 
+
+
+  207 00000018                 EXPORT           EXTI3_IRQHandler           [WEA
+K]
+  208 00000018                 EXPORT           EXTI4_IRQHandler           [WEA
+K]
+  209 00000018                 EXPORT           DMA1_Channel1_IRQHandler   [WEA
+K]
+  210 00000018                 EXPORT           DMA1_Channel2_IRQHandler   [WEA
+K]
+  211 00000018                 EXPORT           DMA1_Channel3_IRQHandler   [WEA
+K]
+  212 00000018                 EXPORT           DMA1_Channel4_IRQHandler   [WEA
+K]
+  213 00000018                 EXPORT           DMA1_Channel5_IRQHandler   [WEA
+K]
+  214 00000018                 EXPORT           DMA1_Channel6_IRQHandler   [WEA
+K]
+  215 00000018                 EXPORT           DMA1_Channel7_IRQHandler   [WEA
+K]
+  216 00000018                 EXPORT           ADC1_2_IRQHandler          [WEA
+K]
+  217 00000018                 EXPORT           USB_HP_CAN1_TX_IRQHandler  [WEA
+K]
+  218 00000018                 EXPORT           USB_LP_CAN1_RX0_IRQHandler [WEA
+K]
+  219 00000018                 EXPORT           CAN1_RX1_IRQHandler        [WEA
+K]
+  220 00000018                 EXPORT           CAN1_SCE_IRQHandler        [WEA
+K]
+  221 00000018                 EXPORT           EXTI9_5_IRQHandler         [WEA
+K]
+  222 00000018                 EXPORT           TIM1_BRK_IRQHandler        [WEA
+K]
+  223 00000018                 EXPORT           TIM1_UP_IRQHandler         [WEA
+K]
+  224 00000018                 EXPORT           TIM1_TRG_COM_IRQHandler    [WEA
+K]
+  225 00000018                 EXPORT           TIM1_CC_IRQHandler         [WEA
+K]
+  226 00000018                 EXPORT           TIM2_IRQHandler            [WEA
+K]
+  227 00000018                 EXPORT           TIM3_IRQHandler            [WEA
+K]
+  228 00000018                 EXPORT           TIM4_IRQHandler            [WEA
+K]
+  229 00000018                 EXPORT           I2C1_EV_IRQHandler         [WEA
+K]
+  230 00000018                 EXPORT           I2C1_ER_IRQHandler         [WEA
+K]
+  231 00000018                 EXPORT           I2C2_EV_IRQHandler         [WEA
+K]
+  232 00000018                 EXPORT           I2C2_ER_IRQHandler         [WEA
+K]
+  233 00000018                 EXPORT           SPI1_IRQHandler            [WEA
+K]
+  234 00000018                 EXPORT           SPI2_IRQHandler            [WEA
+K]
+  235 00000018                 EXPORT           USART1_IRQHandler          [WEA
+K]
+  236 00000018                 EXPORT           USART2_IRQHandler          [WEA
+
+
+
+ARM Macro Assembler    Page 7 
+
+
+K]
+  237 00000018                 EXPORT           USART3_IRQHandler          [WEA
+K]
+  238 00000018                 EXPORT           EXTI15_10_IRQHandler       [WEA
+K]
+  239 00000018                 EXPORT           RTCAlarm_IRQHandler        [WEA
+K]
+  240 00000018                 EXPORT           OTG_FS_WKUP_IRQHandler     [WEA
+K]
+  241 00000018                 EXPORT           TIM8_BRK_IRQHandler        [WEA
+K]
+  242 00000018                 EXPORT           TIM8_UP_IRQHandler         [WEA
+K]
+  243 00000018                 EXPORT           TIM8_TRG_COM_IRQHandler    [WEA
+K]
+  244 00000018                 EXPORT           TIM8_CC_IRQHandler         [WEA
+K]
+  245 00000018                 EXPORT           ADC3_IRQHandler            [WEA
+K]
+  246 00000018                 EXPORT           FSMC_IRQHandler            [WEA
+K]
+  247 00000018                 EXPORT           SDIO_IRQHandler            [WEA
+K]
+  248 00000018                 EXPORT           TIM5_IRQHandler            [WEA
+K]
+  249 00000018                 EXPORT           SPI3_IRQHandler            [WEA
+K]
+  250 00000018                 EXPORT           UART4_IRQHandler           [WEA
+K]
+  251 00000018                 EXPORT           UART5_IRQHandler           [WEA
+K]
+  252 00000018                 EXPORT           TIM6_IRQHandler            [WEA
+K]
+  253 00000018                 EXPORT           TIM7_IRQHandler            [WEA
+K]
+  254 00000018                 EXPORT           DMA2_Channel1_IRQHandler   [WEA
+K]
+  255 00000018                 EXPORT           DMA2_Channel2_IRQHandler   [WEA
+K]
+  256 00000018                 EXPORT           DMA2_Channel3_IRQHandler   [WEA
+K]
+  257 00000018                 EXPORT           DMA2_Channel4_5_IRQHandler [WEA
+K]
+  258 00000018         ; for STM32F10x Connectivity line devices
+  259 00000018                 EXPORT           DMA2_Channel5_IRQHandler   [WEA
+K]
+  260 00000018                 EXPORT           ETH_IRQHandler             [WEA
+K]
+  261 00000018                 EXPORT           ETH_WKUP_IRQHandler        [WEA
+K]
+  262 00000018                 EXPORT           CAN2_TX_IRQHandler         [WEA
+K]
+  263 00000018                 EXPORT           CAN2_RX0_IRQHandler        [WEA
+K]
+  264 00000018                 EXPORT           CAN2_RX1_IRQHandler        [WEA
+K]
+  265 00000018                 EXPORT           CAN2_SCE_IRQHandler        [WEA
+K]
+  266 00000018                 EXPORT           OTG_FS_IRQHandler          [WEA
+
+
+
+ARM Macro Assembler    Page 8 
+
+
+K]
+  267 00000018         
+  268 00000018         WWDG_IRQHandler
+  269 00000018         PVD_IRQHandler
+  270 00000018         TAMPER_IRQHandler
+  271 00000018         RTC_IRQHandler
+  272 00000018         FLASH_IRQHandler
+  273 00000018         RCC_IRQHandler
+  274 00000018         EXTI0_IRQHandler
+  275 00000018         EXTI1_IRQHandler
+  276 00000018         EXTI2_IRQHandler
+  277 00000018         EXTI3_IRQHandler
+  278 00000018         EXTI4_IRQHandler
+  279 00000018         DMA1_Channel1_IRQHandler
+  280 00000018         DMA1_Channel2_IRQHandler
+  281 00000018         DMA1_Channel3_IRQHandler
+  282 00000018         DMA1_Channel4_IRQHandler
+  283 00000018         DMA1_Channel5_IRQHandler
+  284 00000018         DMA1_Channel6_IRQHandler
+  285 00000018         DMA1_Channel7_IRQHandler
+  286 00000018         ADC1_2_IRQHandler
+  287 00000018         USB_HP_CAN1_TX_IRQHandler
+  288 00000018         USB_LP_CAN1_RX0_IRQHandler
+  289 00000018         CAN1_RX1_IRQHandler
+  290 00000018         CAN1_SCE_IRQHandler
+  291 00000018         EXTI9_5_IRQHandler
+  292 00000018         TIM1_BRK_IRQHandler
+  293 00000018         TIM1_UP_IRQHandler
+  294 00000018         TIM1_TRG_COM_IRQHandler
+  295 00000018         TIM1_CC_IRQHandler
+  296 00000018         TIM2_IRQHandler
+  297 00000018         TIM3_IRQHandler
+  298 00000018         TIM4_IRQHandler
+  299 00000018         I2C1_EV_IRQHandler
+  300 00000018         I2C1_ER_IRQHandler
+  301 00000018         I2C2_EV_IRQHandler
+  302 00000018         I2C2_ER_IRQHandler
+  303 00000018         SPI1_IRQHandler
+  304 00000018         SPI2_IRQHandler
+  305 00000018         USART1_IRQHandler
+  306 00000018         USART2_IRQHandler
+  307 00000018         USART3_IRQHandler
+  308 00000018         EXTI15_10_IRQHandler
+  309 00000018         RTCAlarm_IRQHandler
+  310 00000018         OTG_FS_WKUP_IRQHandler
+  311 00000018         TIM8_BRK_IRQHandler
+  312 00000018         TIM8_UP_IRQHandler
+  313 00000018         TIM8_TRG_COM_IRQHandler
+  314 00000018         TIM8_CC_IRQHandler
+  315 00000018         ADC3_IRQHandler
+  316 00000018         FSMC_IRQHandler
+  317 00000018         SDIO_IRQHandler
+  318 00000018         TIM5_IRQHandler
+  319 00000018         SPI3_IRQHandler
+  320 00000018         UART4_IRQHandler
+  321 00000018         UART5_IRQHandler
+  322 00000018         TIM6_IRQHandler
+  323 00000018         TIM7_IRQHandler
+  324 00000018         DMA2_Channel1_IRQHandler
+
+
+
+ARM Macro Assembler    Page 9 
+
+
+  325 00000018         DMA2_Channel2_IRQHandler
+  326 00000018         DMA2_Channel3_IRQHandler
+  327 00000018         DMA2_Channel4_5_IRQHandler
+  328 00000018         ; for STM32F10x Connectivity line devices
+  329 00000018         DMA2_Channel5_IRQHandler
+  330 00000018         ETH_IRQHandler
+  331 00000018         ETH_WKUP_IRQHandler
+  332 00000018         CAN2_TX_IRQHandler
+  333 00000018         CAN2_RX0_IRQHandler
+  334 00000018         CAN2_RX1_IRQHandler
+  335 00000018         CAN2_SCE_IRQHandler
+  336 00000018         OTG_FS_IRQHandler
+  337 00000018 E7FE            B                .
+  338 0000001A         
+  339 0000001A                 ENDP
+  340 0000001A         
+  341 0000001A 00 00           ALIGN
+  342 0000001C         
+  343 0000001C         ;*******************************************************
+                       ************************
+  344 0000001C         ; User Stack and Heap initialization
+  345 0000001C         ;*******************************************************
+                       ************************
+  346 0000001C                 IF               :DEF:__MICROLIB
+  353 0000001C         
+  354 0000001C                 IMPORT           __use_two_region_memory
+  355 0000001C                 EXPORT           __user_initial_stackheap
+  356 0000001C         
+  357 0000001C         __user_initial_stackheap
+  358 0000001C         
+  359 0000001C 4804            LDR              R0, =  Heap_Mem
+  360 0000001E 4905            LDR              R1, =(Stack_Mem + Stack_Size)
+  361 00000020 4A03            LDR              R2, = (Heap_Mem +  Heap_Size)
+  362 00000022 4B05            LDR              R3, = Stack_Mem
+  363 00000024 4770            BX               LR
+  364 00000026         
+  365 00000026 00 00           ALIGN
+  366 00000028         
+  367 00000028                 ENDIF
+  368 00000028         
+  369 00000028                 END
+              00000000 
+              00000000 
+              00000000 
+              00000200 
+              00000000 
+Command Line: --debug --xref --device=DARMSTM --apcs=interwork -o.\obj\start_rv
+ds.o -I"E:\Program Files\keil\ARM\INC\ST\STM32F10x" --list=.\start_rvds.lst ..\
+..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+STACK 00000000
+
+Symbol: STACK
+   Definitions
+      At line 25 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      None
+Comment: STACK unused
+Stack_Mem 00000000
+
+Symbol: Stack_Mem
+   Definitions
+      At line 26 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 360 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 362 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+__initial_sp 00000200
+
+Symbol: __initial_sp
+   Definitions
+      At line 27 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 54 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 153 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+HEAP 00000000
+
+Symbol: HEAP
+   Definitions
+      At line 36 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      None
+Comment: HEAP unused
+Heap_Mem 00000000
+
+Symbol: Heap_Mem
+   Definitions
+      At line 38 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 359 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 361 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+__heap_base 00000000
+
+Symbol: __heap_base
+   Definitions
+      At line 37 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      None
+Comment: __heap_base unused
+__heap_limit 00000000
+
+Symbol: __heap_limit
+   Definitions
+      At line 39 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      None
+Comment: __heap_limit unused
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+RESET 00000000
+
+Symbol: RESET
+   Definitions
+      At line 49 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      None
+Comment: RESET unused
+__Vectors 00000000
+
+Symbol: __Vectors
+   Definitions
+      At line 54 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 50 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 144 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+__Vectors_End 00000150
+
+Symbol: __Vectors_End
+   Definitions
+      At line 142 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 51 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 144 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 146 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      None
+Comment: .text unused
+ADC1_2_IRQHandler 00000018
+
+Symbol: ADC1_2_IRQHandler
+   Definitions
+      At line 286 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 90 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 216 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+ADC3_IRQHandler 00000018
+
+Symbol: ADC3_IRQHandler
+   Definitions
+      At line 315 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 119 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 245 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+BusFault_Handler 00000010
+
+Symbol: BusFault_Handler
+   Definitions
+      At line 177 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 59 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 178 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+CAN1_RX1_IRQHandler 00000018
+
+Symbol: CAN1_RX1_IRQHandler
+   Definitions
+      At line 289 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 93 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 219 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+CAN1_SCE_IRQHandler 00000018
+
+Symbol: CAN1_SCE_IRQHandler
+   Definitions
+      At line 290 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 94 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 220 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+CAN2_RX0_IRQHandler 00000018
+
+Symbol: CAN2_RX0_IRQHandler
+   Definitions
+      At line 333 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+      At line 137 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 263 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+CAN2_RX1_IRQHandler 00000018
+
+Symbol: CAN2_RX1_IRQHandler
+   Definitions
+      At line 334 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 138 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 264 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+CAN2_SCE_IRQHandler 00000018
+
+Symbol: CAN2_SCE_IRQHandler
+   Definitions
+      At line 335 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 139 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 265 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+CAN2_TX_IRQHandler 00000018
+
+Symbol: CAN2_TX_IRQHandler
+   Definitions
+      At line 332 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 136 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 262 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+DMA1_Channel1_IRQHandler 00000018
+
+Symbol: DMA1_Channel1_IRQHandler
+   Definitions
+      At line 279 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 83 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 209 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+DMA1_Channel2_IRQHandler 00000018
+
+Symbol: DMA1_Channel2_IRQHandler
+   Definitions
+      At line 280 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 84 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 210 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+DMA1_Channel3_IRQHandler 00000018
+
+Symbol: DMA1_Channel3_IRQHandler
+   Definitions
+      At line 281 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 85 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 211 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+DMA1_Channel4_IRQHandler 00000018
+
+
+
+
+ARM Macro Assembler    Page 3 Alphabetic symbol ordering
+Relocatable symbols
+
+Symbol: DMA1_Channel4_IRQHandler
+   Definitions
+      At line 282 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 86 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 212 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+DMA1_Channel5_IRQHandler 00000018
+
+Symbol: DMA1_Channel5_IRQHandler
+   Definitions
+      At line 283 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 87 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 213 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+DMA1_Channel6_IRQHandler 00000018
+
+Symbol: DMA1_Channel6_IRQHandler
+   Definitions
+      At line 284 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 88 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 214 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+DMA1_Channel7_IRQHandler 00000018
+
+Symbol: DMA1_Channel7_IRQHandler
+   Definitions
+      At line 285 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 89 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 215 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+DMA2_Channel1_IRQHandler 00000018
+
+Symbol: DMA2_Channel1_IRQHandler
+   Definitions
+      At line 324 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 128 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 254 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+DMA2_Channel2_IRQHandler 00000018
+
+Symbol: DMA2_Channel2_IRQHandler
+   Definitions
+      At line 325 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 129 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 255 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+DMA2_Channel3_IRQHandler 00000018
+
+Symbol: DMA2_Channel3_IRQHandler
+   Definitions
+      At line 326 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 130 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+
+
+ARM Macro Assembler    Page 4 Alphabetic symbol ordering
+Relocatable symbols
+
+      At line 256 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+DMA2_Channel4_5_IRQHandler 00000018
+
+Symbol: DMA2_Channel4_5_IRQHandler
+   Definitions
+      At line 327 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 131 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 257 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+DMA2_Channel5_IRQHandler 00000018
+
+Symbol: DMA2_Channel5_IRQHandler
+   Definitions
+      At line 329 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 133 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 259 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+DebugMon_Handler 00000016
+
+Symbol: DebugMon_Handler
+   Definitions
+      At line 191 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 66 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 192 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+Default_Handler 00000018
+
+Symbol: Default_Handler
+   Definitions
+      At line 196 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      None
+Comment: Default_Handler unused
+ETH_IRQHandler 00000018
+
+Symbol: ETH_IRQHandler
+   Definitions
+      At line 330 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 134 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 260 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+ETH_WKUP_IRQHandler 00000018
+
+Symbol: ETH_WKUP_IRQHandler
+   Definitions
+      At line 331 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 135 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 261 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+EXTI0_IRQHandler 00000018
+
+Symbol: EXTI0_IRQHandler
+   Definitions
+
+
+
+ARM Macro Assembler    Page 5 Alphabetic symbol ordering
+Relocatable symbols
+
+      At line 274 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 78 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 204 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+EXTI15_10_IRQHandler 00000018
+
+Symbol: EXTI15_10_IRQHandler
+   Definitions
+      At line 308 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 112 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 238 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+EXTI1_IRQHandler 00000018
+
+Symbol: EXTI1_IRQHandler
+   Definitions
+      At line 275 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 79 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 205 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+EXTI2_IRQHandler 00000018
+
+Symbol: EXTI2_IRQHandler
+   Definitions
+      At line 276 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 80 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 206 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+EXTI3_IRQHandler 00000018
+
+Symbol: EXTI3_IRQHandler
+   Definitions
+      At line 277 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 81 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 207 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+EXTI4_IRQHandler 00000018
+
+Symbol: EXTI4_IRQHandler
+   Definitions
+      At line 278 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 82 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 208 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+EXTI9_5_IRQHandler 00000018
+
+Symbol: EXTI9_5_IRQHandler
+   Definitions
+      At line 291 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 95 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 221 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+
+
+
+ARM Macro Assembler    Page 6 Alphabetic symbol ordering
+Relocatable symbols
+
+FLASH_IRQHandler 00000018
+
+Symbol: FLASH_IRQHandler
+   Definitions
+      At line 272 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 76 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 202 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+FSMC_IRQHandler 00000018
+
+Symbol: FSMC_IRQHandler
+   Definitions
+      At line 316 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 120 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 246 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+HardFault_Handler 0000000C
+
+Symbol: HardFault_Handler
+   Definitions
+      At line 167 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 168 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+Comment: HardFault_Handler used once
+I2C1_ER_IRQHandler 00000018
+
+Symbol: I2C1_ER_IRQHandler
+   Definitions
+      At line 300 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 104 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 230 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+I2C1_EV_IRQHandler 00000018
+
+Symbol: I2C1_EV_IRQHandler
+   Definitions
+      At line 299 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 103 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 229 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+I2C2_ER_IRQHandler 00000018
+
+Symbol: I2C2_ER_IRQHandler
+   Definitions
+      At line 302 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 106 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 232 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+I2C2_EV_IRQHandler 00000018
+
+Symbol: I2C2_EV_IRQHandler
+   Definitions
+      At line 301 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+
+
+
+ARM Macro Assembler    Page 7 Alphabetic symbol ordering
+Relocatable symbols
+
+      At line 105 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 231 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+MemManage_Handler 0000000E
+
+Symbol: MemManage_Handler
+   Definitions
+      At line 172 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 58 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 173 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+NMI_Handler 0000000A
+
+Symbol: NMI_Handler
+   Definitions
+      At line 162 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 56 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 163 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+OTG_FS_IRQHandler 00000018
+
+Symbol: OTG_FS_IRQHandler
+   Definitions
+      At line 336 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 140 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 266 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+OTG_FS_WKUP_IRQHandler 00000018
+
+Symbol: OTG_FS_WKUP_IRQHandler
+   Definitions
+      At line 310 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 114 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 240 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+PVD_IRQHandler 00000018
+
+Symbol: PVD_IRQHandler
+   Definitions
+      At line 269 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 73 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 199 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+RCC_IRQHandler 00000018
+
+Symbol: RCC_IRQHandler
+   Definitions
+      At line 273 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 77 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 203 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+RTCAlarm_IRQHandler 00000018
+
+
+
+
+ARM Macro Assembler    Page 8 Alphabetic symbol ordering
+Relocatable symbols
+
+Symbol: RTCAlarm_IRQHandler
+   Definitions
+      At line 309 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 113 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 239 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+RTC_IRQHandler 00000018
+
+Symbol: RTC_IRQHandler
+   Definitions
+      At line 271 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 75 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 201 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+Reset_Handler 00000000
+
+Symbol: Reset_Handler
+   Definitions
+      At line 149 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 55 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 150 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+SDIO_IRQHandler 00000018
+
+Symbol: SDIO_IRQHandler
+   Definitions
+      At line 317 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 121 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 247 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+SPI1_IRQHandler 00000018
+
+Symbol: SPI1_IRQHandler
+   Definitions
+      At line 303 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 107 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 233 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+SPI2_IRQHandler 00000018
+
+Symbol: SPI2_IRQHandler
+   Definitions
+      At line 304 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 108 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 234 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+SPI3_IRQHandler 00000018
+
+Symbol: SPI3_IRQHandler
+   Definitions
+      At line 319 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 123 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+
+
+ARM Macro Assembler    Page 9 Alphabetic symbol ordering
+Relocatable symbols
+
+      At line 249 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+SVC_Handler 00000014
+
+Symbol: SVC_Handler
+   Definitions
+      At line 186 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 65 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 187 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+TAMPER_IRQHandler 00000018
+
+Symbol: TAMPER_IRQHandler
+   Definitions
+      At line 270 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 74 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 200 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+TIM1_BRK_IRQHandler 00000018
+
+Symbol: TIM1_BRK_IRQHandler
+   Definitions
+      At line 292 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 96 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 222 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+TIM1_CC_IRQHandler 00000018
+
+Symbol: TIM1_CC_IRQHandler
+   Definitions
+      At line 295 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 99 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 225 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+TIM1_TRG_COM_IRQHandler 00000018
+
+Symbol: TIM1_TRG_COM_IRQHandler
+   Definitions
+      At line 294 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 98 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 224 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+TIM1_UP_IRQHandler 00000018
+
+Symbol: TIM1_UP_IRQHandler
+   Definitions
+      At line 293 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 97 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 223 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+TIM2_IRQHandler 00000018
+
+Symbol: TIM2_IRQHandler
+
+
+
+ARM Macro Assembler    Page 10 Alphabetic symbol ordering
+Relocatable symbols
+
+   Definitions
+      At line 296 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 100 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 226 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+TIM3_IRQHandler 00000018
+
+Symbol: TIM3_IRQHandler
+   Definitions
+      At line 297 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 101 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 227 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+TIM4_IRQHandler 00000018
+
+Symbol: TIM4_IRQHandler
+   Definitions
+      At line 298 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 102 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 228 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+TIM5_IRQHandler 00000018
+
+Symbol: TIM5_IRQHandler
+   Definitions
+      At line 318 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 122 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 248 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+TIM6_IRQHandler 00000018
+
+Symbol: TIM6_IRQHandler
+   Definitions
+      At line 322 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 126 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 252 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+TIM7_IRQHandler 00000018
+
+Symbol: TIM7_IRQHandler
+   Definitions
+      At line 323 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 127 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 253 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+TIM8_BRK_IRQHandler 00000018
+
+Symbol: TIM8_BRK_IRQHandler
+   Definitions
+      At line 311 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 115 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 241 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+
+
+ARM Macro Assembler    Page 11 Alphabetic symbol ordering
+Relocatable symbols
+
+
+TIM8_CC_IRQHandler 00000018
+
+Symbol: TIM8_CC_IRQHandler
+   Definitions
+      At line 314 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 118 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 244 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+TIM8_TRG_COM_IRQHandler 00000018
+
+Symbol: TIM8_TRG_COM_IRQHandler
+   Definitions
+      At line 313 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 117 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 243 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+TIM8_UP_IRQHandler 00000018
+
+Symbol: TIM8_UP_IRQHandler
+   Definitions
+      At line 312 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 116 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 242 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+UART4_IRQHandler 00000018
+
+Symbol: UART4_IRQHandler
+   Definitions
+      At line 320 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 124 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 250 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+UART5_IRQHandler 00000018
+
+Symbol: UART5_IRQHandler
+   Definitions
+      At line 321 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 125 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 251 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+USART1_IRQHandler 00000018
+
+Symbol: USART1_IRQHandler
+   Definitions
+      At line 305 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 109 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 235 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+USART2_IRQHandler 00000018
+
+Symbol: USART2_IRQHandler
+   Definitions
+
+
+
+ARM Macro Assembler    Page 12 Alphabetic symbol ordering
+Relocatable symbols
+
+      At line 306 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 110 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 236 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+USART3_IRQHandler 00000018
+
+Symbol: USART3_IRQHandler
+   Definitions
+      At line 307 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 111 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 237 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+USB_HP_CAN1_TX_IRQHandler 00000018
+
+Symbol: USB_HP_CAN1_TX_IRQHandler
+   Definitions
+      At line 287 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 91 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 217 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+USB_LP_CAN1_RX0_IRQHandler 00000018
+
+Symbol: USB_LP_CAN1_RX0_IRQHandler
+   Definitions
+      At line 288 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 92 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 218 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+UsageFault_Handler 00000012
+
+Symbol: UsageFault_Handler
+   Definitions
+      At line 182 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 60 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 183 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+WWDG_IRQHandler 00000018
+
+Symbol: WWDG_IRQHandler
+   Definitions
+      At line 268 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 72 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 198 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+__user_initial_stackheap 0000001C
+
+Symbol: __user_initial_stackheap
+   Definitions
+      At line 357 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 355 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+Comment: __user_initial_stackheap used once
+79 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+Heap_Size 00000000
+
+Symbol: Heap_Size
+   Definitions
+      At line 34 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 38 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 361 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+Stack_Size 00000200
+
+Symbol: Stack_Size
+   Definitions
+      At line 23 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 26 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+      At line 360 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+
+__Vectors_Size 00000150
+
+Symbol: __Vectors_Size
+   Definitions
+      At line 144 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 52 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+Comment: __Vectors_Size used once
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 151 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 156 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+Comment: __main used once
+__use_two_region_memory 00000000
+
+Symbol: __use_two_region_memory
+   Definitions
+      At line 354 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      None
+Comment: __use_two_region_memory unused
+rt_hw_hard_fault 00000000
+
+Symbol: rt_hw_hard_fault
+   Definitions
+      At line 44 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 57 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+Comment: rt_hw_hard_fault used once
+rt_hw_pend_sv 00000000
+
+Symbol: rt_hw_pend_sv
+   Definitions
+      At line 45 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 68 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+Comment: rt_hw_pend_sv used once
+rt_hw_timer_handler 00000000
+
+Symbol: rt_hw_timer_handler
+   Definitions
+      At line 46 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+   Uses
+      At line 69 in file ..\..\rt-thread\libcpu\arm\stm32\start_rvds.S
+Comment: rt_hw_timer_handler used once
+5 symbols
+418 symbols in table
