@@ -255,4 +255,10 @@ void rt_hw_board_init(void)
     }
 }
 
+void rt_hw_spi1_baud_rate(uint16_t SPI_BaudRatePrescaler)
+{
+    SPI1->CR1 &= ~SPI_BaudRatePrescaler_256;
+    SPI1->CR1 |= SPI_BaudRatePrescaler;
+}
+
 /*@}*/
