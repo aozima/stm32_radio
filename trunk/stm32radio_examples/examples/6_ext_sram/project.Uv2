@@ -71,11 +71,10 @@ File 4,2,<..\..\rt-thread\libcpu\arm\stm32\start_rvds.S><start_rvds.S>
 File 5,1,<.\application.c><application.c>
 File 5,1,<.\startup.c><startup.c>
 File 5,1,<.\board.c><board.c>
+File 5,1,<.\system_stm32f10x.c><system_stm32f10x.c>
 File 5,1,<.\stm32f10x_it.c><stm32f10x_it.c>
 File 5,1,<.\usart.c><usart.c>
 File 5,1,<.\fsmc_sram.c><fsmc_sram.c>
-
-
 
 
 Options 1,0,0  // Target 'RT-Thread STM32'
