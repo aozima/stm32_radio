@@ -148,21 +148,21 @@ OPTFFF 7,126,1,0,0,0,0,0,<.\lcd.c><lcd.c>
 OPTFFF 7,127,1,0,0,0,0,0,<.\spi_flash.c><spi_flash.c> 
 OPTFFF 7,128,1,0,0,0,0,0,<.\startup.c><startup.c> 
 OPTFFF 7,129,1,0,0,0,0,0,<.\stm32f10x_it.c><stm32f10x_it.c> 
-OPTFFF 7,130,1,268435456,0,0,0,0,<.\three_panels.c><three_panels.c> 
-OPTFFF 7,131,1,0,0,0,0,0,<.\touch.c><touch.c> 
-OPTFFF 7,132,1,0,0,0,0,0,<.\usart.c><usart.c> 
-OPTFFF 7,133,1,0,0,0,0,0,<fmt0371\fmt0371.c><fmt0371.c> 
-OPTFFF 7,134,1,0,0,0,0,0,<.\utils.c><utils.c> 
-OPTFFF 7,135,1,0,0,0,0,0,<.\at45dbxx.c><at45dbxx.c> 
-OPTFFF 7,136,1,0,0,0,0,0,<.\codec.c><codec.c> 
-OPTFFF 7,137,1,0,0,0,0,0,<.\fsmc_nand.c><fsmc_nand.c> 
-OPTFFF 7,138,1,0,0,0,0,0,<.\fsmc_sram.c><fsmc_sram.c> 
-OPTFFF 7,139,1,0,0,0,0,0,<.\setup.c><setup.c> 
-OPTFFF 7,140,1,0,0,0,0,0,<.\ssd1289.c><ssd1289.c> 
-OPTFFF 7,141,1,0,0,0,0,0,<.\sst25vfxx.c><sst25vfxx.c> 
-OPTFFF 7,142,1,0,0,0,0,0,<.\system_stm32f10x.c><system_stm32f10x.c> 
+OPTFFF 7,130,1,0,0,0,0,0,<.\touch.c><touch.c> 
+OPTFFF 7,131,1,0,0,0,0,0,<.\usart.c><usart.c> 
+OPTFFF 7,132,1,0,0,0,0,0,<fmt0371\fmt0371.c><fmt0371.c> 
+OPTFFF 7,133,1,0,0,0,0,0,<.\utils.c><utils.c> 
+OPTFFF 7,134,1,0,0,0,0,0,<.\at45dbxx.c><at45dbxx.c> 
+OPTFFF 7,135,1,0,0,0,0,0,<.\codec.c><codec.c> 
+OPTFFF 7,136,1,0,0,0,0,0,<.\fsmc_nand.c><fsmc_nand.c> 
+OPTFFF 7,137,1,0,0,0,0,0,<.\fsmc_sram.c><fsmc_sram.c> 
+OPTFFF 7,138,1,0,0,0,0,0,<.\setup.c><setup.c> 
+OPTFFF 7,139,1,0,0,0,0,0,<.\ssd1289.c><ssd1289.c> 
+OPTFFF 7,140,1,0,0,0,0,0,<.\sst25vfxx.c><sst25vfxx.c> 
+OPTFFF 7,141,1,0,0,0,0,0,<.\system_stm32f10x.c><system_stm32f10x.c> 
+OPTFFF 7,142,1,0,0,0,0,0,<.\two_panels.c><two_panels.c> 
 
-ExtF <F:\stm32radio\stm32radio_examples\examples\4_gui_three_panels\board.h> 1,1,0,{ 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,110,0,0,0,145,0,0,0,148,4,0,0,243,1,0,0 }
+ExtF <F:\stm32radio\stm32radio_examples\examples\4_gui_three_panels\board.h> 8,22,0,{ 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,110,0,0,0,145,0,0,0,148,4,0,0,243,1,0,0 }
 
 TARGOPT 1, (RT-Thread STM32)
  ADSCLK=8000000

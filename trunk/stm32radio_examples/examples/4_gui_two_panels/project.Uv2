@@ -140,7 +140,6 @@ File 7,1,<.\lcd.c><lcd.c>
 File 7,1,<.\spi_flash.c><spi_flash.c>
 File 7,1,<.\startup.c><startup.c>
 File 7,1,<.\stm32f10x_it.c><stm32f10x_it.c>
-File 7,1,<.\three_panels.c><three_panels.c>
 File 7,1,<.\touch.c><touch.c>
 File 7,1,<.\usart.c><usart.c>
 File 7,1,<fmt0371\fmt0371.c><fmt0371.c>
@@ -153,6 +152,7 @@ File 7,1,<.\setup.c><setup.c>
 File 7,1,<.\ssd1289.c><ssd1289.c>
 File 7,1,<.\sst25vfxx.c><sst25vfxx.c>
 File 7,1,<.\system_stm32f10x.c><system_stm32f10x.c>
+File 7,1,<.\two_panels.c><two_panels.c>
 
 
 Options 1,0,0  // Target 'RT-Thread STM32'
