@@ -65,7 +65,7 @@
 // <o> CODEC Mode
 // <0=>I2S Slave
 // <1=>I2S Master
-#define CODEC_MASTER_MODE	0
+#define CODEC_MASTER_MODE	1
 
 // <o> CODEC SPI Port
 // <0=>SPI2
@@ -76,7 +76,7 @@
 // <1=>Version 1: AT45DB161D
 // <2=>Version 2: SST25VF016B
 // 	<i>Default: 2
-#define SPI_FLASH_TYPE             1
+#define SPI_FLASH_TYPE             2
 
 void rt_hw_led_on(int n);
 void rt_hw_led_off(int n);
