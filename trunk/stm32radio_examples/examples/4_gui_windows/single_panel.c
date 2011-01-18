@@ -63,6 +63,8 @@ void workbench_init()
 
 void gui_init()
 {
+  	extern void rtgui_touch_hw_init(void);
+	extern rt_err_t load_setup(void);
     rtgui_rect_t rect;
 
 	/* 初始化RT-Thread/GUI server */
@@ -83,7 +85,9 @@ void gui_init()
 	rt_hw_key_init();
 
 	/* 初始化触摸屏驱动 */
-	rt_hw_touch_init();
+	load_setup(); //touch装载默认值
+	rtgui_touch_hw_init();	
+    rt_device_init_all();
 
 	/* 初始化workbench */
 	workbench_init();

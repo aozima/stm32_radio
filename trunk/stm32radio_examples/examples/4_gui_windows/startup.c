@@ -98,7 +98,10 @@ void rtthread_startup(void)
 
     /* init hardware device */
 #ifdef RT_USING_DFS
+{
+	extern void rt_hw_spi_flash_init(void);
     rt_hw_spi_flash_init();
+}
 #endif
 
     /* init all device */
