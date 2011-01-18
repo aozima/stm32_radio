@@ -16,6 +16,8 @@
 #ifndef __BOARD_H__
 #define __BOARD_H__
 
+#include <stdint.h>
+
 /* board configuration */
 // <o> SDCard Driver <1=>SDIO sdcard <0=>SPI MMC card
 // 	<i>Default: 1
@@ -24,7 +26,7 @@
 /* whether use board external SRAM memory */
 // <e>Use external SRAM memory on the board
 // 	<i>Enable External SRAM memory
-#define STM32_EXT_SRAM          0
+#define STM32_EXT_SRAM          1
 //	<o>Begin Address of External SRAM
 //		<i>Default: 0x68000000
 #define STM32_EXT_SRAM_BEGIN    0x68000000 /* the begining address of external SRAM */
@@ -43,14 +45,18 @@
 #define STM32_CONSOLE_USART     1
 
 // <o> LCD Module Version
-// <1=>Version 1:fmt0371
-// <2=>Version 2:ili9320/9325
+// <1=>Version 1: fmt0371
+// <2=>Version 2: i8080/16bit ili9320/9325/9328 LG4531 ST7783
+// <3=>Version 3: i8080/16bit SSD1289
 // 	<i>Default: 1
-#define LCD_VERSION             2
+#define LCD_VERSION             3
 
-// <o> LCD Module brightness use PWM: <0=>NO <1=>YES
+// <o> LCD backlight:
+// <0=>NO
+// <1=>PB9 TIM4_CH4 ( Version: V0.* V3.0 V3.1 )
+// <2=>PB6 TIM4_CH1 ( Version: V4 )
 // 	<i>Default: 1
-#define LCD_USE_PWM             0
+#define LCD_USE_PWM             2
 
 /*
  * IMPORTANT NOTICE:
@@ -59,19 +65,29 @@
 // <o> CODEC Mode
 // <0=>I2S Slave
 // <1=>I2S Master
-#define CODEC_MASTER_MODE	0
+#define CODEC_MASTER_MODE	1
 
 // <o> CODEC SPI Port
 // <0=>SPI2
 // <1=>SPI3
-#define CODEC_USE_SPI3		0
+#define CODEC_USE_SPI3		1
 
-void rt_hw_board_led_on(int n);
-void rt_hw_board_led_off(int n);
+// <o> SPI FLASH TYPE
+// <1=>Version 1: AT45DB161D
+// <2=>Version 2: SST25VF016B
+// 	<i>Default: 2
+#define SPI_FLASH_TYPE             2
+
+void rt_hw_led_on(int n);
+void rt_hw_led_off(int n);
+void rt_hw_led_init(void);
+
 void rt_hw_board_init(void);
 
 void rt_hw_usart_init(void);
 void rt_hw_sdcard_init(void);
+
+void rt_hw_spi1_baud_rate(uint16_t SPI_BaudRatePrescaler);
 
 extern struct rt_semaphore spi1_lock;
 
