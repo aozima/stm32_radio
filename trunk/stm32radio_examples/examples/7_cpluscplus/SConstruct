@@ -1,0 +1,56 @@
+import os
+import sys
+
+RTT_ROOT = os.path.normpath(os.getcwd() + '/../..')
+sys.path = sys.path + [os.path.join(RTT_ROOT, 'scons_script')]
+import project
+import rtconfig
+
+target = 'rtthread-stm32'
+projects = []
+
+AddOption('--target',
+                  dest='target',
+                  type='string',
+                  help='set target project: mdk')
+
+if GetOption('target'):
+	SetOption('no_exec', 1)
+
+env = Environment(tools = ['mingw'],
+	AS = rtconfig.AS, ASFLAGS = rtconfig.AFLAGS,
+	CC = rtconfig.CC, CCFLAGS = rtconfig.CFLAGS,
+	CXX = rtconfig.CXX, CXXFLAGS = rtconfig.CXXFLAGS,
+	AR = rtconfig.AR, ARFLAGS = '-rc',
+	LINK = rtconfig.LINK, LINKFLAGS = rtconfig.LFLAGS)
+env.PrependENVPath('PATH', rtconfig.EXEC_PATH)
+
+Export('env')
+Export('RTT_ROOT')
+Export('rtconfig')
+Export('projects')
+
+# STM32 firemare library building script
+objs = SConscript(RTT_ROOT + '/STM32F10x_Libraries/SConscript', variant_dir='build/STM32F10x_Libraries', duplicate=0)
+
+# component script 
+Repository(RTT_ROOT + '/scons_script')
+# kernel building script
+objs = objs + SConscript('kernel/SConscript', variant_dir='build/kernel', duplicate=0)
+# components building script
+objs = objs + SConscript('components/SConscript', variant_dir='build/components', duplicate=0)
+# libcpu porting building script
+objs = objs + SConscript('libcpu/SConscript', variant_dir='build/libcpu', duplicate=0)
+
+# board build script
+objs = objs + SConscript('SConscript')
+
+TARGET = target + '.' + rtconfig.TARGET_EXT
+env.Program(TARGET, objs)
+env.AddPostAction(TARGET, rtconfig.POST_ACTION)
+
+if GetOption('target') == 'mdk':
+	project.MDKProject('project.uV2', projects)
+
+if GetOption('target') == 'builder':
+	project.BuilderProject('.builder.project', project)
