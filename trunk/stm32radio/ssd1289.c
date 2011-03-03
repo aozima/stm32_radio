@@ -272,7 +272,7 @@ void ssd1289_init(void)
     // DCT[3:0] fosc/4 BT[2:0]  DC{3:0] fosc/4
     write_reg(0x0003,0x0804);//0xA8A4
     write_reg(0x000C,0x0000);//
-    write_reg(0x000D,0x080C);//
+    write_reg(0x000D,0x0808);// 0x080C --> 0x0808
     // power control 4
     // 0 0 VCOMG VDV4 VDV3 VDV2 VDV1 VDV0 0 0 0 0 0 0 0 0
     // 0 0   1    0    1    0    1    1   0 0 0 0 0 0 0 0
