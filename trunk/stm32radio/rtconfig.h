@@ -184,5 +184,7 @@
 /* #define RTGUI_USING_MOUSE_CURSOR */
 /* default font size in RTGUI */
 #define RTGUI_DEFAULT_FONT_SIZE	16
+/* image support */
+#define RTGUI_IMAGE_XPM
 
 #endif
