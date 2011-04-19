@@ -304,7 +304,7 @@ int decode_subframe_lpc(FLACContext *s, int32_t* decoded, int pred_order)
 
 //		rt_kprintf("w\n");
     }
-    
+    rt_malloc(coeffs);
     return 0;
 }
 
