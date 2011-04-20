@@ -3,12 +3,6 @@
  
 #include "bitstreamf.h"
 
-#define MAX_CHANNELS 2       /* Maximum supported channels */
-#define MAX_BLOCKSIZE 1152   /* Maxsize in samples of one uncompressed frame */
-#define MAX_FRAMESIZE 5*1024  /* Maxsize in bytes of one compressed frame */
-
-#define FLAC_OUTPUT_DEPTH 16 /* Provide samples left-shifted to 28 bits+sign */
-
 
 enum decorrelation_type {
     INDEPENDENT,

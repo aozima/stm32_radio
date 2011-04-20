@@ -32,6 +32,10 @@
 #define false RT_FALSE
 #define bool rt_bool_t
 
+#define MAX_CHANNELS 2         /* Maximum supported channels */
+#define MAX_BLOCKSIZE 1152     /* Maxsize in samples of one uncompressed frame */
+#define MAX_FRAMESIZE 5*1024   /* Maxsize in bytes of one compressed frame */
+#define FLAC_OUTPUT_DEPTH 16   /* Provide samples left-shifted to 28 bits+sign */
 
 unsigned char filebuf[MAX_FRAMESIZE]; /* The input buffer */
 int8_t decoded0[4 * MAX_BLOCKSIZE];
@@ -39,13 +43,13 @@ int8_t decoded1[4 * MAX_BLOCKSIZE];
 
 
 /*
-*定义mempool块大小.
-*mempll_block_size = fc.max_blocksize * 4) * 2 
-现在只支持fc.max_blocksize=1152的情况
-*/
-#define  mempll_block_size   9216 
+ * 定义mempool块大小.
+ * mempll_block_size = fc.max_blocksize * 4
+ * 现在只支持fc.max_blocksize=1152的情况
+ */
+#define  mempll_block_size  (4 * MAX_BLOCKSIZE) 
 
-//我们共申请两块mempool,并留出4字节做为控制块.
+//我们共申请两块mempool,并留出4字节做为控制块,每块大小为:mempll_block_size
 static rt_uint8_t mempool[ (mempll_block_size+4) *2];
 static struct rt_mempool _mp;
 //内存池初始化标识
@@ -55,17 +59,17 @@ static rt_bool_t is_inited = RT_FALSE;
 
 static void dump_headers(FLACContext *s)
 {
-    rt_kprintf("  Blocksize: %d .. %d\n", s->min_blocksize, 
+    rt_kprintf("\n\r  Blocksize: %d .. %d\n\r", s->min_blocksize, 
                    s->max_blocksize);
-    rt_kprintf("  Framesize: %d .. %d\n", s->min_framesize, 
+    rt_kprintf("  Framesize: %d .. %d\n\r", s->min_framesize, 
                    s->max_framesize);
-    rt_kprintf("  Samplerate: %d\n", s->samplerate);
-    rt_kprintf("  Channels: %d\n", s->channels);
-    rt_kprintf("  Bits per sample: %d\n", s->bps);
-    rt_kprintf("  Metadata length: %d\n", s->metadatalength);
-    rt_kprintf("  Total Samples: %lu\n",s->totalsamples);
-    rt_kprintf("  Duration: %d ms\n",s->length);
-    rt_kprintf("  Bitrate: %d kbps\n",s->bitrate);
+    rt_kprintf("  Samplerate: %d\n\r", s->samplerate);
+    rt_kprintf("  Channels: %d\n\r", s->channels);
+    rt_kprintf("  Bits per sample: %d\n\r", s->bps);
+    rt_kprintf("  Metadata length: %d\n\r", s->metadatalength);
+    rt_kprintf("  Total Samples: %lu\n\r",s->totalsamples);
+    rt_kprintf("  Duration: %d ms\n\r",s->length);
+    rt_kprintf("  Bitrate: %d kbps\n\r",s->bitrate);
 }
 
 static bool flac_init(int fd, FLACContext* fc)
@@ -222,9 +226,9 @@ int flac(char* path)
 	snd_device = rt_device_find("snd");
 	if (snd_device != RT_NULL)
 	{
-		/* set tx complete call back function 
-		   设置回调函数,当DMA传输完毕时,会执行flac_decoder_tx_done
-		*/
+		/*  set tx complete call back function 
+		 *  设置回调函数,当DMA传输完毕时,会执行flac_decoder_tx_done
+		 */
 		rt_device_set_tx_complete(snd_device, flac_decoder_tx_done);
 		rt_device_open(snd_device, RT_DEVICE_OFLAG_WRONLY);
 	}
@@ -235,6 +239,13 @@ int flac(char* path)
     flac_init(fd,&fc); 
     dump_headers(&fc);
 
+	if((fc.min_blocksize != fc.max_blocksize) || (fc.max_blocksize > MAX_BLOCKSIZE ) || (fc.max_framesize > MAX_FRAMESIZE))
+	{
+	  rt_kprintf("\n\rOo Do not support this file!!\n\r"); 
+	  rt_kprintf("Please make sure that your file is compressed under level 2 ^_^\n\r"); 
+	  return false;
+	}
+
 	//decoded0,decoded1用来存放临时PCM数据
 	fc.decoded0 = (int32_t *)decoded0;
 	fc.decoded1 = (int32_t *)decoded1;
@@ -243,6 +254,8 @@ int flac(char* path)
 	rt_device_control(snd_device, CODEC_CMD_SAMPLERATE, &(fc.samplerate));
 
     bytesleft=read(fd,filebuf,MAX_FRAMESIZE);
+
+
        while (bytesleft) 
 	   {
 	   	//向mempoll申请空间,如果申请不成功则一直在此等待.
