@@ -215,97 +215,77 @@ static int decode_subframe_fixed(FLACContext *s, int32_t* decoded, int pred_orde
     return 0;
 }
 
+
+/* level8 用到这个函数最多
+ * 之前版本经过验证是不行的
+ * 这个函数有arm汇编版,但移植不成功
+ * 找了个C语言版本的,效率不高
+ */
 int decode_subframe_lpc(FLACContext *s, int32_t* decoded, int pred_order)
 {
-    int sum, i, j;
-    int64_t wsum;
-    int coeff_prec, qlevel;
-//  int coeffs[pred_order];	
-    int32_t* output;
-	int32_t* reader;
-	int* pcoeffs;
-    //这样修改是有问题的 待整理 实测此函数用不上
-	int *coeffs = (int *)rt_malloc(pred_order);
-
-
-    // warm up samples
-	output = decoded;
-	i = pred_order;
-	while(i--)
-	{
-		*output = get_sbits(&s->gb, s->curr_bps);
-		output += s->channels;
-	}
-    
-    coeff_prec = get_bits(&s->gb, 4) + 1;
-    if (coeff_prec == 16)
-    {
-        //fprintf(stderr,"invalid coeff precision\n");
-        return -6;
-    }
-    qlevel = get_sbits(&s->gb, 5);
-    if (qlevel < 0) 
-    {
-        //fprintf(stderr,"qlevel %d not supported, maybe buggy stream\n", qlevel);
-        return -7;
-    }
-
-    for (i = 0; i < pred_order; i++)
-    {
+     int i, j;
+     int coeff_prec, qlevel;
+     int coeffs[32];
+ 
+     /* warm up samples */
+     for (i = 0; i < pred_order; i++) {
+         decoded[i] = get_sbits(&s->gb, s->curr_bps);
+     }
+ 
+     coeff_prec = get_bits(&s->gb, 4) + 1;
+     if (coeff_prec == 16) {
+//         av_log(s->avctx, AV_LOG_ERROR, "invalid coeff precision\n");
+         return -1;
+     }
+     qlevel = get_sbits(&s->gb, 5);
+     if (qlevel < 0) {
+//         av_log(s->avctx, AV_LOG_ERROR, "qlevel %d not supported, maybe buggy stream\n",
+//                qlevel);
+         return -1;
+     }
+ 
+     for (i = 0; i < pred_order; i++) {
         coeffs[i] = get_sbits(&s->gb, coeff_prec);
-    }
-    
-    if (decode_residuals(s, decoded, pred_order) < 0)
-        return -8;
+     }
+ 
+     if (decode_residuals(s, decoded, pred_order) < 0)
+         return -1;
+ 
+     if (s->bps > 16) {
+         int64_t sum;
+         for (i = pred_order; i < s->blocksize; i++) {
+             sum = 0;
+             for (j = 0; j < pred_order; j++)
+                 sum += (int64_t)coeffs[j] * decoded[i-j-1];
+             decoded[i] += sum >> qlevel;
+         }
+     } else {
+         for (i = pred_order; i < s->blocksize-1; i += 2) {
+             int c;
+             int d = decoded[i-pred_order];
+             int s0 = 0, s1 = 0;
+             for (j = pred_order-1; j > 0; j--) {
+                 c = coeffs[j];
+                 s0 += c*d;
+                 d = decoded[i-j];
+                 s1 += c*d;
+             }
+             c = coeffs[0];
+             s0 += c*d;
+             d = decoded[i] += s0 >> qlevel;
+             s1 += c*d;
+             decoded[i+1] += s1 >> qlevel;
+         }
+         if (i < s->blocksize) {
+             int sum = 0;
+             for (j = 0; j < pred_order; j++)
+                 sum += coeffs[j] * decoded[i-j-1];
+             decoded[i] += sum >> qlevel;
+         }
+     }
+ 
+     return 0;
 
-    if ((s->bps + coeff_prec + av_log2(pred_order)) <= 32) 
-	{
-		output = &decoded[pred_order * s->channels];
-		i = s->blocksize - pred_order;
-		while(i--)
-		{
-            sum = 0;
-
-			pcoeffs = coeffs;
-			reader = output;
-			j = pred_order;
-            while(j--)
-			{
-				reader -= s->channels;
-                sum += (*pcoeffs) * (*reader);
-				pcoeffs++;
-			}
-
-            *output += sum >> qlevel;
-			output += s->channels;
-		}
-    } 
-	else 
-	{
-		output = &decoded[pred_order * s->channels];
-		i = s->blocksize - pred_order;
-		while(i--)
-		{
-            wsum = 0;
-			pcoeffs = coeffs;
-			reader = output;
-			j = pred_order;
-            while(j--)
-			{
-				reader -= s->channels;
-                wsum += (int64_t)(*pcoeffs) * (int64_t)(*reader);
-				pcoeffs++;
-			}
-
-			wsum >>= qlevel;
-            *output += wsum;
-			output += s->channels;
-		}
-
-//		rt_kprintf("w\n");
-    }
-    rt_malloc(coeffs);
-    return 0;
 }
 
 static __inline int decode_subframe(FLACContext *s, int channel, int32_t* decoded)
