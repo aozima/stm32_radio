@@ -87,8 +87,8 @@ File 6,5,<.\rtconfig.h><rtconfig.h>
 File 6,1,<.\utils.c><utils.c>
 File 7,1,<.\Flac\bitstreamf.c><bitstreamf.c>
 File 7,1,<.\Flac\decoder.c><decoder.c>
-File 7,1,<.\Flac\flac.c><flac.c>
 File 7,1,<.\Flac\tables.c><tables.c>
+File 7,1,<.\Flac\Ext_flac.c><Ext_flac.c>
 
 
 Options 1,0,0  // Target 'RT-Thread STM32'
@@ -122,7 +122,7 @@ Options 1,0,0  // Target 'RT-Thread STM32'
  GenLib=0
  GenHex=0
  Debug=1
- Browse=1
+ Browse=0
  LstDir (.\)
  HexSel=1
  MG32K=0
