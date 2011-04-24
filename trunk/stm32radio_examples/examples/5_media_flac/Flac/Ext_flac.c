@@ -40,7 +40,7 @@
  */
 #define MAX_BLOCKSIZE 4608 
   
-#define MAX_FRAMESIZE 16*1024  /* Maxsize in bytes of one compressed frame */
+#define MAX_FRAMESIZE 20*1024  /* Maxsize in bytes of one compressed frame */
 #define FLAC_OUTPUT_DEPTH 16   /* Provide samples left-shifted to 28 bits+sign */
 
 int8_t PCM_buffer0[4 * MAX_BLOCKSIZE ];   //放置送CODE的PCM数据流,同时也与temp_buffer组合充当了之前版本的fc.decoded0(临时PCM数据)
