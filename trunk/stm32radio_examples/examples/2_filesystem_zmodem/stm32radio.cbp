@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="stm32radio" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\Debug\stm32radio" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\Release\stm32radio" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="ZMODEM\RBSB.C">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ZMODEM\RZ.C">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ZMODEM\RZ.H" />
+		<Unit filename="ZMODEM\SZ.C">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ZMODEM\ZM.C">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ZMODEM\old.ZMODEM.H" />
+		<Unit filename="ZMODEM\zmodem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ZMODEM\zmodem.h" />
+		<Unit filename="application.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="board.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="board.h" />
+		<Unit filename="rtconfig.h" />
+		<Unit filename="sdcard.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sdcard.h" />
+		<Unit filename="startup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32f10x_conf.h" />
+		<Unit filename="stm32f10x_it.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32f10x_it.h" />
+		<Unit filename="usart.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="usart.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\include\dfs.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\include\dfs_def.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\include\dfs_elm.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\include\dfs_file.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\include\dfs_fs.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\include\dfs_init.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\include\dfs_posix.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\src\dfs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\dfs\src\dfs_file.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\dfs\src\dfs_fs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\dfs\src\dfs_posix.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\finsh\cmd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\finsh\finsh.h" />
+		<Unit filename="..\..\rt-thread\components\finsh\finsh_compiler.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\finsh\finsh_error.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\finsh\finsh_error.h" />
+		<Unit filename="..\..\rt-thread\components\finsh\finsh_heap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\finsh\finsh_heap.h" />
+		<Unit filename="..\..\rt-thread\components\finsh\finsh_init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\finsh\finsh_node.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\finsh\finsh_node.h" />
+		<Unit filename="..\..\rt-thread\components\finsh\finsh_ops.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\finsh\finsh_ops.h" />
+		<Unit filename="..\..\rt-thread\components\finsh\finsh_parser.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\finsh\finsh_parser.h" />
+		<Unit filename="..\..\rt-thread\components\finsh\finsh_token.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\finsh\finsh_token.h" />
+		<Unit filename="..\..\rt-thread\components\finsh\finsh_var.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\finsh\finsh_var.h" />
+		<Unit filename="..\..\rt-thread\components\finsh\finsh_vm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\finsh\finsh_vm.h" />
+		<Unit filename="..\..\rt-thread\components\finsh\shell.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\finsh\shell.h" />
+		<Unit filename="..\..\rt-thread\components\finsh\symbol.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\include\rtdef.h" />
+		<Unit filename="..\..\rt-thread\include\rthw.h" />
+		<Unit filename="..\..\rt-thread\include\rtthread.h" />
+		<Unit filename="..\..\rt-thread\kernel\clock.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\kernel\device.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\kernel\idle.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\kernel\ipc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\kernel\irq.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\kernel\kservice.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\kernel\kservice.h" />
+		<Unit filename="..\..\rt-thread\kernel\mem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\kernel\mempool.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\kernel\object.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\kernel\scheduler.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\kernel\slab.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\kernel\thread.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\kernel\timer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
