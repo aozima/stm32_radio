@@ -1,0 +1,89 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;/*
+    2 00000000         ; * File      : fault_rvds.S
+    3 00000000         ; * This file is part of RT-Thread RTOS
+    4 00000000         ; * COPYRIGHT (C) 2006, RT-Thread Development Team
+    5 00000000         ; *
+    6 00000000         ; * The license and distribution terms for this file may
+                        be
+    7 00000000         ; * found in the file LICENSE in this distribution or at
+                       
+    8 00000000         ; * http://www.rt-thread.org/license/LICENSE
+    9 00000000         ; *
+   10 00000000         ; * Change Logs:
+   11 00000000         ; * Date           Author       Notes
+   12 00000000         ; * 2009-01-17     Bernard      first version
+   13 00000000         ; */
+   14 00000000         
+   15 00000000                 AREA             |.text|, CODE, READONLY, ALIGN=
+2
+   16 00000000                 THUMB
+   17 00000000                 REQUIRE8
+   18 00000000                 PRESERVE8
+   19 00000000         
+   20 00000000                 IMPORT           rt_hw_hard_fault_exception
+   21 00000000         
+   22 00000000         rt_hw_hard_fault
+                               PROC
+   23 00000000                 EXPORT           rt_hw_hard_fault
+   24 00000000         
+   25 00000000         ; get current context
+   26 00000000 F3EF 8009       MRS              r0, psp     ; get fault thread 
+                                                            stack pointer
+   27 00000004 B500            PUSH             {lr}
+   28 00000006 F7FF FFFE       BL               rt_hw_hard_fault_exception
+   29 0000000A F85D EB04       POP              {lr}
+   30 0000000E         
+   31 0000000E F04E 0E04       ORR              lr, lr, #0x04
+   32 00000012 4770            BX               lr
+   33 00000014                 ENDP
+   34 00000014         
+   35 00000014                 END
+Command Line: --debug --xref --cpu=Cortex-M3 --apcs=interwork --depend=.\obj\fa
+ult_rvds.d -o.\obj\fault_rvds.o -Id:\Keil\ARM\CMSIS\Include -Id:\Keil\ARM\INC\S
+T\STM32F10x --list=.\fault_rvds.lst ..\..\rt-thread\libcpu\arm\stm32\fault_rvds
+.S
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 15 in file ..\..\rt-thread\libcpu\arm\stm32\fault_rvds.S
+   Uses
+      None
+Comment: .text unused
+rt_hw_hard_fault 00000000
+
+Symbol: rt_hw_hard_fault
+   Definitions
+      At line 22 in file ..\..\rt-thread\libcpu\arm\stm32\fault_rvds.S
+   Uses
+      At line 23 in file ..\..\rt-thread\libcpu\arm\stm32\fault_rvds.S
+Comment: rt_hw_hard_fault used once
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+rt_hw_hard_fault_exception 00000000
+
+Symbol: rt_hw_hard_fault_exception
+   Definitions
+      At line 20 in file ..\..\rt-thread\libcpu\arm\stm32\fault_rvds.S
+   Uses
+      At line 28 in file ..\..\rt-thread\libcpu\arm\stm32\fault_rvds.S
+Comment: rt_hw_hard_fault_exception used once
+1 symbol
+326 symbols in table

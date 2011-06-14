@@ -3139,7 +3139,7 @@ static rt_err_t rt_sdcard_control(rt_device_t dev, rt_uint8_t cmd, void *args)
         geometry = (struct rt_device_blk_geometry *)args;
         if (geometry == RT_NULL) return -RT_ERROR;
 
-        geometry->bytes_per_sector = SDCardInfo.CardBlockSize;
+        geometry->bytes_per_sector = 512;
         geometry->block_size = SDCardInfo.CardBlockSize;
 		if (CardType == SDIO_HIGH_CAPACITY_SD_CARD)
 			geometry->sector_count = (SDCardInfo.SD_csd.DeviceSize + 1)  * 1024;
@@ -3200,7 +3200,7 @@ void rt_hw_sdcard_init()
 		sdcard_device.open 	= rt_sdcard_open;
 		sdcard_device.close = rt_sdcard_close;
 		sdcard_device.read 	= rt_sdcard_read;
-		sdcard_device.write = rt_sdcard_write;
+		sdcard_device.write = rt_sdcard_write;				
 		sdcard_device.control = rt_sdcard_control;
 
 		/* no private */
