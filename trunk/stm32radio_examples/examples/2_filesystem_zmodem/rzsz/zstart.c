@@ -27,7 +27,7 @@ rt_err_t zmodem_rx_ind(rt_device_t dev, rt_size_t size)
 
 void finsh_rz(void *parameter)
 {
-	char *path;
+	char *path,i,buf[100];
     rt_err_t (*rx_indicate)(rt_device_t dev, rt_size_t size);
     rt_uint8_t flag;	
 
@@ -106,7 +106,7 @@ static void sz(char *para)
     {
         rt_kprintf("%s not find\r\n",device_name);
     }
-    zmodem.device = device;
+    zmodem.device = device;							   
     init_thread = rt_thread_create("sz",
                                    finsh_sz,
                                    (void*)para,
