@@ -13,16 +13,13 @@ group['CPPPATH'] = [os.getcwd()]
 group['CPPDEFINES'] = ['USE_STDPERIPH_DRIVER', rtconfig.STM32_TYPE]
 group['LINKFLAGS'] = ''
 
-src_bsp = ['application.c', 'startup.c', 'board.c', 'system_stm32f10x.c', 'stm32f10x_it.c']
-src_drv = ['usart.c']
-
 if rtconfig.RT_USING_DFS:
 	src_drv += ['sdcard.c']
 
 if rtconfig.RT_USING_LWIP:
 	src_drv += ['dm9000a.c']
 
-group['src'] = File(src_bsp + src_drv)
+group['src'] = Glob('*.c')
 
 # add group to project list
 projects.append(group)
