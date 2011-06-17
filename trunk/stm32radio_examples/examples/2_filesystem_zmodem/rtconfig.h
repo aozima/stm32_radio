@@ -62,6 +62,7 @@
 // #define RT_USING_UART3
 
 /* SECTION: Console options */
+#define RT_USING_CONSOLE
 /* the buffer size of console*/
 #define RT_CONSOLEBUF_SIZE	128
 
@@ -78,16 +79,16 @@
 /* #define RT_USING_CPLUSPLUS */
 
 #define RT_USING_DFS
-//#define DFS_USING_WORKDIR
+#define DFS_USING_WORKDIR
 /* #define RT_USING_DFS_EFSL */
 /* byte alignment for EFSL */
 #define BYTE_ALIGNMENT
 
 #define RT_USING_DFS_ELMFAT
 #define RT_DFS_ELM_WORD_ACCESS
-#define RT_DFS_ELM_REENTRANT        1
+#define RT_DFS_ELM_REENTRANT
 #define RT_DFS_ELM_DRIVES			2
-#define RT_DFS_ELM_USE_LFN			2
+//#define RT_DFS_ELM_USE_LFN
 #define RT_DFS_ELM_MAX_LFN			255
 #define RT_DFS_ELM_MAX_SECTOR_SIZE  4096
 

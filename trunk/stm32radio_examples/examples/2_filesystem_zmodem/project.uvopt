@@ -581,6 +581,34 @@
       <PathWithFileName>..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\misc.c</PathWithFileName>
       <FilenameWithoutPath>misc.c</FilenameWithoutPath>
     </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>2</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\arm\startup_stm32f10x_hd.s</PathWithFileName>
+      <FilenameWithoutPath>startup_stm32f10x_hd.s</FilenameWithoutPath>
+    </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_cec.c</PathWithFileName>
+      <FilenameWithoutPath>stm32f10x_cec.c</FilenameWithoutPath>
+    </File>
   </Group>
 
   <Group>
@@ -1087,76 +1115,6 @@
     <cbSel>0</cbSel>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>58</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\rt-thread\libcpu\arm\stm32\cpu.c</PathWithFileName>
-      <FilenameWithoutPath>cpu.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>59</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\rt-thread\libcpu\arm\stm32\fault.c</PathWithFileName>
-      <FilenameWithoutPath>fault.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>60</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>39</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\rt-thread\libcpu\arm\stm32\interrupt.c</PathWithFileName>
-      <FilenameWithoutPath>interrupt.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>61</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>37</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>148</TopLine>
-      <CurrentLine>148</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\rt-thread\libcpu\arm\stm32\serial.c</PathWithFileName>
-      <FilenameWithoutPath>serial.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>62</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>40</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\rt-thread\libcpu\arm\stm32\stack.c</PathWithFileName>
-      <FilenameWithoutPath>stack.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>5</GroupNumber>
       <FileNumber>63</FileNumber>
       <FileType>2</FileType>
       <tvExp>0</tvExp>
@@ -1171,8 +1129,8 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>64</FileNumber>
-      <FileType>2</FileType>
+      <FileNumber>0</FileNumber>
+      <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
@@ -1180,22 +1138,8 @@
       <TopLine>0</TopLine>
       <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\rt-thread\libcpu\arm\stm32\fault_rvds.S</PathWithFileName>
-      <FilenameWithoutPath>fault_rvds.S</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>65</FileNumber>
-      <FileType>2</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>28</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\rt-thread\libcpu\arm\stm32\start_rvds.S</PathWithFileName>
-      <FilenameWithoutPath>start_rvds.S</FilenameWithoutPath>
+      <PathWithFileName>..\..\rt-thread\libcpu\arm\stm32\cpuport.c</PathWithFileName>
+      <FilenameWithoutPath>cpuport.c</FilenameWithoutPath>
     </File>
   </Group>
 
@@ -1358,11 +1302,39 @@
       <PathWithFileName>.\at45dbxx.c</PathWithFileName>
       <FilenameWithoutPath>at45dbxx.c</FilenameWithoutPath>
     </File>
+    <File>
+      <GroupNumber>6</GroupNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\serial.c</PathWithFileName>
+      <FilenameWithoutPath>serial.c</FilenameWithoutPath>
+    </File>
+    <File>
+      <GroupNumber>6</GroupNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\fs_test.c</PathWithFileName>
+      <FilenameWithoutPath>fs_test.c</FilenameWithoutPath>
+    </File>
   </Group>
 
   <Group>
     <GroupName>rzsz</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
@@ -1436,90 +1408,5 @@
       <FilenameWithoutPath>zdevice.c</FilenameWithoutPath>
     </File>
   </Group>
-
-  <AlienFiles>
-    <PathWithFilename>D:\MyDesign2\STM32\RT-Thread\我的RT-Thread移植\rtt_zmodem发布版本\rt-thread\components\finsh\shell.h</PathWithFilename>
-    <TopLine>1</TopLine>
-    <CurrentLine>1</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
-
-  <MDIGroups>
-    <Orientation>1</Orientation>
-    <ActiveMDIGroup>0</ActiveMDIGroup>
-    <MDIGroup>
-      <Size>100</Size>
-      <ActiveTab>0</ActiveTab>
-      <Documents>
-        <Doc>
-          <Name>..\..\rt-thread\kernel\idle.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>140</TopLine>
-          <CurrentLine>145</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\startup.c</Name>
-          <ColumnNumber>32</ColumnNumber>
-          <TopLine>127</TopLine>
-          <CurrentLine>127</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\rzsz\sz.c</Name>
-          <ColumnNumber>35</ColumnNumber>
-          <TopLine>228</TopLine>
-          <CurrentLine>228</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\rzsz\rz.c</Name>
-          <ColumnNumber>80</ColumnNumber>
-          <TopLine>66</TopLine>
-          <CurrentLine>75</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\usart.c</Name>
-          <ColumnNumber>47</ColumnNumber>
-          <TopLine>139</TopLine>
-          <CurrentLine>139</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>..\..\rt-thread\libcpu\arm\stm32\serial.c</Name>
-          <ColumnNumber>37</ColumnNumber>
-          <TopLine>148</TopLine>
-          <CurrentLine>148</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>..\..\rt-thread\components\finsh\shell.h</Name>
-          <ColumnNumber>40</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>1</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\rzsz\zstart.c</Name>
-          <ColumnNumber>12</ColumnNumber>
-          <TopLine>28</TopLine>
-          <CurrentLine>28</CurrentLine>
-        </Doc>
-      </Documents>
-    </MDIGroup>
-  </MDIGroups>
 
 </ProjectOpt>
