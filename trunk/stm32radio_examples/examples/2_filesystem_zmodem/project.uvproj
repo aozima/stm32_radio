@@ -828,32 +828,32 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>rzsz</GroupName>
+          <GroupName>zmodem</GroupName>
           <Files>
-            <File>
-              <FileName>sz.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\rzsz\sz.c</FilePath>
-            </File>
-            <File>
-              <FileName>rz.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\rzsz\rz.c</FilePath>
-            </File>
             <File>
               <FileName>zcore.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\rzsz\zcore.c</FilePath>
-            </File>
-            <File>
-              <FileName>zstart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\rzsz\zstart.c</FilePath>
+              <FilePath>.\zmodem\zcore.c</FilePath>
             </File>
             <File>
               <FileName>zdevice.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\rzsz\zdevice.c</FilePath>
+              <FilePath>.\zmodem\zdevice.c</FilePath>
+            </File>
+            <File>
+              <FileName>zstart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\zmodem\zstart.c</FilePath>
+            </File>
+            <File>
+              <FileName>rz.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\zmodem\rz.c</FilePath>
+            </File>
+            <File>
+              <FileName>sz.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\zmodem\sz.c</FilePath>
             </File>
           </Files>
         </Group>
