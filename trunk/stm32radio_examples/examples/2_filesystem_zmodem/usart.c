@@ -225,7 +225,7 @@ void rt_hw_usart_init()
 
 	/* uart init */
 #ifdef RT_USING_UART1
-	USART_InitStructure.USART_BaudRate = BITRATE;
+	USART_InitStructure.USART_BaudRate = 115200;
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;
 	USART_InitStructure.USART_Parity = USART_Parity_No;
@@ -248,7 +248,7 @@ void rt_hw_usart_init()
 #endif
 
 #ifdef RT_USING_UART2
-	USART_InitStructure.USART_BaudRate = BITRATE;
+	USART_InitStructure.USART_BaudRate = 115200;
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;
 	USART_InitStructure.USART_Parity = USART_Parity_No;
@@ -271,7 +271,7 @@ void rt_hw_usart_init()
 #endif
 
 #ifdef RT_USING_UART3
-	USART_InitStructure.USART_BaudRate = BITRATE;
+	USART_InitStructure.USART_BaudRate = 115200;
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;
 	USART_InitStructure.USART_Parity = USART_Parity_No;

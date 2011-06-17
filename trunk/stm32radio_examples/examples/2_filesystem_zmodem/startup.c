@@ -68,7 +68,6 @@ void assert_failed(u8* file, u32 line)
 /**
  * This function will startup RT-Thread RTOS.
  */
-extern void testbin(void);
 void rtthread_startup(void)
 {
     /* init board */
@@ -76,6 +75,7 @@ void rtthread_startup(void)
 
     /* show version */
     rt_show_version();
+
     /* init tick */
     rt_system_tick_init();
 
@@ -105,7 +105,6 @@ void rtthread_startup(void)
 
     /* init hardware device */
 #ifdef RT_USING_DFS
-    rt_hw_spi_flash_init();
     rt_hw_sdcard_init();
 #endif
 
@@ -135,7 +134,7 @@ int main(void)
 {
     rt_uint32_t UNUSED level;
 
-    /* disable interrupt first */				   
+    /* disable interrupt first */
     level = rt_hw_interrupt_disable();
 
     /* startup RT-Thread RTOS */

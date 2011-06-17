@@ -57,11 +57,11 @@
 /* Using Device System*/
 #define RT_USING_DEVICE
 #define RT_USING_UART1
-#define BITRATE  115200
 // #define RT_USING_UART2
 // #define RT_USING_UART3
 
 /* SECTION: Console options */
+
 #define RT_USING_CONSOLE
 /* the buffer size of console*/
 #define RT_CONSOLEBUF_SIZE	128
@@ -78,6 +78,7 @@
 /* Using C++ support*/
 /* #define RT_USING_CPLUSPLUS */
 
+
 #define RT_USING_DFS
 #define DFS_USING_WORKDIR
 /* #define RT_USING_DFS_EFSL */
@@ -85,12 +86,12 @@
 #define BYTE_ALIGNMENT
 
 #define RT_USING_DFS_ELMFAT
+//#define RT_DFS_ELM_REENTRANT
 #define RT_DFS_ELM_WORD_ACCESS
-#define RT_DFS_ELM_REENTRANT
 #define RT_DFS_ELM_DRIVES			2
 //#define RT_DFS_ELM_USE_LFN
 #define RT_DFS_ELM_MAX_LFN			255
-#define RT_DFS_ELM_MAX_SECTOR_SIZE  4096
+#define RT_DFS_ELM_MAX_SECTOR_SIZE  2048
 
 /* SECTION: DFS options */
 /* the max number of mounted filesystem */
@@ -99,6 +100,5 @@
 #define DFS_FD_MAX					8
 /* the max number of cached sector 		*/
 #define DFS_CACHE_MAX_NUM   		4
-
 
 #endif
