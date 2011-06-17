@@ -106,6 +106,12 @@ void DebugMon_Handler(void)
     while(1);
 }
 
+void SysTick_Handler(void)
+{
+    extern void rt_hw_timer_handler(void);
+    rt_hw_timer_handler();
+}
+
 /******************************************************************************/
 /*                 STM32F10x Peripherals Interrupt Handlers                   */
 /*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */
