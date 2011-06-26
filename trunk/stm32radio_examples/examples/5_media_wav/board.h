@@ -59,7 +59,7 @@
 // <o> CODEC Mode
 // <0=>I2S Slave
 // <1=>I2S Master
-#define CODEC_MASTER_MODE	0
+#define CODEC_MASTER_MODE	1
 
 // <o> CODEC SPI Port
 // <0=>SPI2

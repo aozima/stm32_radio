@@ -1,24 +1,34 @@
-/******************** (C) COPYRIGHT 2008 STMicroelectronics ********************
-* File Name          : stm32f10x_it.c
-* Author             : MCD Application Team
-* Version            : V1.1.2
-* Date               : 09/22/2008
-* Description        : Main Interrupt Service Routines.
-*                      This file provides template for all exceptions handler
-*                      and peripherals interrupt service routine.
-********************************************************************************
-* THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-* WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
-* AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY DIRECT,
-* INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING FROM THE
-* CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE CODING
-* INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
-*******************************************************************************/
+/**
+  ******************************************************************************
+  * @file    Project/STM32F10x_StdPeriph_Template/stm32f10x_it.c
+  * @author  MCD Application Team
+  * @version V3.5.0
+  * @date    08-April-2011
+  * @brief   Main Interrupt Service Routines.
+  *          This file provides template for all exceptions handler and
+  *          peripherals interrupt service routine.
+  ******************************************************************************
+  * @attention
+  *
+  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
+  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
+  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  *
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************
+  */
 
 /* Includes ------------------------------------------------------------------*/
 #include <rtthread.h>
 #include <serial.h>
 #include "board.h"
+
+/** @addtogroup STM32F10x_StdPeriph_Template
+  * @{
+  */
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -27,342 +37,101 @@
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
-/*******************************************************************************
-* Function Name  : NMIException
-* Description    : This function handles NMI exception.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void NMIException(void)
+/******************************************************************************/
+/*            Cortex-M3 Processor Exceptions Handlers                         */
+/******************************************************************************/
+
+/**
+  * @brief  This function handles NMI exception.
+  * @param  None
+  * @retval None
+  */
+void NMI_Handler(void)
 {
 }
 
-/*******************************************************************************
-* Function Name  : HardFaultException
-* Description    : This function handles Hard Fault exception.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void HardFaultException(void)
+/**
+  * @brief  This function handles Memory Manage exception.
+  * @param  None
+  * @retval None
+  */
+void MemManage_Handler(void)
 {
-    /* Go to infinite loop when Hard Fault exception occurs */
-    rt_kprintf("hard fault exception\n");
-    while (1)
-    {
-    }
+  /* Go to infinite loop when Memory Manage exception occurs */
+  while (1)
+  {
+  }
 }
 
-/*******************************************************************************
-* Function Name  : MemManageException
-* Description    : This function handles Memory Manage exception.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void MemManageException(void)
+/**
+  * @brief  This function handles Bus Fault exception.
+  * @param  None
+  * @retval None
+  */
+void BusFault_Handler(void)
 {
-    /* Go to infinite loop when Memory Manage exception occurs */
-    rt_kprintf("memory manage exception\n");
-    while (1)
-    {
-    }
+  /* Go to infinite loop when Bus Fault exception occurs */
+  while (1)
+  {
+  }
 }
 
-/*******************************************************************************
-* Function Name  : BusFaultException
-* Description    : This function handles Bus Fault exception.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void BusFaultException(void)
+/**
+  * @brief  This function handles Usage Fault exception.
+  * @param  None
+  * @retval None
+  */
+void UsageFault_Handler(void)
 {
-    /* Go to infinite loop when Bus Fault exception occurs */
-    rt_kprintf("bus fault exception\n");
-    while (1)
-    {
-    }
+  /* Go to infinite loop when Usage Fault exception occurs */
+  while (1)
+  {
+  }
 }
 
-/*******************************************************************************
-* Function Name  : UsageFaultException
-* Description    : This function handles Usage Fault exception.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void UsageFaultException(void)
-{
-    /* Go to infinite loop when Usage Fault exception occurs */
-    rt_kprintf("usage fault exception\n");
-    while (1)
-    {
-    }
-}
-
-/*******************************************************************************
-* Function Name  : DebugMonitor
-* Description    : This function handles Debug Monitor exception.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void DebugMonitor(void)
+/**
+  * @brief  This function handles SVCall exception.
+  * @param  None
+  * @retval None
+  */
+void SVC_Handler(void)
 {
 }
 
-/*******************************************************************************
-* Function Name  : SVCHandler
-* Description    : This function handles SVCall exception.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void SVCHandler(void)
+/**
+  * @brief  This function handles Debug Monitor exception.
+  * @param  None
+  * @retval None
+  */
+void DebugMon_Handler(void)
 {
 }
 
-/*******************************************************************************
-* Function Name  : WWDG_IRQHandler
-* Description    : This function handles WWDG interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void WWDG_IRQHandler(void)
+/**
+  * @brief  This function handles SysTick Handler.
+  * @param  None
+  * @retval None
+  */
+void SysTick_Handler(void)
 {
+    extern void rt_hw_timer_handler(void);
+    rt_hw_timer_handler();
 }
 
-/*******************************************************************************
-* Function Name  : PVD_IRQHandler
-* Description    : This function handles PVD interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void PVD_IRQHandler(void)
-{
-}
+/******************************************************************************/
+/*                 STM32F10x Peripherals Interrupt Handlers                   */
+/*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */
+/*  available peripheral interrupt handler's name please refer to the startup */
+/*  file (startup_stm32f10x_xx.s).                                            */
+/******************************************************************************/
 
-/*******************************************************************************
-* Function Name  : TAMPER_IRQHandler
-* Description    : This function handles Tamper interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void TAMPER_IRQHandler(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : RTC_IRQHandler
-* Description    : This function handles RTC global interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void RTC_IRQHandler(void)
-{
-    if (RTC_GetITStatus(RTC_IT_SEC) != RESET)
-    {
-        /* Clear the RTC Second interrupt */
-        RTC_ClearITPendingBit(RTC_IT_SEC);
-
-        /* Wait until last write operation on RTC registers has finished */
-        RTC_WaitForLastTask();
-
-        /* Reset RTC Counter when Time is 23:59:59 */
-        if (RTC_GetCounter() == 0x00015180)
-        {
-            RTC_SetCounter(0x0);
-            /* Wait until last write operation on RTC registers has finished */
-            RTC_WaitForLastTask();
-        }
-    }
-}
-
-/*******************************************************************************
-* Function Name  : FLASH_IRQHandler
-* Description    : This function handles Flash interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void FLASH_IRQHandler(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : RCC_IRQHandler
-* Description    : This function handles RCC interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void RCC_IRQHandler(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : EXTI0_IRQHandler
-* Description    : This function handles External interrupt Line 0 request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void EXTI0_IRQHandler(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : EXTI2_IRQHandler
-* Description    : This function handles External interrupt Line 2 request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void EXTI2_IRQHandler(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : EXTI3_IRQHandler
-* Description    : This function handles External interrupt Line 3 request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void EXTI3_IRQHandler(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : EXTI4_IRQHandler
-* Description    : This function handles External interrupt Line 4 request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void EXTI4_IRQHandler(void)
-{
-#ifdef RT_USING_LWIP
-	extern void rt_dm9000_isr(void);
-
-	/* enter interrupt */
-	rt_interrupt_enter();
-
-	rt_dm9000_isr();
-
-	/* Clear the Key Button EXTI line pending bit */
-	EXTI_ClearITPendingBit(EXTI_Line4);
-
-	/* leave interrupt */
-	rt_interrupt_leave();
-#endif
-}
-
-/*******************************************************************************
-* Function Name  : DMA1_Channel1_IRQHandler
-* Description    : This function handles DMA1 Channel 1 interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void DMA1_Channel1_IRQHandler(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : DMA1_Channel3_IRQHandler
-* Description    : This function handles DMA1 Channel 3 interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void DMA1_Channel3_IRQHandler(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : DMA1_Channel4_IRQHandler
-* Description    : This function handles DMA1 Channel 4 interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void DMA1_Channel4_IRQHandler(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : DMA1_Channel5_IRQHandler
-* Description    : This function handles DMA1 Channel 5 interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void DMA1_Channel5_IRQHandler(void)
-{
-#if !CODEC_USE_SPI3
-    extern void codec_dma_isr(void);
-
-    /* enter interrupt */
-    rt_interrupt_enter();
-
-    if (DMA_GetITStatus(DMA1_IT_TC5))
-    {
-        /* clear DMA flag */
-        DMA_ClearFlag(DMA1_FLAG_TC5 | DMA1_FLAG_TE5);
-
-        // rt_kprintf("DMA\n");
-        /* transmission complete, invoke serial dma tx isr */
-        codec_dma_isr();
-    }
-
-    /* leave interrupt */
-    rt_interrupt_leave();
-#endif
-}
-
-/*******************************************************************************
-* Function Name  : EXTI9_5_IRQHandler
-* Description    : This function handles External lines 9 to 5 interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void EXTI9_5_IRQHandler(void)
-{
-#ifdef RT_USING_LWIP
-	extern void rt_dm9000_isr(void);
-
-	/* enter interrupt */
-	rt_interrupt_enter();
-
-	rt_dm9000_isr();
-
-	/* Clear the Key Button EXTI line pending bit */
-	EXTI_ClearITPendingBit(EXTI_Line7);
-
-	/* leave interrupt */
-	rt_interrupt_leave();
-#endif
-}
-
-/*******************************************************************************
-* Function Name  : USART1_IRQHandler
-* Description    : This function handles USART1 global interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
+#include <rtthread.h>
 void USART1_IRQHandler(void)
 {
 #ifdef RT_USING_UART1
     extern struct rt_device uart1_device;
+	extern void rt_hw_serial_isr(struct rt_device *device);
+
     /* enter interrupt */
     rt_interrupt_enter();
 
@@ -373,137 +142,6 @@ void USART1_IRQHandler(void)
 #endif
 }
 
-/*******************************************************************************
-* Function Name  : USART2_IRQHandler
-* Description    : This function handles USART2 global interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void USART2_IRQHandler(void)
-{
-#ifdef RT_USING_UART2
-    extern struct rt_device uart2_device;
-
-    /* enter interrupt */
-    rt_interrupt_enter();
-
-    rt_hw_serial_isr(&uart2_device);
-
-    /* leave interrupt */
-    rt_interrupt_leave();
-    rt_hw_interrupt_thread_switch();
-#endif
-}
-
-/*******************************************************************************
-* Function Name  : EXTI15_10_IRQHandler
-* Description    : This function handles External lines 15 to 10 interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void EXTI15_10_IRQHandler(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : RTCAlarm_IRQHandler
-* Description    : This function handles RTC Alarm interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void RTCAlarm_IRQHandler(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : USBWakeUp_IRQHandler
-* Description    : This function handles USB WakeUp interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void USBWakeUp_IRQHandler(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : TIM8_BRK_IRQHandler
-* Description    : This function handles TIM8 Break interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void TIM8_BRK_IRQHandler(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : TIM8_UP_IRQHandler
-* Description    : This function handles TIM8 overflow and update interrupt
-*                  request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void TIM8_UP_IRQHandler(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : TIM8_TRG_COM_IRQHandler
-* Description    : This function handles TIM8 Trigger and commutation interrupts
-*                  requests.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void TIM8_TRG_COM_IRQHandler(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : TIM8_CC_IRQHandler
-* Description    : This function handles TIM8 capture compare interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void TIM8_CC_IRQHandler(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : ADC3_IRQHandler
-* Description    : This function handles ADC3 global interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void ADC3_IRQHandler(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : FSMC_IRQHandler
-* Description    : This function handles FSMC global interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void FSMC_IRQHandler(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : SDIO_IRQHandler
-* Description    : This function handles SDIO global interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
 void SDIO_IRQHandler(void)
 {
 #ifdef RT_USING_DFS
@@ -520,13 +158,6 @@ void SDIO_IRQHandler(void)
 #endif
 }
 
-/*******************************************************************************
-* Function Name  : DMA2_Channel2_IRQHandler
-* Description    : This function handles DMA2 Channel 2 interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
 void DMA2_Channel2_IRQHandler(void)
 {
 #if CODEC_USE_SPI3
@@ -548,3 +179,19 @@ void DMA2_Channel2_IRQHandler(void)
     rt_interrupt_leave();
 #endif
 }
+
+/**
+  * @brief  This function handles PPP interrupt request.
+  * @param  None
+  * @retval None
+  */
+/*void PPP_IRQHandler(void)
+{
+}*/
+
+/**
+  * @}
+  */
+
+
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

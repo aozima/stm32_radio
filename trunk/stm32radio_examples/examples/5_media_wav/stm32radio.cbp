@@ -257,7 +257,22 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="board.h" />
+		<Unit filename="codec.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="codec.h" />
+		<Unit filename="fs_test.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="rtconfig.h" />
+		<Unit filename="sdcard.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sdcard.h" />
+		<Unit filename="serial.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="serial.h" />
 		<Unit filename="startup.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -269,6 +284,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="usart.h" />
+		<Unit filename="wav.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="..\..\rt-thread\finsh\cmd.c">
 			<Option compilerVar="CC" />
 		</Unit>
