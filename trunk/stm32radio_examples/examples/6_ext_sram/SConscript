@@ -14,7 +14,7 @@ group['CPPDEFINES'] = ['USE_STDPERIPH_DRIVER', rtconfig.STM32_TYPE]
 group['LINKFLAGS'] = ''
 
 src_bsp = ['application.c', 'startup.c', 'board.c', 'stm32f10x_it.c']
-src_drv = ['usart.c', 'fsmc_sram.c']
+src_drv = ['serial.c', 'usart.c', 'fsmc_sram.c']
 
 if rtconfig.RT_USING_DFS:
 	src_drv += ['sdcard.c']
