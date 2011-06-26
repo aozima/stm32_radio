@@ -269,9 +269,6 @@
 		<Unit filename="stm32f10x_it.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="system_stm32f10x.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="usart.c">
 			<Option compilerVar="CC" />
 		</Unit>
