@@ -2,92 +2,87 @@
 #include "rtthread.h"
 #include "board.h"
 
-#include <rtgui/rtgui.h>
-#include <rtgui/driver.h>
-#include <rtgui/rtgui_server.h>
-#include <rtgui/rtgui_system.h>
-
 void lcd_backlight_init(void);
 void brightness_set(unsigned int value);
 
-struct rtgui_graphic_driver _rtgui_lcd_driver;
-
-extern  void   info_init(void);
-extern  void   player_init(void);
-void radio_rtgui_init(void)
+struct rt_device _lcd_device;
+static rt_err_t lcd_init(rt_device_t dev)
 {
-    rtgui_rect_t rect;
+	return RT_EOK;
+}
 
-    rtgui_system_server_init();
+static rt_err_t lcd_open(rt_device_t dev, rt_uint16_t oflag)
+{
+	return RT_EOK;
+}
 
-    /* register dock panel */
-    rect.x1 = 0;
-    rect.y1 = 0;
-    rect.x2 = 240;
-    rect.y2 = 25;
-    rtgui_panel_register("info", &rect);
-    rtgui_panel_set_nofocused("info");
+static rt_err_t lcd_close(rt_device_t dev)
+{
+	return RT_EOK;
+}
 
-    /* register main panel */
-    rect.x1 = 0;
-    rect.y1 = 25;
-    rect.x2 = 240;
-    rect.y2 = 320;
-    rtgui_panel_register("main", &rect);
-    rtgui_panel_set_default_focused("main");
+static rt_err_t lcd_control(rt_device_t dev, rt_uint8_t cmd, void *args)
+{
+	switch (cmd)
+	{
+	case RTGRAPHIC_CTRL_GET_INFO:
+		{
+			struct rt_device_graphic_info *info;
 
-    //rt_hw_lcd_init();
-    {
-#if LCD_VERSION == 1
+			info = (struct rt_device_graphic_info*) args;
+			RT_ASSERT(info != RT_NULL);
+
+			info->bits_per_pixel = 16;
+			info->pixel_format = RTGRAPHIC_PIXEL_FORMAT_RGB565P;
+			info->framebuffer = RT_NULL;
+			info->width = 240;
+			info->height = 320;
+		}
+		break;
+
+	case RTGRAPHIC_CTRL_RECT_UPDATE:
+		/* nothong to be done */
+		break;
+
+	default:
+		break;
+	}
+
+	return RT_EOK;
+}
+
 #include "fmt0371/FMT0371.h"
-        _rtgui_lcd_driver.name            = "lcd";
-        _rtgui_lcd_driver.byte_per_pixel  = 2;
-        _rtgui_lcd_driver.width           = 240;
-        _rtgui_lcd_driver.height          = 320;
-        _rtgui_lcd_driver.draw_hline      = fmt_lcd_draw_hline;
-        _rtgui_lcd_driver.draw_raw_hline  = fmt_lcd_draw_raw_hline;
-        _rtgui_lcd_driver.draw_vline      = fmt_lcd_draw_vline;
-        _rtgui_lcd_driver.get_pixel       = fmt_lcd_get_pixel;
-        _rtgui_lcd_driver.set_pixel       = fmt_lcd_set_pixel;
-        _rtgui_lcd_driver.screen_update   = fmt_lcd_update;
-        _rtgui_lcd_driver.get_framebuffer = fmt_lcd_get_framebuffer;
-        fmt_lcd_init();
-#elif LCD_VERSION == 2
 #include "ili_lcd_general.h"
-        _rtgui_lcd_driver.name            = "lcd";
-        _rtgui_lcd_driver.byte_per_pixel  = 2;
-        _rtgui_lcd_driver.width           = 240;
-        _rtgui_lcd_driver.height          = 320;
-        _rtgui_lcd_driver.draw_hline      = rt_hw_lcd_draw_hline;
-        _rtgui_lcd_driver.draw_raw_hline  = rt_hw_lcd_draw_raw_hline;
-        _rtgui_lcd_driver.draw_vline      = rt_hw_lcd_draw_vline;
-        _rtgui_lcd_driver.get_pixel       = rt_hw_lcd_get_pixel;
-        _rtgui_lcd_driver.set_pixel       = rt_hw_lcd_set_pixel;
-        _rtgui_lcd_driver.screen_update   = rt_hw_lcd_update;
-        _rtgui_lcd_driver.get_framebuffer = rt_hw_lcd_get_framebuffer;
-        lcd_Initializtion();
-#elif LCD_VERSION == 3
 #include "ssd1289.h"
-        _rtgui_lcd_driver.name            = "lcd";
-        _rtgui_lcd_driver.byte_per_pixel  = 2;
-        _rtgui_lcd_driver.width           = 240;
-        _rtgui_lcd_driver.height          = 320;
-        _rtgui_lcd_driver.draw_hline      = ssd1289_lcd_draw_hline;
-        _rtgui_lcd_driver.draw_raw_hline  = ssd1289_lcd_draw_raw_hline;
-        _rtgui_lcd_driver.draw_vline      = ssd1289_lcd_draw_vline;
-        _rtgui_lcd_driver.get_pixel       = ssd1289_lcd_get_pixel;
-        _rtgui_lcd_driver.set_pixel       = ssd1289_lcd_set_pixel;
-        _rtgui_lcd_driver.screen_update   = ssd1289_lcd_update;
-        _rtgui_lcd_driver.get_framebuffer = ssd1289_lcd_get_framebuffer;
-        ssd1289_init();
+
+void rt_hw_lcd_init(void)
+{
+	extern struct rt_device_graphic_ops ssd1289_ops;
+
+	/* register lcd device */
+	_lcd_device.type  = RT_Device_Class_Graphic;
+	_lcd_device.init  = lcd_init;
+	_lcd_device.open  = lcd_open;
+	_lcd_device.close = lcd_close;
+	_lcd_device.control = lcd_control;
+	_lcd_device.read  = RT_NULL;
+	_lcd_device.write = RT_NULL;
+
+	/* set user privated data */
+#if LCD_VERSION == 1
+	_lcd_device.user_data = lcd_fmt_ops;
+    fmt_lcd_init();
+#elif LCD_VERSION == 2
+	_lcd_device.user_data = lcd_ili_ops;
+    lcd_Initializtion();
+#elif LCD_VERSION == 3
+	_lcd_device.user_data = &ssd1289_ops;
+    ssd1289_init();
 #endif
-    }//rt_hw_lcd_init
 
-    /* add lcd driver into graphic driver */
-    rtgui_graphic_driver_add(&_rtgui_lcd_driver);
-
-    info_init();
-    player_init();
+    /* register graphic device driver */
+	rt_device_register(&_lcd_device, "lcd",
+		RT_DEVICE_FLAG_RDWR | RT_DEVICE_FLAG_STANDALONE);
 
     lcd_backlight_init();
 }

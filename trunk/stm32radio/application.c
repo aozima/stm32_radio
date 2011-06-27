@@ -43,7 +43,13 @@
 #endif
 
 #ifdef RT_USING_RTGUI
+#include <rtgui/rtgui.h>
+#include <rtgui/driver.h>
+#include <rtgui/rtgui_server.h>
+#include <rtgui/rtgui_system.h>
+
 extern void radio_rtgui_init(void);
+
 #endif
 
 /* thread phase init */
@@ -52,7 +58,7 @@ void rt_init_thread_entry(void *parameter)
     /* Filesystem Initialization */
 #ifdef RT_USING_DFS
     {
-		extern void ff_convert_init();
+        extern void ff_convert_init();
 
         /* init the device filesystem */
         dfs_init();
@@ -75,7 +81,7 @@ void rt_init_thread_entry(void *parameter)
             rt_kprintf("SPI File System init failed!\n");
 
 #ifdef RT_DFS_ELM_USE_LFN
-		ff_convert_init();
+        ff_convert_init();
 #endif
     }
 #endif
@@ -87,11 +93,46 @@ void rt_init_thread_entry(void *parameter)
     {
         extern void rt_hw_key_init(void);
         extern void remote_init(void);
-		extern void rtgui_touch_hw_init(void);
+        extern void rtgui_touch_hw_init(void);
 
-        radio_rtgui_init();
+        rt_device_t lcd;
+        rtgui_rect_t rect;
+
+        //radio_rtgui_init();
+        rt_hw_lcd_init();
+
+        lcd = rt_device_find("lcd");
+        if (lcd != RT_NULL)
+        {
+            rt_device_init(lcd);
+            rtgui_graphic_set_device(lcd);
+
+            /* ≥ı ºªØRT-Thread/GUI server */
+            rtgui_system_server_init();
+
+            /* register dock panel */
+            rect.x1 = 0;
+            rect.y1 = 0;
+            rect.x2 = 240;
+            rect.y2 = 25;
+            rtgui_panel_register("info", &rect);
+            rtgui_panel_set_nofocused("info");
+
+            /* register main panel */
+            rect.x1 = 0;
+            rect.y1 = 25;
+            rect.x2 = 240;
+            rect.y2 = 320;
+            rtgui_panel_register("main", &rect);
+            rtgui_panel_set_default_focused("main");
+
+            info_init();
+            player_init();
+
+        }
+
         rt_hw_key_init();
-		rtgui_touch_hw_init();
+        rtgui_touch_hw_init();
         remote_init();
     }
 #endif

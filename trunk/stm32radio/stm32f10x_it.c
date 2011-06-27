@@ -42,22 +42,6 @@ void NMIException(void)
 }
 
 /*******************************************************************************
-* Function Name  : HardFaultException
-* Description    : This function handles Hard Fault exception.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void HardFaultException(void)
-{
-    /* Go to infinite loop when Hard Fault exception occurs */
-    rt_kprintf("hard fault exception\n");
-    while (1)
-    {
-    }
-}
-
-/*******************************************************************************
 * Function Name  : MemManageException
 * Description    : This function handles Memory Manage exception.
 * Input          : None
@@ -87,6 +71,12 @@ void BusFaultException(void)
     while (1)
     {
     }
+}
+
+void SysTick_Handler(void)
+{
+    extern void rt_hw_timer_handler(void);
+    rt_hw_timer_handler();
 }
 
 /*******************************************************************************
@@ -272,12 +262,12 @@ void EXTI4_IRQHandler(void)
 
 	/* enter interrupt */
 	rt_interrupt_enter();
-	
+
 	while(GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_4))
 	{
 		rt_dm9000_isr();
 	}
-	
+
 	/* leave interrupt */
 	rt_interrupt_leave();
 #endif
