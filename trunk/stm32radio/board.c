@@ -320,7 +320,7 @@ void rt_hw_board_init(void)
         {
             rt_kprintf("init spi1 lock semaphore failed\n");
         }
-    }
+    } /* SPI1 config */
 
 }/* rt_hw_board_init */
 

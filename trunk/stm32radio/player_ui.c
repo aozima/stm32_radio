@@ -755,7 +755,7 @@ static rt_bool_t home_view_event_handler(struct rtgui_widget* widget, struct rtg
                 rtgui_label_t *label;
                 rtgui_rect_t rect = {0, 0, 150, 150}, container_rect;
 
-                //rtgui_graphic_driver_get_default_rect(&container_rect);
+                rtgui_graphic_driver_get_rect(rtgui_graphic_driver_get_default(),&container_rect);
                 /* set centre */
                 rtgui_rect_moveto_align(&container_rect, &rect, RTGUI_ALIGN_CENTER_HORIZONTAL | RTGUI_ALIGN_CENTER_VERTICAL);
                 view = rtgui_view_create("USB");

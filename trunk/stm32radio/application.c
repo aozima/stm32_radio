@@ -107,7 +107,7 @@ void rt_init_thread_entry(void *parameter)
             rt_device_init(lcd);
             rtgui_graphic_set_device(lcd);
 
-            /* ≥ı ºªØRT-Thread/GUI server */
+            /* init RT-Thread/GUI server */
             rtgui_system_server_init();
 
             /* register dock panel */

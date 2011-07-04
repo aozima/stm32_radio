@@ -225,7 +225,7 @@ void calibration_entry(void* parameter)
 
 	rtgui_thread_register(rt_thread_self(), mq);
 
-	//rtgui_graphic_driver_get_default_rect(&rect);
+	rtgui_graphic_driver_get_rect(rtgui_graphic_driver_get_default(), &rect);
 
 	/* set screen rect */
 	calibration_ptr->width = rect.x2;
@@ -273,10 +273,12 @@ void calibration_init()
 		2048, 20, 5);
 	if (calibration_ptr->tid != RT_NULL) rt_thread_startup(calibration_ptr->tid);
 }
+
+#ifdef RT_USING_FINSH
 #include <finsh.h>
 void calibration()
 {
 	calibration_init();
 }
 FINSH_FUNCTION_EXPORT(calibration, perform touch calibration);
-
+#endif
