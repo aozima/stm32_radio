@@ -1,3 +1,16 @@
+/*
+ * File      : dm9000a.c
+ * This file is part of RT-Thread RTOS
+ * COPYRIGHT (C) 2009, RT-Thread Development Team
+ *
+ * The license and distribution terms for this file may be
+ * found in the file LICENSE in this distribution or at
+ * http://www.rt-thread.org/license/LICENSE
+ *
+ * Change Logs:
+ * Date           Author       Notes
+ * 2009-07-01     Bernard      the first version
+ */
 #include <rtthread.h>
 #include "dm9000a.h"
 
@@ -14,7 +27,7 @@
 #endif
 
 /*
- * DM9000 interrupt line is connected to PF7
+ * DM9000 interrupt line is connected to PE4
  */
 //--------------------------------------------------------
 
@@ -154,7 +167,7 @@ void rt_dm9000_isr()
     last_io = DM9000_IO;
 
     /* Disable all interrupts */
-    // dm9000_io_write(DM9000_IMR, IMR_PAR);
+    dm9000_io_write(DM9000_IMR, IMR_PAR);
 
     /* Got DM9000 interrupt status */
     int_status = dm9000_io_read(DM9000_ISR);		/* Got ISR */
@@ -176,10 +189,8 @@ void rt_dm9000_isr()
     /* Received the coming packet */
     if (int_status & ISR_PRS)
     {
-        /* disable receive interrupt */
-        dm9000_io_write(DM9000_IMR, IMR_PAR);
-        dm9000_device.imr_all = IMR_PAR | IMR_PTM;
-        dm9000_io_write(DM9000_IMR, dm9000_device.imr_all);
+	    /* disable receive interrupt */
+	    dm9000_device.imr_all = IMR_PAR | IMR_PTM;
 
         /* a frame has been received */
         eth_device_ready(&(dm9000_device.parent));
@@ -213,7 +224,7 @@ void rt_dm9000_isr()
     }
 
     /* Re-enable interrupt mask */
-    // dm9000_io_write(DM9000_IMR, dm9000_device.imr_all);
+    dm9000_io_write(DM9000_IMR, dm9000_device.imr_all);
 
     DM9000_IO = last_io;
 }
@@ -275,7 +286,7 @@ static rt_err_t rt_dm9000_init(rt_device_t dev)
         while (!(phy_read(1) & 0x20))
         {
             /* autonegation complete bit */
-            rt_thread_delay( RT_TICK_PER_SECOND/2 );
+            rt_thread_delay( RT_TICK_PER_SECOND/10 );
             i++;
             if (i > 20)
             {
@@ -718,9 +729,15 @@ void rt_hw_dm9000_init(void)
     dm9000_device.dev_addr[0] = 0x00;
     dm9000_device.dev_addr[1] = 0x60;
     dm9000_device.dev_addr[2] = 0x6E;
+#ifdef STM32F10X_HD
+    dm9000_device.dev_addr[3] = *(rt_uint8_t*)(0x1FFFF7E8+7);
+    dm9000_device.dev_addr[4] = *(rt_uint8_t*)(0x1FFFF7E8+8);
+    dm9000_device.dev_addr[5] = *(rt_uint8_t*)(0x1FFFF7E8+9);
+#else
     dm9000_device.dev_addr[3] = 0x11;
     dm9000_device.dev_addr[4] = 0x22;
     dm9000_device.dev_addr[5] = 0x33;
+#endif
 
     dm9000_device.parent.parent.init       = rt_dm9000_init;
     dm9000_device.parent.parent.open       = rt_dm9000_open;

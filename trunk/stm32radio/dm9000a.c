@@ -729,9 +729,15 @@ void rt_hw_dm9000_init(void)
     dm9000_device.dev_addr[0] = 0x00;
     dm9000_device.dev_addr[1] = 0x60;
     dm9000_device.dev_addr[2] = 0x6E;
+#ifdef STM32F10X_HD
+    dm9000_device.dev_addr[3] = *(rt_uint8_t*)(0x1FFFF7E8+7);
+    dm9000_device.dev_addr[4] = *(rt_uint8_t*)(0x1FFFF7E8+8);
+    dm9000_device.dev_addr[5] = *(rt_uint8_t*)(0x1FFFF7E8+9);
+#else
     dm9000_device.dev_addr[3] = 0x11;
     dm9000_device.dev_addr[4] = 0x22;
     dm9000_device.dev_addr[5] = 0x33;
+#endif
 
     dm9000_device.parent.parent.init       = rt_dm9000_init;
     dm9000_device.parent.parent.open       = rt_dm9000_open;
