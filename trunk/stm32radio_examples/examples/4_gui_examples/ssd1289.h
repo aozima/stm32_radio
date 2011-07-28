@@ -1,6 +1,7 @@
 #ifndef SSD1289_H_INCLUDED
 #define SSD1289_H_INCLUDED
 
+#include <rtthread.h>
 
 // Compatible list:
 // ssd1289
@@ -23,24 +24,11 @@
 #define BPP             16                  /* Bits per pixel                     */
 #define BYPP            ((BPP+7)/8)         /* Bytes per pixel                    */
 
-extern void ssd1289_init(void);
+void ssd1289_init(void);
 
 //#define _ILI_REVERSE_DIRECTION_
-#define use_rt_gui
 
-#if defined(use_rt_gui)
-#include "rtthread.h"
-#include <rtgui/rtgui.h>
-#include <rtgui/driver.h>
-#include <rtgui/rtgui_server.h>
-#include <rtgui/rtgui_system.h>
-extern void ssd1289_lcd_set_pixel(rtgui_color_t *c, rt_base_t x, rt_base_t y);
-extern void ssd1289_lcd_get_pixel(rtgui_color_t *c, rt_base_t x, rt_base_t y);
-extern void ssd1289_lcd_draw_hline(rtgui_color_t *c, rt_base_t x1, rt_base_t x2, rt_base_t y);
-extern void ssd1289_lcd_draw_vline(rtgui_color_t *c, rt_base_t x, rt_base_t y1, rt_base_t y2);
-extern void ssd1289_lcd_draw_raw_hline(rt_uint8_t *pixels, rt_base_t x1, rt_base_t x2, rt_base_t y);
-extern void ssd1289_lcd_update(rtgui_rect_t *rect);
-extern rt_uint8_t * ssd1289_lcd_get_framebuffer(void);
-#endif
+rt_size_t lcd_ssd1289_read(rt_device_t dev, rt_off_t pos, void* buffer, rt_size_t size);
+rt_size_t lcd_ssd1289_write (rt_device_t dev, rt_off_t pos, const void* buffer, rt_size_t size);
 
 #endif // SSD1289_H_INCLUDED

@@ -31,112 +31,15 @@ extern void rt_hw_timer_handler(void);
 extern void rt_hw_interrupt_thread_switch(void);
 
 /*******************************************************************************
-* Function Name  : NMIException
-* Description    : This function handles NMI exception.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void NMIException(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : HardFaultException
-* Description    : This function handles Hard Fault exception.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void HardFaultException(void)
-{
-    /* Go to infinite loop when Hard Fault exception occurs */
-    rt_kprintf("hard fault exception\n");
-    while (1)
-    {
-    }
-}
-
-/*******************************************************************************
-* Function Name  : MemManageException
-* Description    : This function handles Memory Manage exception.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void MemManageException(void)
-{
-    /* Go to infinite loop when Memory Manage exception occurs */
-    rt_kprintf("memory manage exception\n");
-    while (1)
-    {
-    }
-}
-
-/*******************************************************************************
-* Function Name  : BusFaultException
-* Description    : This function handles Bus Fault exception.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void BusFaultException(void)
-{
-    /* Go to infinite loop when Bus Fault exception occurs */
-    rt_kprintf("bus fault exception\n");
-    while (1)
-    {
-    }
-}
-
-/*******************************************************************************
-* Function Name  : UsageFaultException
-* Description    : This function handles Usage Fault exception.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void UsageFaultException(void)
-{
-    /* Go to infinite loop when Usage Fault exception occurs */
-    rt_kprintf("usage fault exception\n");
-    while (1)
-    {
-    }
-}
-
-/*******************************************************************************
-* Function Name  : DebugMonitor
-* Description    : This function handles Debug Monitor exception.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void DebugMonitor(void)
-{
-}
-
-/*******************************************************************************
-* Function Name  : SVCHandler
-* Description    : This function handles SVCall exception.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void SVCHandler(void)
-{
-}
-
-/*******************************************************************************
 * Function Name  : SysTickHandler
 * Description    : This function handles SysTick Handler.
 * Input          : None
 * Output         : None
 * Return         : None
 *******************************************************************************/
-void SysTickHandler(void)
+void SysTick_Handler(void)
 {
-    /* handle os tick */
+    extern void rt_hw_timer_handler(void);
     rt_hw_timer_handler();
 }
 
@@ -272,12 +175,12 @@ void EXTI4_IRQHandler(void)
 
 	/* enter interrupt */
 	rt_interrupt_enter();
-	
+
 	while(GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_4))
 	{
 		rt_dm9000_isr();
 	}
-	
+
 	/* leave interrupt */
 	rt_interrupt_leave();
 #endif

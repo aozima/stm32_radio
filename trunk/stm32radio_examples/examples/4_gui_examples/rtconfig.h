@@ -24,6 +24,12 @@
 /* Using Hook*/
 #define RT_USING_HOOK
 
+/* Using Software Timer */
+#define RT_USING_TIMER_SOFT
+#define RT_TIMER_THREAD_PRIO		8
+#define RT_TIMER_THREAD_STACK_SIZE	512
+#define RT_TIMER_TICK_PER_SECOND	10
+
 /* SECTION: IPC */
 /* Using Semaphore*/
 #define RT_USING_SEMAPHORE
@@ -168,6 +174,8 @@
 
 /* SECTION: RT-Thread/GUI */
 #define RT_USING_RTGUI
+/* image support */
+#define RTGUI_IMAGE_XPM
 
 /* name length of RTGUI object */
 #define RTGUI_NAME_MAX		12
@@ -179,6 +187,8 @@
 #define RTGUI_USING_DFS_FILERW
 /* use font file as Chinese font */
 #define RTGUI_USING_HZ_FILE
+/* use Chinese bitmap font */
+#define RTGUI_USING_HZ_BMP
 /* use small size in RTGUI */
 #define RTGUI_USING_SMALL_SIZE
 /* use mouse cursor */

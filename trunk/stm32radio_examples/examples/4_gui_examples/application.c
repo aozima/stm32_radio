@@ -41,7 +41,11 @@
 #endif
 
 #ifdef RT_USING_RTGUI
-extern void radio_rtgui_init(void);
+#include <rtgui/driver.h>
+#include <rtgui/rtgui.h>
+#include <rtgui/rtgui_server.h>
+#include <rtgui/rtgui_system.h>
+#include <rtgui/driver.h>
 #endif
 
 /* thread phase init */
@@ -76,19 +80,33 @@ void rt_init_thread_entry(void *parameter)
 
 #ifdef RT_USING_RTGUI
 	{
+        extern void rt_hw_key_init(void);
 	    extern void rtgui_touch_hw_init(void);
 		extern void rtgui_startup();
+		rt_device_t lcd;
+
+		/* init lcd */
+		rt_hw_lcd_init();
+
+		rt_hw_key_init();
+
 		/* init touch panel */
 		load_setup();
-		rtgui_touch_hw_init();	
+		rtgui_touch_hw_init();
 
 		/* re-init device driver */
-		rt_device_init_all();		
-		
+		rt_device_init_all();
+
+		/* find lcd device */
+		lcd = rt_device_find("lcd");
+
+		/* set lcd device as rtgui graphic driver */
+		rtgui_graphic_set_device(lcd);
+
 		/* startup rtgui */
 		rtgui_startup();
 	}
-#endif    
+#endif
 
 }
 

@@ -393,7 +393,7 @@ void rtgui_touch_hw_init(void)
 
     /* create 1/8 second timer */
     touch->poll_timer = rt_timer_create("touch", touch_timeout, RT_NULL,
-                                        RT_TICK_PER_SECOND/8, RT_TIMER_FLAG_PERIODIC);
+                                        RT_TICK_PER_SECOND/8, RT_TIMER_FLAG_PERIODIC | RT_TIMER_FLAG_SOFT_TIMER);
 
     /* register touch device to RT-Thread */
     rt_device_register(&(touch->parent), "touch", RT_DEVICE_FLAG_RDWR);
