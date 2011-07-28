@@ -55,9 +55,12 @@ static rt_err_t lcd_control(rt_device_t dev, rt_uint8_t cmd, void *args)
 #include "ili_lcd_general.h"
 #include "ssd1289.h"
 
+extern struct rt_device_graphic_ops lcd_fmt_ops;
+extern struct rt_device_graphic_ops lcd_ili_ops;
+extern struct rt_device_graphic_ops ssd1289_ops;
+
 void rt_hw_lcd_init(void)
 {
-	extern struct rt_device_graphic_ops ssd1289_ops;
 
 	/* register lcd device */
 	_lcd_device.type  = RT_Device_Class_Graphic;
@@ -70,10 +73,10 @@ void rt_hw_lcd_init(void)
 
 	/* set user privated data */
 #if LCD_VERSION == 1
-	_lcd_device.user_data = lcd_fmt_ops;
+	_lcd_device.user_data = &lcd_fmt_ops;
     fmt_lcd_init();
 #elif LCD_VERSION == 2
-	_lcd_device.user_data = lcd_ili_ops;
+	_lcd_device.user_data = &lcd_ili_ops;
     lcd_Initializtion();
 #elif LCD_VERSION == 3
 	_lcd_device.user_data = &ssd1289_ops;

@@ -29,10 +29,7 @@ extern void lcd_Initializtion(void);
 extern unsigned int lcd_getdeviceid(void);
 
 //#define _ILI_REVERSE_DIRECTION_
-#define use_rt_gui
 
-
-#if defined(use_rt_gui)
 #include "rtthread.h"
 #include <rtgui/rtgui.h>
 #include <rtgui/driver.h>
@@ -43,6 +40,5 @@ extern void rt_hw_lcd_get_pixel(char* pixel, int x, int y);
 extern void rt_hw_lcd_draw_hline(const char* pixel, int x1, int x2, int y);
 extern void rt_hw_lcd_draw_vline(const char* pixel, int x, int y1, int y2);
 extern void rt_hw_lcd_draw_blit_line(const char* pixels, int x, int y, rt_size_t size);
-#endif
 
 #endif // ILI_LCD_GENERAL_H_INCLUDED

@@ -555,17 +555,6 @@ void lcd_Initializtion(void)
     lcd_clear( Blue );
 }
 
-#if defined(use_rt_gui) && (LCD_VERSION == 2)
-void rt_hw_lcd_update(rtgui_rect_t *rect)
-{
-    /* nothing for none-DMA mode driver */
-}
-
-rt_uint8_t * rt_hw_lcd_get_framebuffer(void)
-{
-    return RT_NULL; /* no framebuffer driver */
-}
-
 /*  …Ë÷√œÒÀÿµ„ —’…´,X,Y */
 void rt_hw_lcd_set_pixel(const char* pixel, int x, int y)
 {
@@ -631,7 +620,6 @@ void rt_hw_lcd_draw_blit_line(const char* pixels, int x, int y, rt_size_t size)
 		size --;
     }
 }
-#endif
 
 struct rt_device_graphic_ops lcd_ili_ops =
 {
