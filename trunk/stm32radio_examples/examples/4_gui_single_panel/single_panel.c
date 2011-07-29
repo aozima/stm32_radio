@@ -77,17 +77,6 @@ void gui_init()
     rtgui_panel_register("main", &rect);
     rtgui_panel_set_default_focused("main");
 
-	/* 初始化LCD驱动 */
-    rt_hw_lcd_init();
-
-	/* 初始化键盘驱动 */
-	rt_hw_key_init();
-
-	/* 初始化触摸屏驱动 */
-	load_setup(); //touch装载默认值
-	rtgui_touch_hw_init();	
-    rt_device_init_all();
-
 	/* 初始化workbench */
 	workbench_init();
 }

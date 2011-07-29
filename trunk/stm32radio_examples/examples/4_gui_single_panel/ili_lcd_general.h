@@ -26,26 +26,19 @@
 #define BYPP            ((BPP+7)/8)         /* Bytes per pixel                    */
 
 extern void lcd_Initializtion(void);
-extern void lcd_SetCursor(unsigned int x,unsigned int y);
 extern unsigned int lcd_getdeviceid(void);
 
 //#define _ILI_REVERSE_DIRECTION_
-#define use_rt_gui
 
-
-#if defined(use_rt_gui)
 #include "rtthread.h"
 #include <rtgui/rtgui.h>
 #include <rtgui/driver.h>
 #include <rtgui/rtgui_server.h>
 #include <rtgui/rtgui_system.h>
-extern void rt_hw_lcd_update(rtgui_rect_t *rect);
-extern rt_uint8_t * rt_hw_lcd_get_framebuffer(void);
-extern void rt_hw_lcd_set_pixel(rtgui_color_t *c, rt_base_t x, rt_base_t y);
-extern void rt_hw_lcd_get_pixel(rtgui_color_t *c, rt_base_t x, rt_base_t y);
-extern void rt_hw_lcd_draw_hline(rtgui_color_t *c, rt_base_t x1, rt_base_t x2, rt_base_t y);
-extern void rt_hw_lcd_draw_vline(rtgui_color_t *c, rt_base_t x, rt_base_t y1, rt_base_t y2);
-extern void rt_hw_lcd_draw_raw_hline(rt_uint8_t *pixels, rt_base_t x1, rt_base_t x2, rt_base_t y);
-#endif
+extern void rt_hw_lcd_set_pixel(const char* pixel, int x, int y);
+extern void rt_hw_lcd_get_pixel(char* pixel, int x, int y);
+extern void rt_hw_lcd_draw_hline(const char* pixel, int x1, int x2, int y);
+extern void rt_hw_lcd_draw_vline(const char* pixel, int x, int y1, int y2);
+extern void rt_hw_lcd_draw_blit_line(const char* pixels, int x, int y, rt_size_t size);
 
 #endif // ILI_LCD_GENERAL_H_INCLUDED
