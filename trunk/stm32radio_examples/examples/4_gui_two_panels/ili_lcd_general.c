@@ -34,16 +34,16 @@
 static void LCD_FSMCConfig(void)
 {
     FSMC_NORSRAMInitTypeDef  FSMC_NORSRAMInitStructure;
-    FSMC_NORSRAMTimingInitTypeDef  p;
+    FSMC_NORSRAMTimingInitTypeDef  Timing_read,Timing_write;
 
-    /*-- FSMC Configuration ------------------------------------------------------*/
-    p.FSMC_AddressSetupTime = 2;             /* 地址建立时间  */
-    p.FSMC_AddressHoldTime = 1;              /* 地址保持时间  */
-    p.FSMC_DataSetupTime = 3;                /* 数据建立时间  */
-    p.FSMC_BusTurnAroundDuration = 0;        /* 总线返转时间  */
-    p.FSMC_CLKDivision = 0;                  /* 时钟分频      */
-    p.FSMC_DataLatency = 0;                  /* 数据保持时间  */
-    p.FSMC_AccessMode = FSMC_AccessMode_A;   /* FSMC 访问模式 */
+    /*-- FSMC Configuration -------------------------------------------------*/
+    Timing_read.FSMC_AddressSetupTime = 3;             /* 地址建立时间  */
+    Timing_read.FSMC_DataSetupTime = 4;                /* 数据建立时间  */
+    Timing_read.FSMC_AccessMode = FSMC_AccessMode_A;    /* FSMC 访问模式 */
+
+    Timing_write.FSMC_AddressSetupTime = 2;             /* 地址建立时间  */
+    Timing_write.FSMC_DataSetupTime = 3;                /* 数据建立时间  */
+    Timing_write.FSMC_AccessMode = FSMC_AccessMode_A;   /* FSMC 访问模式 */
 
     /* Color LCD configuration ------------------------------------
        LCD configured as follow:
@@ -58,15 +58,16 @@ static void LCD_FSMCConfig(void)
     FSMC_NORSRAMInitStructure.FSMC_MemoryType = FSMC_MemoryType_SRAM;
     FSMC_NORSRAMInitStructure.FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_16b;
     FSMC_NORSRAMInitStructure.FSMC_BurstAccessMode = FSMC_BurstAccessMode_Disable;
+    FSMC_NORSRAMInitStructure.FSMC_AsynchronousWait = FSMC_AsynchronousWait_Disable;
     FSMC_NORSRAMInitStructure.FSMC_WaitSignalPolarity = FSMC_WaitSignalPolarity_Low;
     FSMC_NORSRAMInitStructure.FSMC_WrapMode = FSMC_WrapMode_Disable;
     FSMC_NORSRAMInitStructure.FSMC_WaitSignalActive = FSMC_WaitSignalActive_BeforeWaitState;
     FSMC_NORSRAMInitStructure.FSMC_WriteOperation = FSMC_WriteOperation_Enable;
     FSMC_NORSRAMInitStructure.FSMC_WaitSignal = FSMC_WaitSignal_Disable;
-    FSMC_NORSRAMInitStructure.FSMC_ExtendedMode = FSMC_ExtendedMode_Disable;
+    FSMC_NORSRAMInitStructure.FSMC_ExtendedMode = FSMC_ExtendedMode_Enable;
     FSMC_NORSRAMInitStructure.FSMC_WriteBurst = FSMC_WriteBurst_Disable;
-    FSMC_NORSRAMInitStructure.FSMC_ReadWriteTimingStruct = &p;
-    FSMC_NORSRAMInitStructure.FSMC_WriteTimingStruct = &p;
+    FSMC_NORSRAMInitStructure.FSMC_ReadWriteTimingStruct = &Timing_read;
+    FSMC_NORSRAMInitStructure.FSMC_WriteTimingStruct = &Timing_write;
 
     FSMC_NORSRAMInit(&FSMC_NORSRAMInitStructure);
     FSMC_NORSRAMCmd(FSMC_Bank1_NORSRAM2, ENABLE);
@@ -125,7 +126,7 @@ unsigned int lcd_getdeviceid(void)
     return deviceid;
 }
 
-unsigned short BGR2RGB(unsigned short c)
+static unsigned short BGR2RGB(unsigned short c)
 {
     u16  r, g, b, rgb;
 
@@ -138,14 +139,14 @@ unsigned short BGR2RGB(unsigned short c)
     return( rgb );
 }
 
-void lcd_SetCursor(unsigned int x,unsigned int y)
+static void lcd_SetCursor(unsigned int x,unsigned int y)
 {
     write_reg(32,x);    /* 0-239 */
     write_reg(33,y);    /* 0-319 */
 }
 
 /* 读取指定地址的GRAM */
-unsigned short lcd_read_gram(unsigned int x,unsigned int y)
+static unsigned short lcd_read_gram(unsigned int x,unsigned int y)
 {
     unsigned short temp;
     lcd_SetCursor(x,y);
@@ -156,7 +157,7 @@ unsigned short lcd_read_gram(unsigned int x,unsigned int y)
     return temp;
 }
 
-void lcd_clear(unsigned short Color)
+static void lcd_clear(unsigned short Color)
 {
     unsigned int index=0;
     lcd_SetCursor(0,0);
@@ -167,7 +168,7 @@ void lcd_clear(unsigned short Color)
     }
 }
 
-void lcd_data_bus_test(void)
+static void lcd_data_bus_test(void)
 {
     unsigned short temp1;
     unsigned short temp2;
@@ -207,7 +208,7 @@ void lcd_data_bus_test(void)
     }
 }
 
-void lcd_gram_test(void)
+static void lcd_gram_test(void)
 {
     unsigned short temp;
     unsigned int test_x;
@@ -243,7 +244,8 @@ void lcd_gram_test(void)
                 if( BGR2RGB( lcd_read_gram(test_x,test_y) ) != temp++)
                 {
                     printf("  LCD GRAM ERR!!");
-                    while(1);
+                    //while(1);
+					return ;
                 }
             }
         }
@@ -258,7 +260,8 @@ void lcd_gram_test(void)
                 if(  lcd_read_gram(test_x,test_y) != temp++)
                 {
                     printf("  LCD GRAM ERR!!");
-                    while(1);
+                    //while(1);
+					return ;
                 }
             }
         }
@@ -283,7 +286,8 @@ void lcd_Initializtion(void)
     {
         printf("Invalid LCD ID:%08X\r\n",deviceid);
         printf("Please check you hardware and configure.");
-        while(1);
+        //while(1);
+		return ;
     }
     else
     {
@@ -551,46 +555,26 @@ void lcd_Initializtion(void)
     lcd_clear( Blue );
 }
 
-#if defined(use_rt_gui) && (LCD_VERSION == 2)
-void rt_hw_lcd_update(rtgui_rect_t *rect)
-{
-    /* nothing for none-DMA mode driver */
-}
-
-rt_uint8_t * rt_hw_lcd_get_framebuffer(void)
-{
-    return RT_NULL; /* no framebuffer driver */
-}
-
 /*  设置像素点 颜色,X,Y */
-void rt_hw_lcd_set_pixel(rtgui_color_t *c, rt_base_t x, rt_base_t y)
+void rt_hw_lcd_set_pixel(const char* pixel, int x, int y)
 {
-    unsigned short p;
-
-    /* get color pixel */
-    p = rtgui_color_to_565p(*c);
     lcd_SetCursor(x,y);
 
     rw_data_prepare();
-    write_data(p);
+    write_data(*(rt_uint16_t*)pixel);
 }
 
 /* 获取像素点颜色 */
-void rt_hw_lcd_get_pixel(rtgui_color_t *c, rt_base_t x, rt_base_t y)
+void rt_hw_lcd_get_pixel(char* pixel, int x, int y)
 {
     unsigned short p;
     p = BGR2RGB( lcd_read_gram(x,y) );
-    *c = rtgui_color_from_565p(p);
+    *(rt_uint16_t*)pixel = p;
 }
 
 /* 画水平线 */
-void rt_hw_lcd_draw_hline(rtgui_color_t *c, rt_base_t x1, rt_base_t x2, rt_base_t y)
+void rt_hw_lcd_draw_hline(const char* pixel, int x1, int x2, int y)
 {
-    unsigned short p;
-
-    /* get color pixel */
-    p = rtgui_color_to_565p(*c);
-
     /* [5:4]-ID~ID0 [3]-AM-1垂直-0水平 */
     write_reg(0x0003,(1<<12)|(1<<5)|(1<<4) | (0<<3) );
 
@@ -598,19 +582,14 @@ void rt_hw_lcd_draw_hline(rtgui_color_t *c, rt_base_t x1, rt_base_t x2, rt_base_
     rw_data_prepare(); /* Prepare to write GRAM */
     while (x1 < x2)
     {
-        write_data(p);
+        write_data(*(rt_uint16_t*)pixel);
         x1++;
     }
 }
 
 /* 垂直线 */
-void rt_hw_lcd_draw_vline(rtgui_color_t *c, rt_base_t x, rt_base_t y1, rt_base_t y2)
+void rt_hw_lcd_draw_vline(const char* pixel, int x, int y1, int y2)
 {
-    unsigned short p;
-
-    /* get color pixel */
-    p = rtgui_color_to_565p(*c);
-
     /* [5:4]-ID~ID0 [3]-AM-1垂直-0水平 */
     write_reg(0x0003,(1<<12)|(1<<5)|(0<<4) | (1<<3) );
 
@@ -618,30 +597,35 @@ void rt_hw_lcd_draw_vline(rtgui_color_t *c, rt_base_t x, rt_base_t y1, rt_base_t
     rw_data_prepare(); /* Prepare to write GRAM */
     while (y1 < y2)
     {
-        write_data(p);
+        write_data(*(rt_uint16_t*)pixel);
         y1++;
     }
 }
 
 /* ?? */
-void rt_hw_lcd_draw_raw_hline(rt_uint8_t *pixels, rt_base_t x1, rt_base_t x2, rt_base_t y)
+void rt_hw_lcd_draw_blit_line(const char* pixels, int x, int y, rt_size_t size)
 {
-    rt_uint16_t *ptr;
+	rt_uint16_t *ptr;
 
-    /* get pixel */
-    ptr = (rt_uint16_t*) pixels;
+	ptr = (rt_uint16_t*)pixels;
 
     /* [5:4]-ID~ID0 [3]-AM-1垂直-0水平 */
     write_reg(0x0003,(1<<12)|(1<<5)|(1<<4) | (0<<3) );
 
-    lcd_SetCursor(x1, y);
+    lcd_SetCursor(x, y);
     rw_data_prepare(); /* Prepare to write GRAM */
-    while (x1 < x2)
+    while (size)
     {
-        write_data(*ptr);
-        x1 ++;
-        ptr ++;
+        write_data(*ptr ++);
+		size --;
     }
 }
-#endif
 
+struct rt_device_graphic_ops lcd_ili_ops =
+{
+	rt_hw_lcd_set_pixel,
+	rt_hw_lcd_get_pixel,
+	rt_hw_lcd_draw_hline,
+	rt_hw_lcd_draw_vline,
+	rt_hw_lcd_draw_blit_line
+};
