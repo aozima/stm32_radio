@@ -143,18 +143,7 @@ void gui_init()
     rect.x2 = 240;
     rect.y2 = 320;
     rtgui_panel_register("panel3", &rect);
-
-	/* 初始化LCD驱动 */
-    rt_hw_lcd_init();
-
-	/* 初始化键盘驱动 */
-	rt_hw_key_init();
-
-	/* 初始化触摸屏驱动 */
-	load_setup(); //touch装载默认值
-	rtgui_touch_hw_init();	
-    rt_device_init_all();
-
+	
 	/* 初始化workbench应用 */
 	workbench_init();
 }
