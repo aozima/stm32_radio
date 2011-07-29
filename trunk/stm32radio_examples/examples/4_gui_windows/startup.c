@@ -116,6 +116,8 @@ void rtthread_startup(void)
 	finsh_set_device(FINSH_DEVICE_NAME);
 #endif
 
+	rt_system_timer_thread_init();
+
     /* init idle thread */
     rt_thread_idle_init();
 

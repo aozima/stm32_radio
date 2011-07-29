@@ -66,29 +66,36 @@ void gui_init()
   	extern void rtgui_touch_hw_init(void);
 	extern rt_err_t load_setup(void);
     rtgui_rect_t rect;
-
-	/* 初始化RT-Thread/GUI server */
-    rtgui_system_server_init();
-
-    /* 注册面板 */
-    rect.x1 = 0;
-    rect.y1 = 0;
-    rect.x2 = 240;
-    rect.y2 = 320;
-    rtgui_panel_register("main", &rect);
-    rtgui_panel_set_default_focused("main");
+	rt_device_t lcd;
 
 	/* 初始化LCD驱动 */
     rt_hw_lcd_init();
+	lcd = rt_device_find("lcd");
+	if (lcd != RT_NULL)
+	{
+		rt_device_init(lcd);
+		rtgui_graphic_set_device(lcd);
 
-	/* 初始化键盘驱动 */
-	rt_hw_key_init();
+		/* 初始化RT-Thread/GUI server */
+	    rtgui_system_server_init();
 
-	/* 初始化触摸屏驱动 */
-	load_setup(); //touch装载默认值
-	rtgui_touch_hw_init();	
-    rt_device_init_all();
+	    /* 注册面板 */
+	    rect.x1 = 0;
+	    rect.y1 = 0;
+	    rect.x2 = 240;
+	    rect.y2 = 320;
+	    rtgui_panel_register("main", &rect);
+	    rtgui_panel_set_default_focused("main");
 
-	/* 初始化workbench */
-	workbench_init();
+		/* 初始化键盘驱动 */
+		rt_hw_key_init();
+
+		/* 初始化触摸屏驱动 */
+		load_setup(); //touch装载默认值
+		rtgui_touch_hw_init();
+	    rt_device_init_all();
+
+		/* 初始化workbench */
+		workbench_init();
+	}
 }

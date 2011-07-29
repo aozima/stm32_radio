@@ -321,100 +321,75 @@ void ssd1289_init(void)
     lcd_clear( Blue );
 }
 
-#if defined(use_rt_gui)
-void ssd1289_lcd_update(rtgui_rect_t *rect)
-{
-    /* nothing for none-DMA mode driver */
-}
-
-rt_uint8_t * ssd1289_lcd_get_framebuffer(void)
-{
-    return RT_NULL; /* no framebuffer driver */
-}
-
 /*  设置像素点 颜色,X,Y */
-void ssd1289_lcd_set_pixel(rtgui_color_t *c, rt_base_t x, rt_base_t y)
+void ssd1289_lcd_set_pixel(const char* pixel, int x, int y)
 {
-    unsigned short p;
-
-    /* get color pixel */
-    p = rtgui_color_to_565p(*c);
     lcd_SetCursor(x,y);
 
     rw_data_prepare();
-    write_data(p);
+    write_data(*(rt_uint16_t*)pixel);
 }
 
 /* 获取像素点颜色 */
-void ssd1289_lcd_get_pixel(rtgui_color_t *c, rt_base_t x, rt_base_t y)
+void ssd1289_lcd_get_pixel(char* pixel, int x, int y)
 {
-    unsigned short p;
-    p = lcd_read_gram(x,y);
-    *c = rtgui_color_from_565p(p);
+	*(rt_uint16_t*)pixel = lcd_read_gram(x, y);
 }
 
 /* 画水平线 */
-void ssd1289_lcd_draw_hline(rtgui_color_t *c, rt_base_t x1, rt_base_t x2, rt_base_t y)
+void ssd1289_lcd_draw_hline(const char* pixel, int x1, int x2, int y)
 {
-    unsigned short p;
-
-    /* get color pixel */
-    p = rtgui_color_to_565p(*c);
-
     /* [5:4]-ID~ID0 [3]-AM-1垂直-0水平 */
     write_reg(0x0011,0x6030 | (0<<3)); // AM=0 hline
-//    write_reg(0x0003,(1<<12)|(1<<5)|(1<<4) | (0<<3) );
 
     lcd_SetCursor(x1, y);
     rw_data_prepare(); /* Prepare to write GRAM */
     while (x1 < x2)
     {
-        write_data(p);
+        write_data(*(rt_uint16_t*)pixel);
         x1++;
     }
 }
 
 /* 垂直线 */
-void ssd1289_lcd_draw_vline(rtgui_color_t *c, rt_base_t x, rt_base_t y1, rt_base_t y2)
+void ssd1289_lcd_draw_vline(const char* pixel, int x, int y1, int y2)
 {
-    unsigned short p;
-
-    /* get color pixel */
-    p = rtgui_color_to_565p(*c);
-
     /* [5:4]-ID~ID0 [3]-AM-1垂直-0水平 */
     write_reg(0x0011,0x6070 | (1<<3)); // AM=0 vline
-//    write_reg(0x0003,(1<<12)|(1<<5)|(0<<4) | (1<<3) );
 
     lcd_SetCursor(x, y1);
     rw_data_prepare(); /* Prepare to write GRAM */
     while (y1 < y2)
     {
-        write_data(p);
+        write_data(*(rt_uint16_t*)pixel);
         y1++;
     }
 }
 
-/* ?? */
-void ssd1289_lcd_draw_raw_hline(rt_uint8_t *pixels, rt_base_t x1, rt_base_t x2, rt_base_t y)
+/* blit a line */
+void ssd1289_lcd_blit_line(const char* pixels, int x, int y, rt_size_t size)
 {
-    rt_uint16_t *ptr;
-
-    /* get pixel */
-    ptr = (rt_uint16_t*) pixels;
+	rt_uint16_t *ptr;
+	
+	ptr = (rt_uint16_t*)pixels;
 
     /* [5:4]-ID~ID0 [3]-AM-1垂直-0水平 */
     write_reg(0x0011,0x6070 | (0<<3)); // AM=0 hline
-//    write_reg(0x0003,(1<<12)|(1<<5)|(1<<4) | (0<<3) );
 
-    lcd_SetCursor(x1, y);
+    lcd_SetCursor(x, y);
     rw_data_prepare(); /* Prepare to write GRAM */
-    while (x1 < x2)
+    while (size)
     {
-        write_data(*ptr);
-        x1 ++;
-        ptr ++;
+        write_data(*ptr ++);
+		size --;
     }
 }
-#endif
 
+struct rt_device_graphic_ops ssd1289_ops = 
+{
+	ssd1289_lcd_set_pixel,
+	ssd1289_lcd_get_pixel,
+	ssd1289_lcd_draw_hline,
+	ssd1289_lcd_draw_vline,
+	ssd1289_lcd_blit_line
+};

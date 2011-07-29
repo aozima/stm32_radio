@@ -24,6 +24,12 @@
 /* Using Hook*/
 #define RT_USING_HOOK
 
+/* Using Software Timer */
+#define RT_USING_TIMER_SOFT
+#define RT_TIMER_THREAD_PRIO		8
+#define RT_TIMER_THREAD_STACK_SIZE	512
+#define RT_TIMER_TICK_PER_SECOND	10
+
 /* SECTION: IPC */
 /* Using Semaphore*/
 #define RT_USING_SEMAPHORE
@@ -86,7 +92,7 @@
 #define RT_DFS_ELM_WORD_ACCESS
 #define RT_DFS_ELM_REENTRANT        1
 #define RT_DFS_ELM_DRIVES			2
-#define RT_DFS_ELM_USE_LFN			2
+// #define RT_DFS_ELM_USE_LFN			2
 #define RT_DFS_ELM_MAX_LFN			255
 #define RT_DFS_ELM_MAX_SECTOR_SIZE  4096
 
