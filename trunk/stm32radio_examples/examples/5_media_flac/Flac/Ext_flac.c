@@ -34,17 +34,13 @@
 
 #define MAX_CHANNELS 2         /* Maximum supported channels */
 
-/* Maxsize in samples of one uncompressed frame
- * 这里我测试的level8文件都是4608
- * 再大内部64k也不够  
- */
 #define MAX_BLOCKSIZE 4608 
   
 #define MAX_FRAMESIZE 20*1024  /* Maxsize in bytes of one compressed frame */
 #define FLAC_OUTPUT_DEPTH 16   /* Provide samples left-shifted to 28 bits+sign */
 
-int8_t PCM_buffer0[4 * MAX_BLOCKSIZE ];   //放置送CODE的PCM数据流,同时也与temp_buffer组合充当了之前版本的fc.decoded0(临时PCM数据)
-int8_t PCM_buffer1[4 * MAX_BLOCKSIZE ];	  //放置送CODE的PCM数据流,同时也与temp_buffer组合充当了之前版本的fc.decoded1(临时PCM数据)
+int8_t PCM_buffer0[4 * MAX_BLOCKSIZE ];  
+int8_t PCM_buffer1[4 * MAX_BLOCKSIZE ];	 
 int8_t temp_buffer[4 * MAX_BLOCKSIZE ];
 
 static void dump_headers(FLACContext *s)
@@ -178,7 +174,6 @@ static struct rt_semaphore flac_sem;
 static rt_err_t flac_decoder_tx_done(rt_device_t dev, void *buffer)
 {
     /* release memory block */
-//    rt_mp_free(buffer);
 	rt_sem_release(&flac_sem);
 
 	return RT_EOK;
@@ -194,13 +189,6 @@ int flac(char* path)
     int consumed;
 	int8_t i;
 
-/*  文件buffer 用rt_malloc放到外部RAM
- *	为什么那么痛苦不把PCM buffer也放到外部RAM呢?
- *	原因很简单:外部RAM慢! 导致会断流,
- *  这里把文件buffer放到外部RAM主要有两个原因
- *	1.只有64K的内部RAM 不得不这么做
- *	2.文件buffer的"吞吐量"少
- */
 	unsigned char *filebuf ; 
 
 	/* audio device */
@@ -209,7 +197,6 @@ int flac(char* path)
 	extern void vol(uint16_t v) ;
 	vol(50); 
 
-	//本次没用内存池..主要因为这种情况下不知道如何使用 ^_^
 	if (rt_sem_init(&flac_sem, "flac_sem", 2, RT_IPC_FLAG_FIFO) != RT_EOK)
 		rt_kprintf("init flac_sem semaphore failed\n");
 
@@ -224,9 +211,7 @@ int flac(char* path)
 	snd_device = rt_device_find("snd");
 	if (snd_device != RT_NULL)
 	{
-		/*  set tx complete call back function 
-		 *  设置回调函数,当DMA传输完毕时,会执行flac_decoder_tx_done
-		 */
+		/*  set tx complete call back function 	 */
 		rt_device_set_tx_complete(snd_device, flac_decoder_tx_done);
 		rt_device_open(snd_device, RT_DEVICE_OFLAG_WRONLY);
 	}
