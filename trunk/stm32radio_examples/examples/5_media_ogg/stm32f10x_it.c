@@ -27,6 +27,9 @@
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
+extern void rt_hw_timer_handler(void);
+extern void rt_hw_interrupt_thread_switch(void);
+
 /*******************************************************************************
 * Function Name  : NMIException
 * Description    : This function handles NMI exception.
@@ -36,22 +39,6 @@
 *******************************************************************************/
 void NMIException(void)
 {
-}
-
-/*******************************************************************************
-* Function Name  : HardFaultException
-* Description    : This function handles Hard Fault exception.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void HardFaultException(void)
-{
-    /* Go to infinite loop when Hard Fault exception occurs */
-    rt_kprintf("hard fault exception\n");
-    while (1)
-    {
-    }
 }
 
 /*******************************************************************************
@@ -84,6 +71,12 @@ void BusFaultException(void)
     while (1)
     {
     }
+}
+
+void SysTick_Handler(void)
+{
+    extern void rt_hw_timer_handler(void);
+    rt_hw_timer_handler();
 }
 
 /*******************************************************************************
@@ -122,6 +115,19 @@ void DebugMonitor(void)
 *******************************************************************************/
 void SVCHandler(void)
 {
+}
+
+/*******************************************************************************
+* Function Name  : SysTickHandler
+* Description    : This function handles SysTick Handler.
+* Input          : None
+* Output         : None
+* Return         : None
+*******************************************************************************/
+void SysTickHandler(void)
+{
+    /* handle os tick */
+    rt_hw_timer_handler();
 }
 
 /*******************************************************************************
@@ -251,13 +257,16 @@ void EXTI4_IRQHandler(void)
 #ifdef RT_USING_LWIP
 	extern void rt_dm9000_isr(void);
 
+	/* Clear the EXTI4 line pending bit */
+	EXTI_ClearITPendingBit(EXTI_Line4);
+
 	/* enter interrupt */
 	rt_interrupt_enter();
 
-	rt_dm9000_isr();
-
-	/* Clear the Key Button EXTI line pending bit */
-	EXTI_ClearITPendingBit(EXTI_Line4);
+	while(GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_4))
+	{
+		rt_dm9000_isr();
+	}
 
 	/* leave interrupt */
 	rt_interrupt_leave();
@@ -273,6 +282,35 @@ void EXTI4_IRQHandler(void)
 *******************************************************************************/
 void DMA1_Channel1_IRQHandler(void)
 {
+}
+
+/*******************************************************************************
+* Function Name  : DMA1_Channel2_IRQHandler
+* Description    : This function handles DMA1 Channel 2 interrupt request.
+* Input          : None
+* Output         : None
+* Return         : None
+*******************************************************************************/
+void DMA1_Channel2_IRQHandler(void)
+{
+#ifdef RT_USING_UART3
+    extern struct rt_device uart3_device;
+
+    /* enter interrupt */
+    rt_interrupt_enter();
+
+    if (DMA_GetITStatus(DMA1_IT_TC2))
+    {
+        /* transmission complete, invoke serial dma tx isr */
+        rt_hw_serial_dma_tx_isr(&uart3_device);
+    }
+
+    /* clear DMA flag */
+    DMA_ClearFlag(DMA1_FLAG_TC2 | DMA1_FLAG_TE2);
+
+    /* leave interrupt */
+    rt_interrupt_leave();
+#endif
 }
 
 /*******************************************************************************
@@ -321,6 +359,30 @@ void DMA1_Channel5_IRQHandler(void)
         /* transmission complete, invoke serial dma tx isr */
         codec_dma_isr();
     }
+
+    /* leave interrupt */
+    rt_interrupt_leave();
+#endif
+}
+
+/*******************************************************************************
+* Function Name  : DMA1_Channel6_IRQHandler
+* Description    : This function handles DMA1 Channel 6 interrupt request.
+* Input          : None
+* Output         : None
+* Return         : None
+*******************************************************************************/
+void DMA1_Channel6_IRQHandler(void)
+{
+#ifdef RT_USING_UART2
+    extern struct rt_device uart2_device;
+
+    /* enter interrupt */
+    rt_interrupt_enter();
+
+    /* clear DMA flag */
+    DMA_ClearFlag(DMA1_FLAG_TC6 | DMA1_FLAG_TE6);
+    rt_hw_serial_dma_rx_isr(&uart2_device);
 
     /* leave interrupt */
     rt_interrupt_leave();
@@ -392,7 +454,28 @@ void USART2_IRQHandler(void)
 
     /* leave interrupt */
     rt_interrupt_leave();
-    rt_hw_interrupt_thread_switch();
+#endif
+}
+
+/*******************************************************************************
+* Function Name  : USART3_IRQHandler
+* Description    : This function handles USART3 global interrupt request.
+* Input          : None
+* Output         : None
+* Return         : None
+*******************************************************************************/
+void USART3_IRQHandler(void)
+{
+#ifdef RT_USING_UART3
+    extern struct rt_device uart3_device;
+
+    /* enter interrupt */
+    rt_interrupt_enter();
+
+    rt_hw_serial_isr(&uart3_device);
+
+    /* leave interrupt */
+    rt_interrupt_leave();
 #endif
 }
 
@@ -517,6 +600,7 @@ void SDIO_IRQHandler(void)
 
     /* leave interrupt */
     rt_interrupt_leave();
+    rt_hw_interrupt_thread_switch();
 #endif
 }
 
@@ -548,3 +632,23 @@ void DMA2_Channel2_IRQHandler(void)
     rt_interrupt_leave();
 #endif
 }
+
+///* add on 2009-12-31 for usb */
+//extern void CTR_HP(void);
+//extern void USB_Istr(void);
+//void USB_HP_CAN1_TX_IRQHandler(void)
+//{
+//    CTR_HP();
+//}
+//
+//void USB_LP_CAN1_RX0_IRQHandler(void)
+//{
+//    USB_Istr();
+//}
+
+///* add on 2010-01-02 for remote */
+//extern void remote_isr(void);
+//void TIM5_IRQHandler(void)
+//{
+//    remote_isr();
+//}
