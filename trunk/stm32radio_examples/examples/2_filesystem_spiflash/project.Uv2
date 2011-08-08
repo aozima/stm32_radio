@@ -75,7 +75,6 @@ File 5,2,<..\..\rt-thread\libcpu\arm\stm32\context_rvds.S><context_rvds.S>
 File 6,1,<.\application.c><application.c>
 File 6,1,<.\at45dbxx.c><at45dbxx.c>
 File 6,1,<.\board.c><board.c>
-File 6,1,<.\fs_test.c><fs_test.c>
 File 6,1,<.\serial.c><serial.c>
 File 6,1,<.\spi_flash.c><spi_flash.c>
 File 6,1,<.\sst25vfxx.c><sst25vfxx.c>
