@@ -184,6 +184,13 @@ void RTC_IRQHandler(void)
     }
 }
 
+void SysTick_Handler(void)
+{
+    extern void rt_hw_timer_handler(void);
+    rt_hw_timer_handler();
+}
+
+
 /*******************************************************************************
 * Function Name  : FLASH_IRQHandler
 * Description    : This function handles Flash interrupt request.
