@@ -9,7 +9,7 @@ const static char indexdata[] = "<html> \
 	This is a small test page. \
 	</body> \
 	</html>";
-const static char http_html_hdr[] = "Content-type: text/html\r\n\r\n";
+const static char http_html_hdr[] = "HTTP/1.0 200 OK\r\nContent-Type: text/html\r\n\r\n";
 
 /*  这个函数处理进入的连接 */
 static void process_connection(struct netconn *conn)

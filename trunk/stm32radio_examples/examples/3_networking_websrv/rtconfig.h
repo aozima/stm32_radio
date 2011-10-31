@@ -104,10 +104,10 @@
 /* #define RT_LWIP_SNMP */
 
 /* Using DHCP */
-#define RT_LWIP_DHCP
+//#define RT_LWIP_DHCP
 
 /* Using DNS */
-#define RT_LWIP_DNS
+//#define RT_LWIP_DNS
 
 /* ip address of target */
 #define RT_LWIP_IPADDR0	192
