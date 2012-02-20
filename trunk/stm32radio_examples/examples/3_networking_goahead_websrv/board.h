@@ -78,6 +78,8 @@
 // 	<i>Default: 2
 #define SPI_FLASH_TYPE             2
 
+#define RT_USING_UART1
+
 void rt_hw_led_on(int n);
 void rt_hw_led_off(int n);
 void rt_hw_led_init(void);

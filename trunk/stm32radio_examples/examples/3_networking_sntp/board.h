@@ -21,6 +21,8 @@
 #define STM32_SRAM_SIZE         64
 #define STM32_SRAM_END          (0x20000000 + STM32_SRAM_SIZE * 1024)
 
+#define RT_USING_UART1
+
 void rt_hw_board_init(void);
 
 #endif
