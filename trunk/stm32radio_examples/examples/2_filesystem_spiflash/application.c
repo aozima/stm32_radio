@@ -18,6 +18,7 @@
 /*@{*/
 
 #include <rtthread.h>
+
 #ifdef RT_USING_DFS
 /* dfs init */
 #include <dfs_init.h>
@@ -27,11 +28,29 @@
 #include <dfs_fs.h>
 #endif
 
+#ifdef RT_USING_SPI
+#include <spi_flash_at45dbxx.h>
+#include <spi_flash_sst25vfxx.h>
+#endif
+
 /* thread phase init */
 void rt_init_thread_entry(void *parameter)
 {
     /* Filesystem Initialization */
 #ifdef RT_USING_DFS
+
+#   ifdef RT_USING_SPI
+    /* init hardware device */
+    if(sst25vfxx_init("flash0", "spi10") != RT_EOK)
+    {
+        if(at45dbxx_init("flash0", "spi10") != RT_EOK)
+        {
+            rt_kprintf("[error] No such spi flash!\r\n");
+        }
+    }
+#   endif
+
+    /* init filesystem */
     {
         /* init the device filesystem */
         dfs_init();
@@ -40,7 +59,7 @@ void rt_init_thread_entry(void *parameter)
         elm_init();
 
 		/* mount spi flash fat as root directory */
-		if (dfs_mount("spi0", "/", "elm", 0, 0) == 0)
+		if (dfs_mount("flash0", "/", "elm", 0, 0) == 0)
 			rt_kprintf("SPI File System initialized!\n");
 		else
 			rt_kprintf("SPI File System init failed!\n");
