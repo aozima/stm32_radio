@@ -1,5 +1,3 @@
-#include <rtdevice.h>
-
 #include "rt_stm32f10x_spi.h"
 
 static rt_err_t configure(struct rt_spi_device* device, struct rt_spi_configuration* configuration);
@@ -301,7 +299,7 @@ static rt_uint32_t xfer(struct rt_spi_device* device, struct rt_spi_message* mes
     return message->length;
 };
 
-void stm32_spi_init(void)
+void rt_stm32f10x_spi_init(void)
 {
 #ifdef USING_SPI1
     /* SPI1 config */

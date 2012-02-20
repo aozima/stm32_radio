@@ -1,6 +1,8 @@
 #ifndef STM32_SPI_H_INCLUDED
 #define STM32_SPI_H_INCLUDED
 
+#include <rtdevice.h>
+
 #include "stm32f10x.h"
 #include "stm32f10x_spi.h"
 
@@ -29,6 +31,6 @@ struct stm32_spi_cs
 };
 
 /* function list */
-extern void stm32_spi_init(void);
+extern void rt_stm32f10x_spi_init(void);
 
 #endif // STM32_SPI_H_INCLUDED
