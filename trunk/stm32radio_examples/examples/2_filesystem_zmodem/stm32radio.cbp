@@ -31,48 +31,6 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="ZMODEM\RBSB.C">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="ZMODEM\RZ.C">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="ZMODEM\RZ.H" />
-		<Unit filename="ZMODEM\SZ.C">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="ZMODEM\ZM.C">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="ZMODEM\old.ZMODEM.H" />
-		<Unit filename="ZMODEM\zmodem.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="ZMODEM\zmodem.h" />
-		<Unit filename="application.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="board.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="board.h" />
-		<Unit filename="rtconfig.h" />
-		<Unit filename="sdcard.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="sdcard.h" />
-		<Unit filename="startup.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="stm32f10x_conf.h" />
-		<Unit filename="stm32f10x_it.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="stm32f10x_it.h" />
-		<Unit filename="usart.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="usart.h" />
 		<Unit filename="..\..\rt-thread\components\dfs\include\dfs.h" />
 		<Unit filename="..\..\rt-thread\components\dfs\include\dfs_def.h" />
 		<Unit filename="..\..\rt-thread\components\dfs\include\dfs_elm.h" />
@@ -184,6 +142,42 @@
 		<Unit filename="..\..\rt-thread\kernel\timer.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="ZMODEM\RBSB.C">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ZMODEM\RZ.C">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ZMODEM\RZ.H" />
+		<Unit filename="ZMODEM\SZ.C">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ZMODEM\ZM.C">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ZMODEM\old.ZMODEM.H" />
+		<Unit filename="ZMODEM\zmodem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ZMODEM\zmodem.h" />
+		<Unit filename="application.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="board.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="board.h" />
+		<Unit filename="rtconfig.h" />
+		<Unit filename="sdcard.h" />
+		<Unit filename="startup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32f10x_conf.h" />
+		<Unit filename="stm32f10x_it.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32f10x_it.h" />
+		<Unit filename="usart.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
