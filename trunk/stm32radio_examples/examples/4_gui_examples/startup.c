@@ -17,7 +17,6 @@
 #include <rtthread.h>
 
 #include "board.h"
-#include "spi_flash.h"
 
 #include <stm32f10x.h>
 
@@ -103,14 +102,6 @@ void rtthread_startup(void)
 
     /* init scheduler system */
     rt_system_scheduler_init();
-
-    codec_hw_init();
-
-    /* init hardware device */
-#ifdef RT_USING_DFS
-//   rt_hw_sdcard_init();	//GUI Demo暂时用不上
-    rt_hw_spi_flash_init();
-#endif
 
     /* init all device */
     rt_device_init_all();

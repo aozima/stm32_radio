@@ -15,66 +15,487 @@
 					<Add option="-g" />
 				</Compiler>
 			</Target>
-			<Target title="Release">
-				<Option output="bin\Release\stm32radio" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Release\" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-O2" />
-				</Compiler>
-				<Linker>
-					<Add option="-s" />
-				</Linker>
-			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="application.c">
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\CoreSupport\core_cm3.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="board.c">
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\CoreSupport\core_cm3.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\TrueSTUDIO\startup_stm32f10x_cl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\TrueSTUDIO\startup_stm32f10x_hd.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\TrueSTUDIO\startup_stm32f10x_hd_vl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\TrueSTUDIO\startup_stm32f10x_ld.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\TrueSTUDIO\startup_stm32f10x_ld_vl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\TrueSTUDIO\startup_stm32f10x_md.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\TrueSTUDIO\startup_stm32f10x_md_vl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\TrueSTUDIO\startup_stm32f10x_xl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\arm\startup_stm32f10x_cl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\arm\startup_stm32f10x_hd.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\arm\startup_stm32f10x_hd_vl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\arm\startup_stm32f10x_ld.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\arm\startup_stm32f10x_ld_vl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\arm\startup_stm32f10x_md.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\arm\startup_stm32f10x_md_vl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\arm\startup_stm32f10x_xl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\gcc_ride7\startup_stm32f10x_cl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\gcc_ride7\startup_stm32f10x_hd.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\gcc_ride7\startup_stm32f10x_hd_vl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\gcc_ride7\startup_stm32f10x_ld.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\gcc_ride7\startup_stm32f10x_ld_vl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\gcc_ride7\startup_stm32f10x_md.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\gcc_ride7\startup_stm32f10x_md_vl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\gcc_ride7\startup_stm32f10x_xl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\iar\startup_stm32f10x_cl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\iar\startup_stm32f10x_hd.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\iar\startup_stm32f10x_hd_vl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\iar\startup_stm32f10x_ld.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\iar\startup_stm32f10x_ld_vl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\iar\startup_stm32f10x_md.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\iar\startup_stm32f10x_md_vl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\iar\startup_stm32f10x_xl.s" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\system_stm32f10x.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="board.h" />
-		<Unit filename="calibration.c">
+		<Unit filename="..\..\STM32F10x_Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\system_stm32f10x.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\inc\fsmc_nand.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\inc\hw_config.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\inc\mass_mal.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\inc\memory.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\inc\nand_if.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\inc\platform_config.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\inc\stm32f10x_conf.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\inc\usb_bot.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\inc\usb_conf.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\inc\usb_desc.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\inc\usb_istr.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\inc\usb_prop.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\inc\usb_pwr.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\inc\usb_scsi.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\src\fsmc_nand.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="ili_lcd_general.h" />
-		<Unit filename="key.c">
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\src\hw_config.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="key.h" />
-		<Unit filename="lcd.c">
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\src\mass_mal.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="lcd.h" />
-		<Unit filename="led.h" />
-		<Unit filename="rtconfig.h" />
-		<Unit filename="single_panel.c">
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\src\memory.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="spi_flash.c">
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\src\nand_if.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="spi_flash.h" />
-		<Unit filename="startup.c">
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\src\scsi_data.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="stm32f10x_conf.h" />
-		<Unit filename="stm32f10x_it.c">
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\src\usb_bot.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="stm32f10x_it.h" />
-		<Unit filename="touch.c">
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\src\usb_desc.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="touch.h" />
-		<Unit filename="usart.c">
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\src\usb_endp.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="usart.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\src\usb_istr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\src\usb_main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\src\usb_prop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\src\usb_pwr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\Mass_Storage\src\usb_scsi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\misc.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_adc.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_bkp.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_can.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_cec.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_crc.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_dac.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_dbgmcu.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_dma.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_exti.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_flash.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_fsmc.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_gpio.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_i2c.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_iwdg.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_pwr.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_rcc.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_rtc.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_sdio.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_spi.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_tim.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_usart.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_wwdg.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\misc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_adc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_bkp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_can.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_cec.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_crc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_dac.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_dbgmcu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_dma.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_exti.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_flash.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_fsmc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_gpio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_i2c.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_iwdg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_pwr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_rcc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_rtc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_sdio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_spi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_tim.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_usart.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_wwdg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\inc\otgd_fs_cal.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\inc\otgd_fs_dev.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\inc\otgd_fs_int.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\inc\otgd_fs_pcd.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\inc\otgd_fs_regs.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\inc\usb_core.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\inc\usb_def.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\inc\usb_init.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\inc\usb_int.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\inc\usb_lib.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\inc\usb_mem.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\inc\usb_regs.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\inc\usb_sil.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\inc\usb_type.h" />
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\src\otgd_fs_cal.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\src\otgd_fs_dev.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\src\otgd_fs_int.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\src\otgd_fs_pcd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\src\usb_core.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\src\usb_init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\src\usb_int.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\src\usb_mem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\src\usb_regs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\STM32F10x_Libraries\STM32_USB-FS-Device_Driver\src\usb_sil.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\asc12font.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\asc16font.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\blit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\color.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\dc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\dc_buffer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\dc_client.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\dc_hw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\filerw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\font.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\font_bmp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\font_freetype.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\font_hz_bmp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\font_hz_file.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\framebuffer_driver.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\hz12font.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\hz16font.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\image.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\image_bmp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\image_container.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\image_hdc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\image_jpg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\image_png.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\image_xpm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\pixel_driver.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\region.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\rtgui_object.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\rtgui_system.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\rtgui_theme.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\common\rtgui_xml.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\blit.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\color.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\dc.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\dc_client.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\dc_hw.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\driver.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\event.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\filerw.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\font.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\font_freetype.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\image.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\image_bmp.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\image_container.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\image_hdc.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\image_jpeg.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\image_png.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\image_xpm.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\kbddef.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\list.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\region.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\rtgui.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\rtgui_config.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\rtgui_object.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\rtgui_server.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\rtgui_system.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\rtgui_theme.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\rtgui_xml.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\tree.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\about_view.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\box.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\button.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\checkbox.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\combobox.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\container.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\filelist_view.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\iconbox.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\label.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\list_view.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\listbox.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\listctrl.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\menu.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\notebook.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\progressbar.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\radiobox.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\scrollbar.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\slider.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\staticline.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\textbox.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\textview.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\title.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\toplevel.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\view.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\widget.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\window.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\include\rtgui\widgets\workbench.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\server\driver.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\server\mouse.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\server\mouse.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\server\panel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\server\panel.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\server\server.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\server\topwin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\server\topwin.h" />
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\about_view.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\box.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\button.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\checkbox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\combobox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\container.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\filelist_view.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\iconbox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\label.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\list_view.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\listbox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\listctrl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\menu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\notebook.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\progressbar.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\radiobox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\scrollbar.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\slider.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\staticline.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\textbox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\textview.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\title.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\toplevel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\view.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\widget.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\window.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\rtgui\widgets\workbench.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="..\..\rt-thread\devicefilesystem\dfs_config.h" />
 		<Unit filename="..\..\rt-thread\devicefilesystem\filesystems\elmfat\dfs_elm.c">
 			<Option compilerVar="CC" />
@@ -130,67 +551,397 @@
 		<Unit filename="..\..\rt-thread\devicefilesystem\src\dfs_util.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\asc12font.c">
+		<Unit filename="..\..\rt-thread\examples\file\listdir.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\asc16font.c">
+		<Unit filename="..\..\rt-thread\examples\file\readspeed.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\color.c">
+		<Unit filename="..\..\rt-thread\examples\file\readwrite.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\dc.c">
+		<Unit filename="..\..\rt-thread\examples\file\seekdir.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\dc_buffer.c">
+		<Unit filename="..\..\rt-thread\examples\file\writespeed.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\dc_hw.c">
+		<Unit filename="..\..\rt-thread\examples\gui\demo_fnview.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\filerw.c">
+		<Unit filename="..\..\rt-thread\examples\gui\demo_listview.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\font.c">
+		<Unit filename="..\..\rt-thread\examples\gui\demo_listview_icon.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\font_hz_bmp.c">
+		<Unit filename="..\..\rt-thread\examples\gui\demo_panel.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\font_hz_file.c">
+		<Unit filename="..\..\rt-thread\examples\gui\demo_panel_single.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\hz12font.c">
+		<Unit filename="..\..\rt-thread\examples\gui\demo_simple_workbench.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\hz16font.c">
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\image.c">
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view.h" />
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_animation.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\image_hdc.c">
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_benchmark.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\image_jpg.c">
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_box.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\image_png.c">
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_buffer_animation.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\image_xpm.c">
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_button.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\region.c">
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_checkbox.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\rtgui_object.c">
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_combobox.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\rtgui_system.c">
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_dc.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\rt-thread\gui\common\rtgui_theme.c">
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_dc_buffer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_image.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_instrument_panel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_label.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_listbox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_listctrl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_menu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_module.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_mywidget.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_notebook.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_progressbar.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_radiobox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_scrollbar.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_slider.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_textbox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_ttf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\demo_view_window.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\demo_workbench.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\demo_xml.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\gui_init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\mywidget.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\gui\mywidget.h" />
+		<Unit filename="..\..\rt-thread\examples\kernel\cpuusage.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\event_simple.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\heap_malloc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\heap_realloc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\mbox_send_wait.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\mbox_simple.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\memp_simple.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\messageq_simple.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\mutex_simple.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\semaphore_buffer_worker.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\semaphore_dynamic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\semaphore_priority.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\semaphore_producer_consumer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\semaphore_static.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\tc_comm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\tc_comm.h" />
+		<Unit filename="..\..\rt-thread\examples\kernel\tc_sample.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\thread_delay.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\thread_delete.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\thread_detach.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\thread_dynamic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\thread_dynamic_simple.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\thread_priority.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\thread_resume.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\thread_same_priority.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\thread_static.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\thread_static_simple.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\thread_suspend.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\thread_yield.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\timer_control.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\timer_dynamic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\timer_static.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\timer_stop_self.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\kernel\timer_timeout.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\libc\dirent.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\libc\env.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\libc\ex1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\libc\ex2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\libc\ex3.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\libc\ex4.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\libc\ex5.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\libc\ex6.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\libc\ex7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\libc\file.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\libc\memory.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\libc\mq.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\libc\printf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\libc\rand.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\libc\sem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\libc\time.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\module\basicapp\basicapp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\module\extapp\extapp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\module\tetris\tetris.h" />
+		<Unit filename="..\..\rt-thread\examples\module\tetris\tetris_modal.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\module\tetris\tetris_ui.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\module\tetris\tetris_view.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\network\tcpclient.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\network\tcpsendpacket.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\network\tcpserver.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\network\udpclient.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\network\udpserver.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_animation.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_benchmark.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_buffer_animation.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_button.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_checkbox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_combobox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_dc_buffer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_fnview.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_image.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_label.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_listbox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_listctrl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_menu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_progressbar.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_radiobox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_rttab.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_scrollbar.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_slider.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_textbox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_win.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_gui_window.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\demo_view.h" />
+		<Unit filename="..\..\rt-thread\examples\rtgui_win\gui_init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\test\device_test.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\test\dhry.h" />
+		<Unit filename="..\..\rt-thread\examples\test\dhry_1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\test\dhry_2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\test\fs_test.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\test\mem_test.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\examples\test\net_test.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="..\..\rt-thread\gui\include\rtgui\color.h" />
@@ -236,87 +987,9 @@
 		<Unit filename="..\..\rt-thread\gui\include\rtgui\widgets\widget.h" />
 		<Unit filename="..\..\rt-thread\gui\include\rtgui\widgets\window.h" />
 		<Unit filename="..\..\rt-thread\gui\include\rtgui\widgets\workbench.h" />
-		<Unit filename="..\..\rt-thread\gui\server\driver.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\server\mouse.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="..\..\rt-thread\gui\server\mouse.h" />
-		<Unit filename="..\..\rt-thread\gui\server\panel.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="..\..\rt-thread\gui\server\panel.h" />
-		<Unit filename="..\..\rt-thread\gui\server\server.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\server\topwin.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="..\..\rt-thread\gui\server\topwin.h" />
-		<Unit filename="..\..\rt-thread\gui\widgets\about_view.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\box.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\button.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\checkbox.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\container.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\filelist_view.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\iconbox.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\label.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\list_view.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\listbox.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\progressbar.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\radiobox.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\slider.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\staticline.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\textbox.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\title.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\toplevel.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\view.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\widget.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\window.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\rt-thread\gui\widgets\workbench.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="..\..\rt-thread\include\rtdef.h" />
 		<Unit filename="..\..\rt-thread\include\rthw.h" />
 		<Unit filename="..\..\rt-thread\include\rtthread.h" />
@@ -360,6 +1033,67 @@
 		<Unit filename="..\..\rt-thread\kernel\timer.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="application.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="board.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="board.h" />
+		<Unit filename="calibration.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="codec.h" />
+		<Unit filename="drawpad.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="drawpad.h" />
+		<Unit filename="fsmc_nand.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fsmc_nand.h" />
+		<Unit filename="fsmc_sram.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ili_lcd_general.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ili_lcd_general.h" />
+		<Unit filename="key.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="key.h" />
+		<Unit filename="lcd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lcd.h" />
+		<Unit filename="rtconfig.h" />
+		<Unit filename="setup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="setup.h" />
+		<Unit filename="spi_flash.h" />
+		<Unit filename="ssd1289.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ssd1289.h" />
+		<Unit filename="startup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32f10x_conf.h" />
+		<Unit filename="stm32f10x_it.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32f10x_it.h" />
+		<Unit filename="touch.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="touch.h" />
+		<Unit filename="usart.h" />
+		<Unit filename="utils.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="utils.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

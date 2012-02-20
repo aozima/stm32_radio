@@ -270,7 +270,7 @@ void DMA1_Channel5_IRQHandler(void)
 
         // rt_kprintf("DMA\n");
         /* transmission complete, invoke serial dma tx isr */
-        codec_dma_isr();
+//        codec_dma_isr();
     }
 
     /* leave interrupt */
@@ -538,7 +538,7 @@ void DMA2_Channel2_IRQHandler(void)
         DMA_ClearFlag(DMA2_FLAG_TC2 | DMA2_FLAG_TE2);
 
         /* transmission complete, invoke serial dma tx isr */
-        codec_dma_isr();
+//        codec_dma_isr();
     }
 
     /* leave interrupt */

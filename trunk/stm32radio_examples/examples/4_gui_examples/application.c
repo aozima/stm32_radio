@@ -25,6 +25,11 @@
 #include "lcd.h"
 #include "setup.h"
 
+#ifdef RT_USING_SPI
+#include <spi_flash_at45dbxx.h>
+#include <spi_flash_sst25vfxx.h>
+#endif
+
 #ifdef RT_USING_DFS
 /* dfs init */
 #include <dfs_init.h>
@@ -51,8 +56,19 @@
 /* thread phase init */
 void rt_init_thread_entry(void *parameter)
 {
-    /* Filesystem Initialization */
+#ifdef RT_USING_SPI
+    /* init hardware device */
+    if(sst25vfxx_init("flash0", "spi10") != RT_EOK)
+    {
+        if(at45dbxx_init("flash0", "spi10") != RT_EOK)
+        {
+            rt_kprintf("[error] No such spi flash!\r\n");
+        }
+    }
+#endif
+
 #ifdef RT_USING_DFS
+    /* Filesystem Initialization */
     {
 		extern void ff_convert_init();
 
@@ -63,7 +79,7 @@ void rt_init_thread_entry(void *parameter)
         elm_init();
 
         /* mount spi flash fat as root directory */
-        if (dfs_mount("spi0", "/", "elm", 0, 0) == 0)
+        if (dfs_mount("flash0", "/", "elm", 0, 0) == 0)
         {
             rt_kprintf("SPI File System initialized!\n");
 
@@ -81,7 +97,7 @@ void rt_init_thread_entry(void *parameter)
 #ifdef RT_USING_RTGUI
 	{
         extern void rt_hw_key_init(void);
-	    extern void rtgui_touch_hw_init(void);
+	    extern rt_err_t rtgui_touch_hw_init(const char * spi_device_name);
 		extern void rtgui_startup();
 		rt_device_t lcd;
 
@@ -92,7 +108,7 @@ void rt_init_thread_entry(void *parameter)
 
 		/* init touch panel */
 		load_setup();
-		rtgui_touch_hw_init();
+		rtgui_touch_hw_init("spi11");
 
 		/* re-init device driver */
 		rt_device_init_all();
