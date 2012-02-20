@@ -6,6 +6,7 @@ RTT_ROOT = os.path.normpath(os.getcwd() + '/../..')
 # component options
 
 # make all component false
+RT_USING_SPI 		= False
 RT_USING_FINSH 		= False
 RT_USING_DFS 		= False
 RT_USING_DFS_ELMFAT 	= False
@@ -21,6 +22,10 @@ contents = f.read()
 f.close()
 PreProcessor.process_contents(contents)
 rtconfig_ns = PreProcessor.cpp_namespace
+
+# driver options
+if rtconfig_ns.has_key('RT_USING_SPI'):
+	RT_USING_SPI = True
 
 # finsh shell options
 if rtconfig_ns.has_key('RT_USING_FINSH'):
