@@ -17,6 +17,9 @@ if 'RT_USING_SPI' in dir(rtconfig) and rtconfig.RT_USING_SPI:
 if 'RT_USING_DFS' in dir(rtconfig) and rtconfig.RT_USING_DFS:
 	group['src'] += Glob(RTT_ROOT + '/drivers/external/sdcard.c')
 
+if 'RT_USING_LWIP' in dir(rtconfig) and rtconfig.RT_USING_LWIP:
+	group['src'] += Glob(RTT_ROOT + '/drivers/external/dm9000a.c')
+
 group['CCFLAGS'] = ''
 
 group['CPPPATH'] = [RTT_ROOT + '/drivers/peripheral']
