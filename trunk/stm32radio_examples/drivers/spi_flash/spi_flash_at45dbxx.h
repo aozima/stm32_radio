@@ -4,7 +4,7 @@
 #include <rtthread.h>
 #include <drivers/spi.h>
 
-struct spi_flash_device
+struct spi_flash_at45dbxx
 {
     struct rt_device                flash_device;
     struct rt_device_blk_geometry   geometry;

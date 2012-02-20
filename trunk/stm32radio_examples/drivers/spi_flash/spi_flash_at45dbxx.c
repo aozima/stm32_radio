@@ -64,7 +64,7 @@ thanks to gxlujd.
 #define AT45DB_MM_PAGE_PROG_THRU_BUFFER1      0x82  /* 通过缓冲区写入主储存器 */
 #define AT45DB_CMD_JEDEC_ID                   0x9F  /* 读取 JEDEC ID */
 
-static struct spi_flash_device  spi_flash_device;
+static struct spi_flash_at45dbxx  spi_flash_at45dbxx;
 
 /*****************************************************************************/
 /*Status Register Format:                                   */
@@ -79,7 +79,7 @@ static struct spi_flash_device  spi_flash_device;
 /*****************************************************************************/
 static uint8_t AT45DB_StatusRegisterRead(void)
 {
-    return rt_spi_sendrecv8(spi_flash_device.rt_spi_device, AT45DB_READ_STATE_REGISTER);
+    return rt_spi_sendrecv8(spi_flash_at45dbxx.rt_spi_device, AT45DB_READ_STATE_REGISTER);
 }
 
 static void wait_busy(void)
@@ -153,7 +153,7 @@ static rt_size_t AT45DB_flash_read_page_256(rt_device_t dev, rt_off_t pos, void*
         send_buffer[1] = (uint8_t)(page >> 7);
         send_buffer[2] = (uint8_t)(page << 1);
 
-        rt_spi_send_then_recv(spi_flash_device.rt_spi_device, send_buffer, 8, read_buffer, 256);
+        rt_spi_send_then_recv(spi_flash_at45dbxx.rt_spi_device, send_buffer, 8, read_buffer, 256);
         read_buffer += 256;
         page++;
     }
@@ -183,7 +183,7 @@ static rt_size_t AT45DB_flash_read_page_512(rt_device_t dev, rt_off_t pos, void*
         send_buffer[1] = (uint8_t)(page >> 6);
         send_buffer[2] = (uint8_t)(page << 2);
 
-        rt_spi_send_then_recv(spi_flash_device.rt_spi_device, send_buffer, 8, read_buffer, 512);
+        rt_spi_send_then_recv(spi_flash_at45dbxx.rt_spi_device, send_buffer, 8, read_buffer, 512);
         read_buffer += 512;
         page++;
     }
@@ -213,7 +213,7 @@ static rt_size_t AT45DB_flash_read_page_1024(rt_device_t dev, rt_off_t pos, void
         send_buffer[1] = (uint8_t)(page >> 5);
         send_buffer[2] = (uint8_t)(page << 3);
 
-        rt_spi_send_then_recv(spi_flash_device.rt_spi_device, send_buffer, 8, read_buffer, 1024);
+        rt_spi_send_then_recv(spi_flash_at45dbxx.rt_spi_device, send_buffer, 8, read_buffer, 1024);
         read_buffer += 1024;
         page++;
     }
@@ -238,7 +238,7 @@ static rt_size_t AT45DB_flash_write_page_256(rt_device_t dev, rt_off_t pos, cons
         send_buffer[2] = (uint8_t) (page << 1);
         send_buffer[3] = 0;
 
-        rt_spi_send_then_send(spi_flash_device.rt_spi_device, send_buffer, 4, write_buffer, 256);
+        rt_spi_send_then_send(spi_flash_at45dbxx.rt_spi_device, send_buffer, 4, write_buffer, 256);
 
         write_buffer += 256;
         page++;
@@ -266,7 +266,7 @@ static rt_size_t AT45DB_flash_write_page_512(rt_device_t dev, rt_off_t pos, cons
         send_buffer[2] = (uint8_t) (page << 2);
         send_buffer[3] = 0;
 
-        rt_spi_send_then_send(spi_flash_device.rt_spi_device, send_buffer, 4, write_buffer, 512);
+        rt_spi_send_then_send(spi_flash_at45dbxx.rt_spi_device, send_buffer, 4, write_buffer, 512);
 
         write_buffer += 512;
         page++;
@@ -294,7 +294,7 @@ static rt_size_t AT45DB_flash_write_page_1024(rt_device_t dev, rt_off_t pos, con
         send_buffer[2] = (uint8_t) (page << 3);
         send_buffer[3] = 0;
 
-        rt_spi_send_then_send(spi_flash_device.rt_spi_device, send_buffer, 4, write_buffer, 1024);
+        rt_spi_send_then_send(spi_flash_at45dbxx.rt_spi_device, send_buffer, 4, write_buffer, 1024);
 
         write_buffer += 1024;
         page++;
@@ -316,7 +316,7 @@ rt_err_t at45dbxx_init(const char * flash_device_name, const char * spi_device_n
         FLASH_TRACE("spi device %s not found!\r\n", spi_device_name);
         return -RT_ENOSYS;
     }
-    spi_flash_device.rt_spi_device = rt_spi_device;
+    spi_flash_at45dbxx.rt_spi_device = rt_spi_device;
 
     /* config spi */
     {
@@ -324,7 +324,7 @@ rt_err_t at45dbxx_init(const char * flash_device_name, const char * spi_device_n
         cfg.data_width = 8;
         cfg.mode = RT_SPI_MODE_0 | RT_SPI_MSB; /* SPI Compatible Modes 0 and 3 */
         cfg.max_hz = 66000000; /* Atmel RapidS Serial Interface: 66MHz Maximum Clock Frequency */
-        rt_spi_configure(spi_flash_device.rt_spi_device, &cfg);
+        rt_spi_configure(spi_flash_at45dbxx.rt_spi_device, &cfg);
     }
 
     /* read JEDEC ID */
@@ -334,7 +334,7 @@ rt_err_t at45dbxx_init(const char * flash_device_name, const char * spi_device_n
         JEDEC_ID = (struct JEDEC_ID *)id_recv;
 
         cmd = AT45DB_CMD_JEDEC_ID;
-        rt_spi_send_then_recv(spi_flash_device.rt_spi_device, &cmd, 1, id_recv, 6);
+        rt_spi_send_then_recv(spi_flash_at45dbxx.rt_spi_device, &cmd, 1, id_recv, 6);
 
         /**< 1FH = Atmel */
         /**< 001 = Atmel DataFlash */
@@ -349,57 +349,57 @@ rt_err_t at45dbxx_init(const char * flash_device_name, const char * spi_device_n
         {
             /**< AT45DB011D Density Code : 00010 = 1-Mbit */
             FLASH_TRACE("AT45DB011D detection\r\n");
-            spi_flash_device.geometry.bytes_per_sector = 256; /* Page Erase (256 Bytes) */
-            spi_flash_device.geometry.sector_count = 512;     /* 1-Mbit / 8 / 256 = 512 */
-            spi_flash_device.geometry.block_size = 1024*2;    /* Block Erase (2-Kbytes) */
+            spi_flash_at45dbxx.geometry.bytes_per_sector = 256; /* Page Erase (256 Bytes) */
+            spi_flash_at45dbxx.geometry.sector_count = 512;     /* 1-Mbit / 8 / 256 = 512 */
+            spi_flash_at45dbxx.geometry.block_size = 1024*2;    /* Block Erase (2-Kbytes) */
         }
         else if(JEDEC_ID->density_code == DENSITY_CODE_021D)
         {
             /**< AT45DB021D Density Code : 00011 = 2-Mbit */
             FLASH_TRACE("AT45DB021D detection\r\n");
-            spi_flash_device.geometry.bytes_per_sector = 256; /* Page Erase (256 Bytes) */
-            spi_flash_device.geometry.sector_count = 512*2;   /* 2-Mbit / 8 / 256 = 1024 */
-            spi_flash_device.geometry.block_size = 1024*2;    /* Block Erase (2-Kbytes) */
+            spi_flash_at45dbxx.geometry.bytes_per_sector = 256; /* Page Erase (256 Bytes) */
+            spi_flash_at45dbxx.geometry.sector_count = 512*2;   /* 2-Mbit / 8 / 256 = 1024 */
+            spi_flash_at45dbxx.geometry.block_size = 1024*2;    /* Block Erase (2-Kbytes) */
         }
         else if(JEDEC_ID->density_code == DENSITY_CODE_041D)
         {
             /**< AT45DB041D Density Code : 00100 = 4-Mbit */
             FLASH_TRACE("AT45DB041D detection\r\n");
-            spi_flash_device.geometry.bytes_per_sector = 256; /* Page Erase (256 Bytes) */
-            spi_flash_device.geometry.sector_count = 512*4;   /* 4-Mbit / 8 / 256 = 2048 */
-            spi_flash_device.geometry.block_size = 1024*2;    /* Block Erase (2-Kbytes) */
+            spi_flash_at45dbxx.geometry.bytes_per_sector = 256; /* Page Erase (256 Bytes) */
+            spi_flash_at45dbxx.geometry.sector_count = 512*4;   /* 4-Mbit / 8 / 256 = 2048 */
+            spi_flash_at45dbxx.geometry.block_size = 1024*2;    /* Block Erase (2-Kbytes) */
         }
         else if(JEDEC_ID->density_code == DENSITY_CODE_081D)
         {
             /**< AT45DB081D Density Code : 00101 = 8-Mbit */
             FLASH_TRACE("AT45DB081D detection\r\n");
-            spi_flash_device.geometry.bytes_per_sector = 256; /* Page Erase (256 Bytes) */
-            spi_flash_device.geometry.sector_count = 512*8;   /* 8-Mbit / 8 / 256 = 4096 */
-            spi_flash_device.geometry.block_size = 1024*2;    /* Block Erase (2-Kbytes) */
+            spi_flash_at45dbxx.geometry.bytes_per_sector = 256; /* Page Erase (256 Bytes) */
+            spi_flash_at45dbxx.geometry.sector_count = 512*8;   /* 8-Mbit / 8 / 256 = 4096 */
+            spi_flash_at45dbxx.geometry.block_size = 1024*2;    /* Block Erase (2-Kbytes) */
         }
         else if(JEDEC_ID->density_code == DENSITY_CODE_161D)
         {
             /**< AT45DB161D Density Code : 00110 = 16-Mbit */
             FLASH_TRACE("AT45DB161D detection\r\n");
-            spi_flash_device.geometry.bytes_per_sector = 512; /* Page Erase (512 Bytes) */
-            spi_flash_device.geometry.sector_count = 256*16;  /* 16-Mbit / 8 / 512 = 4096 */
-            spi_flash_device.geometry.block_size = 1024*4;    /* Block Erase (4-Kbytes) */
+            spi_flash_at45dbxx.geometry.bytes_per_sector = 512; /* Page Erase (512 Bytes) */
+            spi_flash_at45dbxx.geometry.sector_count = 256*16;  /* 16-Mbit / 8 / 512 = 4096 */
+            spi_flash_at45dbxx.geometry.block_size = 1024*4;    /* Block Erase (4-Kbytes) */
         }
         else if(JEDEC_ID->density_code == DENSITY_CODE_321D)
         {
             /**< AT45DB321D Density Code : 00111 = 32-Mbit */
             FLASH_TRACE("AT45DB321D detection\r\n");
-            spi_flash_device.geometry.bytes_per_sector = 512; /* Page Erase (512 Bytes) */
-            spi_flash_device.geometry.sector_count = 256*32;  /* 32-Mbit / 8 / 512 = 8192 */
-            spi_flash_device.geometry.block_size = 1024*4;    /* Block Erase (4-Kbytes) */
+            spi_flash_at45dbxx.geometry.bytes_per_sector = 512; /* Page Erase (512 Bytes) */
+            spi_flash_at45dbxx.geometry.sector_count = 256*32;  /* 32-Mbit / 8 / 512 = 8192 */
+            spi_flash_at45dbxx.geometry.block_size = 1024*4;    /* Block Erase (4-Kbytes) */
         }
         else if(JEDEC_ID->density_code == DENSITY_CODE_642D)
         {
             /**< AT45DB642D Density Code : 01000 = 64-Mbit */
             FLASH_TRACE("AT45DB642D detection\r\n");
-            spi_flash_device.geometry.bytes_per_sector = 1024; /* Page Erase (1 Kbyte) */
-            spi_flash_device.geometry.sector_count = 128*64;   /* 64-Mbit / 8 / 1024 = 8192 */
-            spi_flash_device.geometry.block_size = 1024*8;     /* Block Erase (8 Kbytes) */
+            spi_flash_at45dbxx.geometry.bytes_per_sector = 1024; /* Page Erase (1 Kbyte) */
+            spi_flash_at45dbxx.geometry.sector_count = 128*64;   /* 64-Mbit / 8 / 1024 = 8192 */
+            spi_flash_at45dbxx.geometry.block_size = 1024*8;     /* Block Erase (8 Kbytes) */
         }
         else
         {
@@ -409,33 +409,33 @@ rt_err_t at45dbxx_init(const char * flash_device_name, const char * spi_device_n
     }
 
     /* register device */
-    spi_flash_device.flash_device.type    = RT_Device_Class_Block;
-    spi_flash_device.flash_device.init    = AT45DB_flash_init;
-    spi_flash_device.flash_device.open    = AT45DB_flash_open;
-    spi_flash_device.flash_device.close   = AT45DB_flash_close;
-    spi_flash_device.flash_device.control = AT45DB_flash_control;
+    spi_flash_at45dbxx.flash_device.type    = RT_Device_Class_Block;
+    spi_flash_at45dbxx.flash_device.init    = AT45DB_flash_init;
+    spi_flash_at45dbxx.flash_device.open    = AT45DB_flash_open;
+    spi_flash_at45dbxx.flash_device.close   = AT45DB_flash_close;
+    spi_flash_at45dbxx.flash_device.control = AT45DB_flash_control;
 
     if(JEDEC_ID->density_code == DENSITY_CODE_642D)
     {
-        spi_flash_device.flash_device.read 	  = AT45DB_flash_read_page_1024;
-        spi_flash_device.flash_device.write   = AT45DB_flash_write_page_1024;
+        spi_flash_at45dbxx.flash_device.read 	  = AT45DB_flash_read_page_1024;
+        spi_flash_at45dbxx.flash_device.write   = AT45DB_flash_write_page_1024;
     }
     else if(JEDEC_ID->density_code == DENSITY_CODE_161D
             || JEDEC_ID->density_code == DENSITY_CODE_321D )
     {
-        spi_flash_device.flash_device.read 	  = AT45DB_flash_read_page_512;
-        spi_flash_device.flash_device.write   = AT45DB_flash_write_page_512;
+        spi_flash_at45dbxx.flash_device.read 	  = AT45DB_flash_read_page_512;
+        spi_flash_at45dbxx.flash_device.write   = AT45DB_flash_write_page_512;
     }
     else
     {
-        spi_flash_device.flash_device.read 	  = AT45DB_flash_read_page_256;
-        spi_flash_device.flash_device.write   = AT45DB_flash_write_page_256;
+        spi_flash_at45dbxx.flash_device.read 	  = AT45DB_flash_read_page_256;
+        spi_flash_at45dbxx.flash_device.write   = AT45DB_flash_write_page_256;
     }
 
     /* no private */
-    spi_flash_device.flash_device.user_data = RT_NULL;
+    spi_flash_at45dbxx.flash_device.user_data = RT_NULL;
 
-    rt_device_register(&spi_flash_device.flash_device, flash_device_name,
+    rt_device_register(&spi_flash_at45dbxx.flash_device, flash_device_name,
                        RT_DEVICE_FLAG_RDWR | RT_DEVICE_FLAG_STANDALONE);
 
     return RT_EOK;

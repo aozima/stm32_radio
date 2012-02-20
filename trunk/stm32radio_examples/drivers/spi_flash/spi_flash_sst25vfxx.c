@@ -21,16 +21,16 @@
 #define FLASH_TRACE         rt_kprintf
 #else
 #define FLASH_TRACE(...)
-#endif /**< #ifdef FLASH_DEBUG */
+#endif /* #ifdef FLASH_DEBUG */
 
 /* JEDEC Manufacturer¡¯s ID */
-#define MF_ID           (0xBF)
+#define MF_ID                       (0xBF)
 /* JEDEC Device ID : Memory Type */
-#define MT_ID           (0x25)
+#define MT_ID                       (0x25)
 /* JEDEC Device ID: Memory Capacity */
-#define MC_ID_SST25VF016               (0x41)
-#define MC_ID_SST25VF032               (0x4A)
-#define MC_ID_SST25VF064               (0x4B)
+#define MC_ID_SST25VF016            (0x41)
+#define MC_ID_SST25VF032            (0x4A)
+#define MC_ID_SST25VF064            (0x4B)
 
 /* command list */
 #define CMD_RDSR                    (0x05)  /* ¶Á×´Ì¬¼Ä´æÆ÷     */
@@ -52,40 +52,16 @@
 
 #define DUMMY                       (0xFF)
 
-static struct spi_flash_device  spi_flash_device;
+static struct spi_flash_sst25vfxx  spi_flash_sst25vfxx;
 
-static uint8_t sst25vfxx_read_status(void)
+static uint8_t sst25vfxx_read_status(struct spi_flash_sst25vfxx * spi_flash)
 {
-    return rt_spi_sendrecv8(spi_flash_device.rt_spi_device, CMD_RDSR);
+    return rt_spi_sendrecv8(spi_flash->rt_spi_device, CMD_RDSR);
 }
 
-static void sst25vfxx_wait_busy(void)
+static void sst25vfxx_wait_busy(struct spi_flash_sst25vfxx * spi_flash)
 {
-    while( sst25vfxx_read_status() & (0x01));
-}
-
-/** \brief read [size] byte from [offset] to [buffer]
- *
- * \param offset uint32_t unit : byte
- * \param buffer uint8_t*
- * \param size uint32_t   unit : byte
- * \return uint32_t byte for read
- *
- */
-static uint32_t sst25vfxx_read(uint32_t offset, uint8_t * buffer, uint32_t size)
-{
-    uint8_t send_buffer[4];
-
-    send_buffer[0] = CMD_WRDI;
-    rt_spi_send(spi_flash_device.rt_spi_device, send_buffer, 1);
-
-    send_buffer[0] = CMD_READ;
-    send_buffer[1] = (uint8_t)(offset>>16);
-    send_buffer[2] = (uint8_t)(offset>>8);
-    send_buffer[3] = (uint8_t)(offset);
-    rt_spi_send_then_recv(spi_flash_device.rt_spi_device, send_buffer, 4, buffer, size);
-
-    return size;
+    while( sst25vfxx_read_status(spi_flash) & (0x01));
 }
 
 /** \brief write N page on [page]
@@ -96,7 +72,7 @@ static uint32_t sst25vfxx_read(uint32_t offset, uint8_t * buffer, uint32_t size)
  * \return uint32_t
  *
  */
-uint32_t sst25vfxx_page_write(uint32_t page, const uint8_t * buffer, uint32_t size)
+static uint32_t sst25vfxx_page_write(struct spi_flash_sst25vfxx * spi_flash, uint32_t page, const uint8_t * buffer, uint32_t size)
 {
     uint32_t index;
     uint32_t need_wirte = size;
@@ -105,18 +81,18 @@ uint32_t sst25vfxx_page_write(uint32_t page, const uint8_t * buffer, uint32_t si
     page &= ~0xFFF; // page size = 4096byte
 
     send_buffer[0] = CMD_WREN;
-    rt_spi_send(spi_flash_device.rt_spi_device, send_buffer, 1);
+    rt_spi_send(spi_flash->rt_spi_device, send_buffer, 1);
 
     send_buffer[0] = CMD_ERASE_4K;
     send_buffer[1] = (page >> 16);
     send_buffer[2] = (page >> 8);
     send_buffer[3] = (page);
-    rt_spi_send(spi_flash_device.rt_spi_device, send_buffer, 4);
+    rt_spi_send(spi_flash->rt_spi_device, send_buffer, 4);
 
-    sst25vfxx_wait_busy(); // wait erase done.
+    sst25vfxx_wait_busy(spi_flash); // wait erase done.
 
     send_buffer[0] = CMD_WREN;
-    rt_spi_send(spi_flash_device.rt_spi_device, send_buffer, 1);
+    rt_spi_send(spi_flash->rt_spi_device, send_buffer, 1);
 
     send_buffer[0] = CMD_AAIP;
     send_buffer[1] = (uint8_t)(page >> 16);
@@ -125,21 +101,21 @@ uint32_t sst25vfxx_page_write(uint32_t page, const uint8_t * buffer, uint32_t si
     send_buffer[4] = *buffer++;
     send_buffer[5] = *buffer++;
     need_wirte -= 2;
-    rt_spi_send(spi_flash_device.rt_spi_device, send_buffer, 6);
+    rt_spi_send(spi_flash->rt_spi_device, send_buffer, 6);
 
-    sst25vfxx_wait_busy();
+    sst25vfxx_wait_busy(spi_flash);
 
     for(index=0; index < need_wirte/2; index++)
     {
         send_buffer[0] = CMD_AAIP;
         send_buffer[1] = *buffer++;
         send_buffer[2] = *buffer++;
-        rt_spi_send(spi_flash_device.rt_spi_device, send_buffer, 3);
-        sst25vfxx_wait_busy();
+        rt_spi_send(spi_flash->rt_spi_device, send_buffer, 3);
+        sst25vfxx_wait_busy(spi_flash);
     }
 
     send_buffer[0] = CMD_WRDI;
-    rt_spi_send(spi_flash_device.rt_spi_device, send_buffer, 1);
+    rt_spi_send(spi_flash->rt_spi_device, send_buffer, 1);
 
     return size;
 }
@@ -152,17 +128,29 @@ static rt_err_t sst25vfxx_flash_init(rt_device_t dev)
 
 static rt_err_t sst25vfxx_flash_open(rt_device_t dev, rt_uint16_t oflag)
 {
+    rt_err_t result;
     uint8_t send_buffer[2];
+    struct spi_flash_sst25vfxx * spi_flash = (struct spi_flash_sst25vfxx *)dev;
+
+    /* lock spi flash */
+    result = rt_mutex_take(&(spi_flash->lock), RT_WAITING_FOREVER);
+    if(result != RT_EOK)
+    {
+        return result;
+    }
 
     send_buffer[0] = CMD_DBSY;
-    rt_spi_send(spi_flash_device.rt_spi_device, send_buffer, 1);
+    rt_spi_send(spi_flash->rt_spi_device, send_buffer, 1);
 
     send_buffer[0] = CMD_EWSR;
-    rt_spi_send(spi_flash_device.rt_spi_device, send_buffer, 1);
+    rt_spi_send(spi_flash->rt_spi_device, send_buffer, 1);
 
     send_buffer[0] = CMD_WRSR;
     send_buffer[1] = 0;
-    rt_spi_send(spi_flash_device.rt_spi_device, send_buffer, 2);
+    rt_spi_send(spi_flash->rt_spi_device, send_buffer, 2);
+
+    /* release lock */
+    rt_mutex_release(&(spi_flash->lock));
 
     return RT_EOK;
 }
@@ -174,6 +162,10 @@ static rt_err_t sst25vfxx_flash_close(rt_device_t dev)
 
 static rt_err_t sst25vfxx_flash_control(rt_device_t dev, rt_uint8_t cmd, void *args)
 {
+    struct spi_flash_sst25vfxx * spi_flash;
+
+    spi_flash = (struct spi_flash_sst25vfxx *)dev;
+
     RT_ASSERT(dev != RT_NULL);
 
     if (cmd == RT_DEVICE_CTRL_BLK_GETGEOME)
@@ -183,9 +175,9 @@ static rt_err_t sst25vfxx_flash_control(rt_device_t dev, rt_uint8_t cmd, void *a
         geometry = (struct rt_device_blk_geometry *)args;
         if (geometry == RT_NULL) return -RT_ERROR;
 
-        geometry->bytes_per_sector = spi_flash_device.geometry.bytes_per_sector;
-        geometry->sector_count = spi_flash_device.geometry.sector_count;
-        geometry->block_size = spi_flash_device.geometry.block_size;
+        geometry->bytes_per_sector = spi_flash->geometry.bytes_per_sector;
+        geometry->sector_count = spi_flash->geometry.sector_count;
+        geometry->block_size = spi_flash->geometry.block_size;
     }
 
     return RT_EOK;
@@ -193,19 +185,66 @@ static rt_err_t sst25vfxx_flash_control(rt_device_t dev, rt_uint8_t cmd, void *a
 
 static rt_size_t sst25vfxx_flash_read(rt_device_t dev, rt_off_t pos, void* buffer, rt_size_t size)
 {
-    sst25vfxx_read(pos*spi_flash_device.geometry.bytes_per_sector, buffer, size*spi_flash_device.geometry.bytes_per_sector);
+    rt_err_t result;
+    uint8_t send_buffer[4];
+    struct spi_flash_sst25vfxx * spi_flash = (struct spi_flash_sst25vfxx *)dev;
+    uint32_t offset = pos * spi_flash->geometry.bytes_per_sector;
+
+    /* lock spi flash */
+    result = rt_mutex_take(&(spi_flash->lock), RT_WAITING_FOREVER);
+    if(result != RT_EOK)
+    {
+        return 0;
+    }
+
+    send_buffer[0] = CMD_WRDI;
+    rt_spi_send(spi_flash->rt_spi_device, send_buffer, 1);
+
+    send_buffer[0] = CMD_READ;
+    send_buffer[1] = (uint8_t)(offset>>16);
+    send_buffer[2] = (uint8_t)(offset>>8);
+    send_buffer[3] = (uint8_t)(offset);
+    rt_spi_send_then_recv(spi_flash->rt_spi_device, send_buffer, 4, buffer, size * spi_flash->geometry.bytes_per_sector);
+
+    /* release lock */
+    rt_mutex_release(&(spi_flash->lock));
+
     return size;
 }
 
 static rt_size_t sst25vfxx_flash_write(rt_device_t dev, rt_off_t pos, const void* buffer, rt_size_t size)
 {
-    sst25vfxx_page_write(pos*spi_flash_device.geometry.bytes_per_sector, buffer, size*spi_flash_device.geometry.bytes_per_sector);
+    uint32_t i;
+    rt_err_t result;
+    const uint8_t * write_buffer = buffer;
+    struct spi_flash_sst25vfxx * spi_flash = (struct spi_flash_sst25vfxx *)dev;
+
+    /* lock spi flash */
+    result = rt_mutex_take(&(spi_flash->lock), RT_WAITING_FOREVER);
+    if(result != RT_EOK)
+    {
+        return 0;
+    }
+
+    for(i=0; i<size; i++)
+    {
+        sst25vfxx_page_write(spi_flash,
+                             (pos + i) * spi_flash->geometry.bytes_per_sector,
+                             write_buffer,
+                             spi_flash->geometry.bytes_per_sector);
+        write_buffer += spi_flash->geometry.bytes_per_sector;
+    }
+
+    /* release lock */
+    rt_mutex_release(&(spi_flash->lock));
+
     return size;
 }
 
 rt_err_t sst25vfxx_init(const char * flash_device_name, const char * spi_device_name)
 {
     struct rt_spi_device * rt_spi_device;
+    struct spi_flash_sst25vfxx * spi_flash = &spi_flash_sst25vfxx;
 
     rt_spi_device = (struct rt_spi_device *)rt_device_find(spi_device_name);
     if(rt_spi_device == RT_NULL)
@@ -213,7 +252,7 @@ rt_err_t sst25vfxx_init(const char * flash_device_name, const char * spi_device_
         FLASH_TRACE("spi device %s not found!\r\n", spi_device_name);
         return -RT_ENOSYS;
     }
-    spi_flash_device.rt_spi_device = rt_spi_device;
+    spi_flash->rt_spi_device = rt_spi_device;
 
     /* config spi */
     {
@@ -221,7 +260,7 @@ rt_err_t sst25vfxx_init(const char * flash_device_name, const char * spi_device_
         cfg.data_width = 8;
         cfg.mode = RT_SPI_MODE_0 | RT_SPI_MSB; /* SPI Compatible: Mode 0 and Mode 3 */
         cfg.max_hz = 50000000; /* 50M */
-        rt_spi_configure(spi_flash_device.rt_spi_device, &cfg);
+        rt_spi_configure(spi_flash->rt_spi_device, &cfg);
     }
 
     /* init flash */
@@ -230,11 +269,11 @@ rt_err_t sst25vfxx_init(const char * flash_device_name, const char * spi_device_
         rt_uint8_t id_recv[3];
 
         cmd = CMD_WRDI;
-        rt_spi_send(spi_flash_device.rt_spi_device, &cmd, 1);
+        rt_spi_send(spi_flash->rt_spi_device, &cmd, 1);
 
         /* read flash id */
         cmd = CMD_JEDEC_ID;
-        rt_spi_send_then_recv(spi_flash_device.rt_spi_device, &cmd, 1, id_recv, 3);
+        rt_spi_send_then_recv(spi_flash->rt_spi_device, &cmd, 1, id_recv, 3);
 
         if(id_recv[0] != MF_ID || id_recv[1] != MT_ID)
         {
@@ -243,23 +282,23 @@ rt_err_t sst25vfxx_init(const char * flash_device_name, const char * spi_device_
             return -RT_ENOSYS;
         }
 
-        spi_flash_device.geometry.bytes_per_sector = 4096;
-        spi_flash_device.geometry.block_size = 4096; /* block erase: 4k */
+        spi_flash->geometry.bytes_per_sector = 4096;
+        spi_flash->geometry.block_size = 4096; /* block erase: 4k */
 
         if(id_recv[2] == MC_ID_SST25VF016)
         {
             FLASH_TRACE("SST25VF016 detection\r\n");
-            spi_flash_device.geometry.sector_count = 512;
+            spi_flash->geometry.sector_count = 512;
         }
         else if(id_recv[2] == MC_ID_SST25VF032)
         {
             FLASH_TRACE("SST25VF032 detection\r\n");
-            spi_flash_device.geometry.sector_count = 1024;
+            spi_flash->geometry.sector_count = 1024;
         }
         else if(id_recv[2] == MC_ID_SST25VF064)
         {
             FLASH_TRACE("SST25VF064 detection\r\n");
-            spi_flash_device.geometry.sector_count = 2048;
+            spi_flash->geometry.sector_count = 2048;
         }
         else
         {
@@ -268,18 +307,21 @@ rt_err_t sst25vfxx_init(const char * flash_device_name, const char * spi_device_
         }
     }
 
-    /* register device */
-    spi_flash_device.flash_device.type    = RT_Device_Class_Block;
-    spi_flash_device.flash_device.init    = sst25vfxx_flash_init;
-    spi_flash_device.flash_device.open    = sst25vfxx_flash_open;
-    spi_flash_device.flash_device.close   = sst25vfxx_flash_close;
-    spi_flash_device.flash_device.read 	  = sst25vfxx_flash_read;
-    spi_flash_device.flash_device.write   = sst25vfxx_flash_write;
-    spi_flash_device.flash_device.control = sst25vfxx_flash_control;
-    /* no private */
-    spi_flash_device.flash_device.user_data = RT_NULL;
+    /* initialize mutex lock */
+    rt_mutex_init(&spi_flash->lock, flash_device_name, RT_IPC_FLAG_PRIO);
 
-    rt_device_register(&spi_flash_device.flash_device, flash_device_name,
+    /* register device */
+    spi_flash->flash_device.type    = RT_Device_Class_Block;
+    spi_flash->flash_device.init    = sst25vfxx_flash_init;
+    spi_flash->flash_device.open    = sst25vfxx_flash_open;
+    spi_flash->flash_device.close   = sst25vfxx_flash_close;
+    spi_flash->flash_device.read    = sst25vfxx_flash_read;
+    spi_flash->flash_device.write   = sst25vfxx_flash_write;
+    spi_flash->flash_device.control = sst25vfxx_flash_control;
+    /* no private */
+    spi_flash->flash_device.user_data = RT_NULL;
+
+    rt_device_register(&spi_flash->flash_device, flash_device_name,
                        RT_DEVICE_FLAG_RDWR | RT_DEVICE_FLAG_STANDALONE);
 
     return RT_EOK;
