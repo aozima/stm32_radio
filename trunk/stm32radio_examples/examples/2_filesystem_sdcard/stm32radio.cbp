@@ -38,6 +38,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="board.h" />
+		<Unit filename="device_test.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="fs_test.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -46,6 +49,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="sdcard.h" />
+		<Unit filename="serial.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="serial.h" />
 		<Unit filename="startup.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -58,6 +65,16 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="usart.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\filesystems\elmfat\dfs_elm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\dfs\filesystems\elmfat\diskio.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\filesystems\elmfat\ff.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\rt-thread\components\dfs\filesystems\elmfat\ff.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\filesystems\elmfat\ffconf.h" />
+		<Unit filename="..\..\rt-thread\components\dfs\filesystems\elmfat\integer.h" />
 		<Unit filename="..\..\rt-thread\components\dfs\include\dfs.h" />
 		<Unit filename="..\..\rt-thread\components\dfs\include\dfs_def.h" />
 		<Unit filename="..\..\rt-thread\components\dfs\include\dfs_elm.h" />
