@@ -24,6 +24,9 @@
   * @{
   */
 
+#include <rtthread.h>
+#include <board.h>
+
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -102,6 +105,12 @@ void DebugMon_Handler(void)
 {
 }
 
+void SysTick_Handler(void)
+{
+    extern void rt_hw_timer_handler(void);
+    rt_hw_timer_handler();
+}
+
 /******************************************************************************/
 /*                 STM32F10x Peripherals Interrupt Handlers                   */
 /*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */
@@ -143,7 +152,6 @@ void SDIO_IRQHandler(void)
 /*  available peripheral interrupt handler's name please refer to the startup */
 /*  file (startup_stm32f10x_xx.s).                                            */
 /******************************************************************************/
-#include <rtthread.h>
 void USART1_IRQHandler(void)
 {
 #ifdef RT_USING_UART1

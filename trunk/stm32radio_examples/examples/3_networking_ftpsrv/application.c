@@ -39,6 +39,9 @@ void rt_init_thread_entry(void *parameter)
 {
    /* Filesystem Initialization */
 #ifdef RT_USING_DFS
+    /* init hardware device */
+    rt_hw_sdcard_init();
+
     {
         /* init the device filesystem */
         dfs_init();
@@ -47,7 +50,7 @@ void rt_init_thread_entry(void *parameter)
         elm_init();
 
 		/* mount spi flash fat as root directory */
-		if (dfs_mount("spi0", "/", "elm", 0, 0) == 0)
+		if (dfs_mount("sd0", "/", "elm", 0, 0) == 0)
 			rt_kprintf("SPI File System initialized!\n");
 		else
 			rt_kprintf("SPI File System init failed!\n");
