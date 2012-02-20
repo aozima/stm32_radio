@@ -1,0 +1,39 @@
+import os
+Import('env')
+Import('projects')
+Import('RTT_ROOT')
+Import('rtconfig')
+
+# group definitions
+group = {}
+group['name'] = 'drivers'
+
+group['src'] = Glob(RTT_ROOT + '/drivers/peripheral/*.c')
+
+if 'RT_USING_SPI' in dir(rtconfig) and rtconfig.RT_USING_SPI:
+	group['src'] += Glob(RTT_ROOT + '/drivers/spi/*.c')
+	group['src'] += Glob(RTT_ROOT + '/drivers/spi_flash/*.c')
+
+if 'RT_USING_DFS' in dir(rtconfig) and rtconfig.RT_USING_DFS:
+	group['src'] += Glob(RTT_ROOT + '/drivers/external/sdcard.c')
+
+group['CCFLAGS'] = ''
+
+group['CPPPATH'] = [RTT_ROOT + '/drivers/peripheral']
+
+if 'RT_USING_SPI' in dir(rtconfig) and rtconfig.RT_USING_SPI:
+	group['CPPPATH'] += [RTT_ROOT + '/drivers/spi']
+	group['CPPPATH'] += [RTT_ROOT + '/drivers/spi_flash']
+
+group['CPPDEFINES'] = ''
+# add group to project list
+projects.append(group)
+
+env.Append(CCFLAGS = group['CCFLAGS'])
+env.Append(CPPPATH = group['CPPPATH'])
+env.Append(CPPDEFINES = group['CPPDEFINES'])
+#env.Append(LINKFLAGS = group['LINKFLAGS'])
+
+objs = env.Object(group['src'])
+
+Return('objs')

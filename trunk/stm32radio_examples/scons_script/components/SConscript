@@ -1,9 +1,12 @@
 # for module compile 
 Import('env')
+Import('RTT_ROOT')
 Import('rtconfig')
 
 # build each components
 objs = ''
+
+objs += SConscript(RTT_ROOT + '/drivers/SConscript')
 
 if rtconfig.CROSS_TOOL == 'gcc':
 		rtconfig.RT_USING_MINILIBC = True

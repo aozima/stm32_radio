@@ -9,17 +9,9 @@ group = {}
 group['name'] = 'DeviceDrivers'
 
 group['src'] = Glob(RTT_ROOT + '/rt-thread/components/drivers/spi/*.c')
-group['src'] += Glob(RTT_ROOT + '/drivers/spi/*.c')
-group['src'] += Glob(RTT_ROOT + '/drivers/spi_flash/*.c')
-
 group['CCFLAGS'] = ''
-
 group['CPPPATH'] = [RTT_ROOT + '/rt-thread/components/drivers/include']
-group['CPPPATH'] += [RTT_ROOT + '/drivers/spi']
-group['CPPPATH'] += [RTT_ROOT + '/drivers/spi_flash']
-
 group['CPPDEFINES'] = ''
-
 # add group to project list
 projects.append(group)
 
