@@ -18,7 +18,6 @@
 
 #include "board.h"
 #include "rtc.h"
-#include "spi_flash.h"
 
 #include <stm32f10x.h>
 
@@ -42,11 +41,10 @@ extern int __bss_end;
 
 #ifdef RT_USING_FINSH
 extern void finsh_system_init(void);
-extern void finsh_set_device(const char* device);
+#include <finsh.h>
 #endif
+
 extern int rt_application_init(void);
-extern rt_err_t codec_hw_init(void);
-extern rt_err_t codec_hw_init(void);
 #ifdef  DEBUG
 /*******************************************************************************
 * Function Name  : assert_failed
@@ -104,14 +102,6 @@ void rtthread_startup(void)
 
     /* init scheduler system */
     rt_system_scheduler_init();
-
-    codec_hw_init();
-
-    /* init hardware device */
-#ifdef RT_USING_DFS
-    rt_hw_sdcard_init();
-    rt_hw_spi_flash_init();
-#endif
 
     /* init all device */
     rt_device_init_all();

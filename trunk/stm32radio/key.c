@@ -43,7 +43,7 @@ static void key_thread_entry(void *parameter)
 {
     rt_time_t next_delay;
     struct rtgui_event_kbd kbd_event;
-    rt_uint8_t i;
+
     GPIO_Configuration();
 
     /* init keyboard event */
@@ -53,56 +53,47 @@ static void key_thread_entry(void *parameter)
 
     while (1)
     {
-        next_delay = RT_TICK_PER_SECOND/10;
+        next_delay = 10;
         kbd_event.key = RTGUIK_UNKNOWN;
         kbd_event.type = RTGUI_KEYDOWN;
 
         if ( key_enter_GETVALUE() == 0 )
         {
-            for(i=0; ; i++)
+            rt_thread_delay( next_delay*4 );
+            if (key_enter_GETVALUE() == 0)
             {
-				rt_thread_delay( next_delay );
-				if (key_enter_GETVALUE() == 0)
-				{
-                    if(i>=4)
-                    {
-                        /* HOME key */
-                        //rt_kprintf("key_home\n");
-                        kbd_event.key  = RTGUIK_HOME;
-                        next_delay = RT_TICK_PER_SECOND/5;
-                        break;
-                    }
-                }
-                else
-                {
-                    //rt_kprintf("key_enter\n");
-                    kbd_event.key  = RTGUIK_RETURN;
-                    break;
-                }
+                /* HOME key */
+                rt_kprintf("key_home\n");
+                kbd_event.key  = RTGUIK_HOME;
+            }
+            else
+            {
+                rt_kprintf("key_enter\n");
+                kbd_event.key  = RTGUIK_RETURN;
             }
         }
 
         if ( key_down_GETVALUE()  == 0 )
         {
-            // rt_kprintf("key_down\n");
+            rt_kprintf("key_down\n");
             kbd_event.key  = RTGUIK_DOWN;
         }
 
         if ( key_up_GETVALUE()    == 0 )
         {
-            // rt_kprintf("key_up\n");
+            rt_kprintf("key_up\n");
             kbd_event.key  = RTGUIK_UP;
         }
 
         if ( key_right_GETVALUE() == 0 )
         {
-            // rt_kprintf("key_right\n");
+            rt_kprintf("key_right\n");
             kbd_event.key  = RTGUIK_RIGHT;
         }
 
         if ( key_left_GETVALUE()  == 0 )
         {
-            // rt_kprintf("key_left\n");
+            rt_kprintf("key_left\n");
             kbd_event.key  = RTGUIK_LEFT;
         }
 
@@ -111,7 +102,7 @@ static void key_thread_entry(void *parameter)
             /* post down event */
             rtgui_server_post_event(&(kbd_event.parent), sizeof(kbd_event));
 
-            //next_delay = RT_TICK_PER_SECOND/10;
+            next_delay = 10;
             /* delay to post up event */
             rt_thread_delay(next_delay);
 
@@ -125,11 +116,11 @@ static void key_thread_entry(void *parameter)
     }
 }
 
-static rt_thread_t key_tid;
 void rt_hw_key_init(void)
 {
+	rt_thread_t key_tid;
     key_tid = rt_thread_create("key",
                                key_thread_entry, RT_NULL,
-                               384, 30, 5);
+                               384, RTGUI_SVR_THREAD_PRIORITY-1, 5);
     if (key_tid != RT_NULL) rt_thread_startup(key_tid);
 }

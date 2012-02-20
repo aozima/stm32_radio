@@ -15,18 +15,6 @@
 					<Add option="-g" />
 				</Compiler>
 			</Target>
-			<Target title="Release">
-				<Option output="bin\Release\stm32_radio" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Release\" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-O2" />
-				</Compiler>
-				<Linker>
-					<Add option="-s" />
-				</Linker>
-			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
@@ -271,10 +259,6 @@
 		<Unit filename="application.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="at45dbxx.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="at45dbxx.h" />
 		<Unit filename="board.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -289,10 +273,6 @@
 		<Unit filename="device_info.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="dm9000a.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="dm9000a.h" />
 		<Unit filename="douban_channel.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -305,6 +285,34 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="drawpad.h" />
+		<Unit filename="drivers\dm9000a.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="drivers\dm9000a.h" />
+		<Unit filename="drivers\rt_stm32f10x_spi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="drivers\rt_stm32f10x_spi.h" />
+		<Unit filename="drivers\sdcard.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="drivers\sdcard.h" />
+		<Unit filename="drivers\serial.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="drivers\serial.h" />
+		<Unit filename="drivers\spi_flash_at45dbxx.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="drivers\spi_flash_at45dbxx.h" />
+		<Unit filename="drivers\spi_flash_sst25vfxx.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="drivers\spi_flash_sst25vfxx.h" />
+		<Unit filename="drivers\usart.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="drivers\usart.h" />
 		<Unit filename="fmt0371\fmt0371.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -343,10 +351,8 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="libwma\mdct2.h" />
-		<Unit filename="libwma\mdct_arm.S" />
 		<Unit filename="libwma\mdct_lookup.h" />
 		<Unit filename="libwma\types.h" />
-		<Unit filename="libwma\wma_arm.S" />
 		<Unit filename="libwma\wmabitstream.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -364,60 +370,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="mp3.h" />
-		<Unit filename="mp3\mp3dec.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="mp3\mp3tabs.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="mp3\pub\mp3common.h" />
-		<Unit filename="mp3\pub\mp3dec.h" />
-		<Unit filename="mp3\pub\mpadecobjfixpt.h" />
-		<Unit filename="mp3\pub\statname.h" />
-		<Unit filename="mp3\real\arm\asmmisc.s" />
-		<Unit filename="mp3\real\arm\asmpoly.s" />
-		<Unit filename="mp3\real\arm\asmpoly_thumb2.s" />
-		<Unit filename="mp3\real\assembly.h" />
-		<Unit filename="mp3\real\bitstream.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="mp3\real\buffers.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="mp3\real\coder.h" />
-		<Unit filename="mp3\real\dct32.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="mp3\real\dequant.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="mp3\real\dqchan.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="mp3\real\huffman.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="mp3\real\hufftabs.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="mp3\real\imdct.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="mp3\real\polyphase.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="mp3\real\scalfact.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="mp3\real\stproc.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="mp3\real\subband.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="mp3\real\trigtabs.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="netbuffer.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -699,6 +651,33 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="rt-thread\components\dfs\src\dfs_posix.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="rt-thread\components\drivers\include\drivers\mtd.h" />
+		<Unit filename="rt-thread\components\drivers\include\drivers\spi.h" />
+		<Unit filename="rt-thread\components\drivers\include\rtdevice.h" />
+		<Unit filename="rt-thread\components\drivers\mtd\mtd_core.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="rt-thread\components\drivers\sdio\block_dev.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="rt-thread\components\drivers\sdio\list.h" />
+		<Unit filename="rt-thread\components\drivers\sdio\mmcsd_card.h" />
+		<Unit filename="rt-thread\components\drivers\sdio\mmcsd_cmd.h" />
+		<Unit filename="rt-thread\components\drivers\sdio\mmcsd_core.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="rt-thread\components\drivers\sdio\mmcsd_core.h" />
+		<Unit filename="rt-thread\components\drivers\sdio\mmcsd_host.h" />
+		<Unit filename="rt-thread\components\drivers\sdio\sd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="rt-thread\components\drivers\sdio\sd.h" />
+		<Unit filename="rt-thread\components\drivers\spi\spi_core.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="rt-thread\components\drivers\spi\spi_dev.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="rt-thread\components\finsh\cmd.c">
@@ -2576,30 +2555,14 @@
 		</Unit>
 		<Unit filename="rtc.h" />
 		<Unit filename="rtconfig.h" />
-		<Unit filename="sdcard.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="sdcard.h" />
-		<Unit filename="serial.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="serial.h" />
 		<Unit filename="setup.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="setup.h" />
-		<Unit filename="spi_flash.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="spi_flash.h" />
 		<Unit filename="ssd1289.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="ssd1289.h" />
-		<Unit filename="sst25vfxx.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="sst25vfxx.h" />
 		<Unit filename="startup.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -2619,10 +2582,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="touch.h" />
-		<Unit filename="usart.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="usart.h" />
 		<Unit filename="utils.c">
 			<Option compilerVar="CC" />
 		</Unit>

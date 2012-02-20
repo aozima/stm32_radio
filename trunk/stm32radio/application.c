@@ -27,6 +27,11 @@
 #include "rtc.h"
 #include "setup.h"
 
+#ifdef RT_USING_SPI
+#include <spi_flash_at45dbxx.h>
+#include <spi_flash_sst25vfxx.h>
+#endif
+
 #ifdef RT_USING_DFS
 /* dfs init */
 #include <dfs_init.h>
@@ -48,6 +53,9 @@
 #include <rtgui/rtgui_server.h>
 #include <rtgui/rtgui_system.h>
 
+#include <touch.h>
+#include <codec.h>
+
 extern void radio_rtgui_init(void);
 
 #endif
@@ -55,8 +63,23 @@ extern void radio_rtgui_init(void);
 /* thread phase init */
 void rt_init_thread_entry(void *parameter)
 {
-    /* Filesystem Initialization */
+    codec_hw_init("spi12");
+
 #ifdef RT_USING_DFS
+    /* init hardware device */
+    rt_hw_sdcard_init();
+#   ifdef RT_USING_SPI
+    /* init hardware device */
+    if(sst25vfxx_init("flash0", "spi10") != RT_EOK)
+    {
+        if(at45dbxx_init("flash0", "spi10") != RT_EOK)
+        {
+            rt_kprintf("[error] No such spi flash!\r\n");
+        }
+    }
+#   endif
+
+    /* Filesystem Initialization */
     {
         extern void ff_convert_init();
 
@@ -67,7 +90,7 @@ void rt_init_thread_entry(void *parameter)
         elm_init();
 
         /* mount spi flash fat as root directory */
-        if (dfs_mount("spi0", "/", "elm", 0, 0) == 0)
+        if (dfs_mount("flash0", "/", "elm", 0, 0) == 0)
         {
             rt_kprintf("SPI File System initialized!\n");
 
@@ -93,7 +116,6 @@ void rt_init_thread_entry(void *parameter)
     {
         extern void rt_hw_key_init(void);
         extern void remote_init(void);
-        extern void rtgui_touch_hw_init(void);
 
         rt_device_t lcd;
         rtgui_rect_t rect;
@@ -128,11 +150,10 @@ void rt_init_thread_entry(void *parameter)
 
             info_init();
             player_init();
-
         }
 
         rt_hw_key_init();
-        rtgui_touch_hw_init();
+        rtgui_touch_hw_init("spi11");
         remote_init();
     }
 #endif

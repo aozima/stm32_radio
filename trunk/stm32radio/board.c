@@ -18,6 +18,11 @@
 #include "stm32f10x.h"
 #include "board.h"
 
+#ifdef RT_USING_SPI
+#include "stm32f10x_spi.h"
+#include "rt_stm32f10x_spi.h"
+#endif
+
 struct rt_semaphore spi1_lock;
 
 /**
@@ -284,44 +289,80 @@ void rt_hw_board_init(void)
 
     /* SPI1 config */
     {
-        GPIO_InitTypeDef GPIO_InitStructure;
-        SPI_InitTypeDef SPI_InitStructure;
-
-        /* Enable SPI1 Periph clock */
-        RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA
-                               | RCC_APB2Periph_AFIO | RCC_APB2Periph_SPI1,
-                               ENABLE);
-
-        /* Configure SPI1 pins: PA5-SCK, PA6-MISO and PA7-MOSI */
-        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
-        GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-        GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-        GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-        /*------------------------ SPI1 configuration ------------------------*/
-        SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;//SPI_Direction_1Line_Tx;
-        SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
-        SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
-        SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
-        SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
-        SPI_InitStructure.SPI_NSS  = SPI_NSS_Soft;
-        SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_64;/* 72M/64=1.125M */
-        SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
-        SPI_InitStructure.SPI_CRCPolynomial = 7;
-
-        SPI_I2S_DeInit(SPI1);
-        SPI_Init(SPI1, &SPI_InitStructure);
-
-        /* Enable SPI_MASTER */
-        SPI_Cmd(SPI1, ENABLE);
-        SPI_CalculateCRC(SPI1, DISABLE);
-
         if (rt_sem_init(&spi1_lock, "spi1lock", 1, RT_IPC_FLAG_FIFO) != RT_EOK)
         {
             rt_kprintf("init spi1 lock semaphore failed\n");
         }
     } /* SPI1 config */
 
+#ifdef RT_USING_SPI
+    rt_stm32f10x_spi_init();
+
+#   ifdef USING_SPI1
+    /* attach spi10 : CS PA4 */
+    {
+        static struct rt_spi_device rt_spi_device;
+        static struct stm32_spi_cs  stm32_spi_cs;
+        GPIO_InitTypeDef GPIO_InitStructure;
+
+        stm32_spi_cs.GPIOx = GPIOA;
+        stm32_spi_cs.GPIO_Pin = GPIO_Pin_4;
+
+        RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+
+        GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_4;
+        GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;
+        GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+        GPIO_Init(stm32_spi_cs.GPIOx, &GPIO_InitStructure);
+
+        GPIO_SetBits(stm32_spi_cs.GPIOx, stm32_spi_cs.GPIO_Pin);
+
+        rt_spi_bus_attach_device(&rt_spi_device, "spi10", "spi1", (void*)&stm32_spi_cs);
+    }
+
+    /* attach spi11 : CS PC4 */
+    {
+        static struct rt_spi_device rt_spi_device;
+        static struct stm32_spi_cs  stm32_spi_cs;
+        GPIO_InitTypeDef GPIO_InitStructure;
+
+        stm32_spi_cs.GPIOx = GPIOC;
+        stm32_spi_cs.GPIO_Pin = GPIO_Pin_4;
+
+        RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+
+        GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_4;
+        GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;
+        GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+        GPIO_Init(stm32_spi_cs.GPIOx, &GPIO_InitStructure);
+
+        GPIO_SetBits(stm32_spi_cs.GPIOx, stm32_spi_cs.GPIO_Pin);
+
+        rt_spi_bus_attach_device(&rt_spi_device, "spi11", "spi1", (void*)&stm32_spi_cs);
+    }
+
+    /* attach spi12 : CS PC5 */
+    {
+        static struct rt_spi_device rt_spi_device;
+        static struct stm32_spi_cs  stm32_spi_cs;
+        GPIO_InitTypeDef GPIO_InitStructure;
+
+        stm32_spi_cs.GPIOx = GPIOC;
+        stm32_spi_cs.GPIO_Pin = GPIO_Pin_5;
+
+        RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+
+        GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_4;
+        GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;
+        GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+        GPIO_Init(stm32_spi_cs.GPIOx, &GPIO_InitStructure);
+
+        GPIO_SetBits(stm32_spi_cs.GPIOx, stm32_spi_cs.GPIO_Pin);
+
+        rt_spi_bus_attach_device(&rt_spi_device, "spi12", "spi1", (void*)&stm32_spi_cs);
+    }
+#   endif
+#endif /* #ifdef RT_USING_SPI */
 }/* rt_hw_board_init */
 
 void rt_hw_spi1_baud_rate(uint16_t SPI_BaudRatePrescaler)

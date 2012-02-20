@@ -49,14 +49,14 @@
 // <2=>Version 2: i8080/16bit ili9320/9325/9328 LG4531 ST7783
 // <3=>Version 3: i8080/16bit SSD1289
 // 	<i>Default: 1
-#define LCD_VERSION             3
+#define LCD_VERSION             2
 
 // <o> LCD backlight:
 // <0=>NO
 // <1=>PB9 TIM4_CH4 ( Version: V0.* V3.0 V3.1 )
 // <2=>PB6 TIM4_CH1 ( Version: V4 )
 // 	<i>Default: 1
-#define LCD_USE_PWM             2
+#define LCD_USE_PWM             1
 
 /*
  * IMPORTANT NOTICE:
@@ -77,6 +77,13 @@
 // <2=>Version 2: SST25VF016B
 // 	<i>Default: 2
 #define SPI_FLASH_TYPE             2
+
+
+#define RT_USING_UART1
+// #define RT_USING_UART2
+// #define RT_USING_UART3
+
+#define USING_SPI1
 
 void rt_hw_led_on(int n);
 void rt_hw_led_off(int n);

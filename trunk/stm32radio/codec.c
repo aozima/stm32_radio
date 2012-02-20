@@ -1,5 +1,7 @@
 #include <rthw.h>
 #include <rtthread.h>
+#include <rtdevice.h>
+
 #include "stm32f10x.h"
 #include "board.h"
 #include "codec.h"
@@ -44,16 +46,6 @@
 
 #endif	// #if CODEC_USE_SPI3
 
-/*
-SCLK  PA5  SPI1_SCK
-SDIN  PA7  SPI1_MOSI
-CSB   PC5
-*/
-#define CODEC_CSB_PORT		GPIOC
-#define CODEC_CSB_PIN		GPIO_Pin_5
-#define codec_set_csb()		do { CODEC_CSB_PORT->BSRR = CODEC_CSB_PIN; } while (0)
-#define codec_reset_csb()	do { CODEC_CSB_PORT->BRR = CODEC_CSB_PIN; } while (0)
-
 void vol(uint16_t v);
 static void codec_send(rt_uint16_t s_data);
 
@@ -76,6 +68,9 @@ struct codec_device
 
     /* transmitted offset of current data node */
     rt_size_t offset;
+
+    /* spi mode */
+    struct rt_spi_device * spi_device;
 };
 struct codec_device codec;
 
@@ -103,12 +98,6 @@ static void GPIO_Configuration(void)
 
     /* Disable the JTAG interface and enable the SWJ interface */
     GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
-
-    /* PC5 CODEC CS */
-    GPIO_InitStructure.GPIO_Pin = CODEC_CSB_PIN;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-    GPIO_Init(CODEC_CSB_PORT, &GPIO_InitStructure);
 
     // WS
     GPIO_InitStructure.GPIO_Pin = CODEC_I2S_WS_PIN;
@@ -193,34 +182,9 @@ static void I2S_Configuration(uint32_t I2S_AudioFreq)
     I2S_Init(CODEC_I2S_PORT, &I2S_InitStructure);
 }
 
-uint8_t SPI_WriteByte(unsigned char data)
-{
-    //Wait until the transmit buffer is empty
-    while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-    // Send the byte
-    SPI_I2S_SendData(SPI1, data);
-
-    //Wait until a data is received
-    while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
-    // Get the received data
-    data = SPI_I2S_ReceiveData(SPI1);
-
-    // Return the shifted data
-    return data;
-}
-
 static void codec_send(rt_uint16_t s_data)
 {
-    rt_sem_take(&spi1_lock, RT_WAITING_FOREVER);
-    /* SPI1 configure */
-    rt_hw_spi1_baud_rate(SPI_BaudRatePrescaler_64);/* 72M/64=1.125M */
-
-    codec_reset_csb();
-    SPI_WriteByte((s_data >> 8) & 0xFF);
-    SPI_WriteByte(s_data & 0xFF);
-    codec_set_csb();
-
-    rt_sem_release(&spi1_lock);
+    rt_spi_send(codec.spi_device, &s_data, 1);
 }
 
 static rt_err_t codec_init(rt_device_t dev)
@@ -284,9 +248,6 @@ static rt_err_t codec_init(rt_device_t dev)
 
     return RT_EOK;
 }
-
-// Exported functions
-#include <finsh.h>
 
 void vol(uint16_t v) // 0~99
 {
@@ -421,6 +382,9 @@ rt_err_t sample_rate(int sr)
     return RT_EOK;
 }
 
+/* Exported functions */
+#ifdef RT_USING_FINSH
+#include <finsh.h>
 FINSH_FUNCTION_EXPORT(vol, Set volume);
 FINSH_FUNCTION_EXPORT(eq1, Set EQ1(Cut-off, Gain, Mode));
 FINSH_FUNCTION_EXPORT(eq2, Set EQ2(Center, Gain, Bandwidth));
@@ -429,6 +393,7 @@ FINSH_FUNCTION_EXPORT(eq4, Set EQ4(Center, Gain, Bandwidth));
 FINSH_FUNCTION_EXPORT(eq5, Set EQ5(Cut-off, Gain));
 FINSH_FUNCTION_EXPORT(eq3d, Set 3D(Depth));
 FINSH_FUNCTION_EXPORT(sample_rate, Set sample rate);
+#endif
 
 static rt_err_t codec_open(rt_device_t dev, rt_uint16_t oflag)
 {
@@ -560,9 +525,26 @@ static rt_size_t codec_write(rt_device_t dev, rt_off_t pos,
     return size;
 }
 
-rt_err_t codec_hw_init(void)
+rt_err_t codec_hw_init(const char * spi_device_name)
 {
-    rt_device_t dev;
+    struct rt_spi_device * spi_device;
+
+    spi_device = (struct rt_spi_device *)rt_device_find(spi_device_name);
+    if(spi_device == RT_NULL)
+    {
+        rt_kprintf("spi device %s not found!\r\n", spi_device_name);
+        return -RT_ENOSYS;
+    }
+    codec.spi_device = spi_device;
+
+    /* config spi */
+    {
+        struct rt_spi_configuration cfg;
+        cfg.data_width = 16;
+        cfg.mode = RT_SPI_MODE_0 | RT_SPI_MSB; /* SPI Compatible Modes 0 */
+        cfg.max_hz = 1 * 1000 * 1000; /* 1M */
+        rt_spi_configure(spi_device, &cfg);
+    }
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB | RCC_APB2Periph_GPIOC, ENABLE);
     RCC_APB1PeriphClockCmd(CODEC_I2S_RCC_APB1, ENABLE);
@@ -572,24 +554,21 @@ rt_err_t codec_hw_init(void)
     GPIO_Configuration();
     I2S_Configuration(I2S_AudioFreq_44k);
 
-    dev = (rt_device_t) &codec;
-    dev->type = RT_Device_Class_Sound;
-    dev->rx_indicate = RT_NULL;
-    dev->tx_complete = RT_NULL;
-    dev->init = codec_init;
-    dev->open = codec_open;
-    dev->close = codec_close;
-    dev->read = RT_NULL;
-    dev->write = codec_write;
-    dev->control = codec_control;
-    dev->user_data = RT_NULL;
+    codec.parent.type = RT_Device_Class_Sound;
+    codec.parent.rx_indicate = RT_NULL;
+    codec.parent.tx_complete = RT_NULL;
+    codec.parent.user_data   = RT_NULL;
+
+    codec.parent.control = codec_control;
+    codec.parent.init    = codec_init;
+    codec.parent.open    = codec_open;
+    codec.parent.close   = codec_close;
+    codec.parent.read    = RT_NULL;
+    codec.parent.write   = codec_write;
 
     /* set read_index and put index to 0 */
     codec.read_index = 0;
     codec.put_index = 0;
-
-    /* unselect */
-    codec_set_csb();
 
     /* register the device */
     return rt_device_register(&codec.parent, "snd", RT_DEVICE_FLAG_WRONLY | RT_DEVICE_FLAG_DMA_TX);

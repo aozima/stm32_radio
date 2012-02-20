@@ -644,4 +644,6 @@ struct codec_eq_args
 };
 typedef struct codec_eq_args* codec_eq_args_t;
 
+extern rt_err_t codec_hw_init(const char * spi_device_name);
+
 #endif	// #ifndef __CODEC_H__
