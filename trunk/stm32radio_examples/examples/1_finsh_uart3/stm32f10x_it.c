@@ -114,6 +114,8 @@ void SysTick_Handler(void)
 /*  file (startup_stm32f10x_xx.s).                                            */
 /******************************************************************************/
 #include <rtthread.h>
+#include <board.h>
+
 void USART1_IRQHandler(void)
 {
 #ifdef RT_USING_UART1

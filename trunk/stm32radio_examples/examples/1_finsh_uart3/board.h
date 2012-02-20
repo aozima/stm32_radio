@@ -66,6 +66,8 @@
 // <1=>SPI3
 #define CODEC_USE_SPI3		0
 
+#define RT_USING_UART3
+
 void rt_hw_board_led_on(int n);
 void rt_hw_board_led_off(int n);
 void rt_hw_board_init(void);
