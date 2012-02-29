@@ -74,14 +74,20 @@ void USB_cable(void)
     {
         /* SPI_FLASH */
         struct rt_device_blk_geometry geometry;
-        dev_spi_flash = rt_device_find("spi0");
+        dev_spi_flash = rt_device_find("flash0");
+		if(dev_spi_flash != RT_NULL)
+		{
+			rt_memset(&geometry, 0, sizeof(geometry));
+            rt_device_control(dev_spi_flash, RT_DEVICE_CTRL_BLK_GETGEOME, &geometry);
 
-        rt_memset(&geometry, 0, sizeof(geometry));
-        rt_device_control(dev_spi_flash, RT_DEVICE_CTRL_BLK_GETGEOME, &geometry);
-
-        Mass_Block_Size[1]  = geometry.bytes_per_sector;
-        Mass_Block_Count[1] = geometry.sector_count;
-        Mass_Memory_Size[1] = geometry.bytes_per_sector * geometry.sector_count;
+            Mass_Block_Size[1]  = geometry.bytes_per_sector;
+            Mass_Block_Count[1] = geometry.sector_count;
+            Mass_Memory_Size[1] = geometry.bytes_per_sector * geometry.sector_count;
+		}
+		else
+		{
+		    rt_kprintf("\r\nNo find the device flash0 !!!!");
+		}
     }
 
     if(dev != RT_NULL)
