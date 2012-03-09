@@ -28,9 +28,12 @@
 /* JEDEC Device ID : Memory Type */
 #define MT_ID                       (0x25)
 /* JEDEC Device ID: Memory Capacity */
-#define MC_ID_SST25VF016            (0x41)
-#define MC_ID_SST25VF032            (0x4A)
-#define MC_ID_SST25VF064            (0x4B)
+#define MC_ID_SST25VF020B            (0x8C) /* 2Mbit  */
+#define MC_ID_SST25VF040B            (0x8D) /* 4Mbit  */
+#define MC_ID_SST25VF080B            (0x8E) /* 8Mbit  */
+#define MC_ID_SST25VF016B            (0x41) /* 16Mbit */
+#define MC_ID_SST25VF032B            (0x4A) /* 32Mbit */
+#define MC_ID_SST25VF064C            (0x4B) /* 64Mbit */
 
 /* command list */
 #define CMD_RDSR                    (0x05)  /* ¶Á×´Ì¬¼Ä´æÆ÷     */
@@ -285,19 +288,34 @@ rt_err_t sst25vfxx_init(const char * flash_device_name, const char * spi_device_
         spi_flash->geometry.bytes_per_sector = 4096;
         spi_flash->geometry.block_size = 4096; /* block erase: 4k */
 
-        if(id_recv[2] == MC_ID_SST25VF016)
+        if(id_recv[2] == MC_ID_SST25VF020B)
         {
-            FLASH_TRACE("SST25VF016 detection\r\n");
+            FLASH_TRACE("SST25VF020B detection\r\n");
+            spi_flash->geometry.sector_count = 64;
+        }
+        else if(id_recv[2] == MC_ID_SST25VF040B)
+        {
+            FLASH_TRACE("SST25VF040B detection\r\n");
+            spi_flash->geometry.sector_count = 128;
+        }
+        else if(id_recv[2] == MC_ID_SST25VF080B)
+        {
+            FLASH_TRACE("SST25VF080B detection\r\n");
+            spi_flash->geometry.sector_count = 256;
+        }
+        else if(id_recv[2] == MC_ID_SST25VF016B)
+        {
+            FLASH_TRACE("SST25VF016B detection\r\n");
             spi_flash->geometry.sector_count = 512;
         }
-        else if(id_recv[2] == MC_ID_SST25VF032)
+        else if(id_recv[2] == MC_ID_SST25VF032B)
         {
-            FLASH_TRACE("SST25VF032 detection\r\n");
+            FLASH_TRACE("SST25VF032B detection\r\n");
             spi_flash->geometry.sector_count = 1024;
         }
-        else if(id_recv[2] == MC_ID_SST25VF064)
+        else if(id_recv[2] == MC_ID_SST25VF064C)
         {
-            FLASH_TRACE("SST25VF064 detection\r\n");
+            FLASH_TRACE("SST25VF064C detection\r\n");
             spi_flash->geometry.sector_count = 2048;
         }
         else
