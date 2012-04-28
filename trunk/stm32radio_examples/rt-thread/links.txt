@@ -1,9 +1,0 @@
-include                https://rt-thread.googlecode.com/svn/trunk/include
-kernel                 https://rt-thread.googlecode.com/svn/trunk/src
-libcpu/arm/cortex-m3   https://rt-thread.googlecode.com/svn/trunk/libcpu/arm/cortex-m3
-components/drivers     https://rt-thread.googlecode.com/svn/trunk/components/drivers
-components/finsh       https://rt-thread.googlecode.com/svn/trunk/components/finsh
-components/dfs         https://rt-thread.googlecode.com/svn/trunk/components/dfs
-components/net/lwip    https://rt-thread.googlecode.com/svn/trunk/components/net/lwip
-components/rtgui       https://rt-thread.googlecode.com/svn/trunk/components/rtgui
-examples               https://rt-thread.googlecode.com/svn/trunk/examples
