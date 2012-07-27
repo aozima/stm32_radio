@@ -141,6 +141,8 @@ static rt_err_t configure(struct rt_spi_device* device, struct rt_spi_configurat
     struct stm32_spi_bus * stm32_spi_bus = (struct stm32_spi_bus *)device->bus;
     SPI_InitTypeDef SPI_InitStructure;
 
+    SPI_StructInit(&SPI_InitStructure);
+
     /* data_width */
     if(configuration->data_width <= 8)
     {
