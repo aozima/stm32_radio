@@ -35,6 +35,10 @@ static void LCD_FSMCConfig(void)
 {
     FSMC_NORSRAMInitTypeDef  FSMC_NORSRAMInitStructure;
     FSMC_NORSRAMTimingInitTypeDef  Timing_read,Timing_write;
+    
+    FSMC_NORSRAMInitStructure.FSMC_ReadWriteTimingStruct = &Timing_read;
+		FSMC_NORSRAMInitStructure.FSMC_WriteTimingStruct = &Timing_write;
+		FSMC_NORSRAMStructInit(&FSMC_NORSRAMInitStructure);
 
     /*-- FSMC Configuration -------------------------------------------------*/
     Timing_read.FSMC_AddressSetupTime = 3;             /* 地址建立时间  */
