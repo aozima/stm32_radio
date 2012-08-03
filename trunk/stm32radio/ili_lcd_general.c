@@ -1,10 +1,10 @@
-#include "ili_lcd_general.h"
+ï»¿#include "ili_lcd_general.h"
 
 // Compatible list:
 // ili9320 ili9325 ili9328
 // LG4531
 
-//ÄÚÁªº¯Êı¶¨Òå,ÓÃÒÔÌá¸ßĞÔÄÜ
+//å†…è”å‡½æ•°å®šä¹‰,ç”¨ä»¥æé«˜æ€§èƒ½
 #ifdef __CC_ARM                			 /* ARM Compiler 	*/
 #define lcd_inline   				static __inline
 #elif defined (__ICCARM__)        		/* for IAR Compiler */
@@ -22,9 +22,9 @@
 #include "stm32f10x.h"
 #include "board.h"
 
-//Êä³öÖØ¶¨Ïò.µ±²»½øĞĞÖØ¶¨ÏòÊ±.
-#define printf               rt_kprintf //Ê¹ÓÃrt_kprintfÀ´Êä³ö
-//#define printf(...)                       //ÎŞÊä³ö
+//è¾“å‡ºé‡å®šå‘.å½“ä¸è¿›è¡Œé‡å®šå‘æ—¶.
+#define printf               rt_kprintf //ä½¿ç”¨rt_kprintfæ¥è¾“å‡º
+//#define printf(...)                       //æ— è¾“å‡º
 
 /* LCD is connected to the FSMC_Bank1_NOR/SRAM2 and NE2 is used as ship select signal */
 /* RS <==> A2 */
@@ -37,17 +37,17 @@ static void LCD_FSMCConfig(void)
     FSMC_NORSRAMTimingInitTypeDef  Timing_read,Timing_write;
     
     FSMC_NORSRAMInitStructure.FSMC_ReadWriteTimingStruct = &Timing_read;
-		FSMC_NORSRAMInitStructure.FSMC_WriteTimingStruct = &Timing_write;
-		FSMC_NORSRAMStructInit(&FSMC_NORSRAMInitStructure);
+	FSMC_NORSRAMInitStructure.FSMC_WriteTimingStruct = &Timing_write;
+	FSMC_NORSRAMStructInit(&FSMC_NORSRAMInitStructure);
 
     /*-- FSMC Configuration -------------------------------------------------*/
-    Timing_read.FSMC_AddressSetupTime = 3;             /* µØÖ·½¨Á¢Ê±¼ä  */
-    Timing_read.FSMC_DataSetupTime = 4;                /* Êı¾İ½¨Á¢Ê±¼ä  */
-    Timing_read.FSMC_AccessMode = FSMC_AccessMode_A;    /* FSMC ·ÃÎÊÄ£Ê½ */
+    Timing_read.FSMC_AddressSetupTime = 3;             /* åœ°å€å»ºç«‹æ—¶é—´  */
+    Timing_read.FSMC_DataSetupTime = 4;                /* æ•°æ®å»ºç«‹æ—¶é—´  */
+    Timing_read.FSMC_AccessMode = FSMC_AccessMode_A;    /* FSMC è®¿é—®æ¨¡å¼ */
 
-    Timing_write.FSMC_AddressSetupTime = 2;             /* µØÖ·½¨Á¢Ê±¼ä  */
-    Timing_write.FSMC_DataSetupTime = 3;                /* Êı¾İ½¨Á¢Ê±¼ä  */
-    Timing_write.FSMC_AccessMode = FSMC_AccessMode_A;   /* FSMC ·ÃÎÊÄ£Ê½ */
+    Timing_write.FSMC_AddressSetupTime = 2;             /* åœ°å€å»ºç«‹æ—¶é—´  */
+    Timing_write.FSMC_DataSetupTime = 3;                /* æ•°æ®å»ºç«‹æ—¶é—´  */
+    Timing_write.FSMC_AccessMode = FSMC_AccessMode_A;   /* FSMC è®¿é—®æ¨¡å¼ */
 
     /* Color LCD configuration ------------------------------------
        LCD configured as follow:
@@ -120,11 +120,11 @@ lcd_inline unsigned short read_reg(unsigned char reg_addr)
     return (val);
 }
 
-/********* control <Ö»ÒÆÖ²ÒÔÉÏº¯Êı¼´¿É> ***********/
+/********* control <åªç§»æ¤ä»¥ä¸Šå‡½æ•°å³å¯> ***********/
 
-static unsigned short deviceid=0;//ÉèÖÃÒ»¸ö¾²Ì¬±äÁ¿ÓÃÀ´±£´æLCDµÄID
+static unsigned short deviceid=0;//è®¾ç½®ä¸€ä¸ªé™æ€å˜é‡ç”¨æ¥ä¿å­˜LCDçš„ID
 
-//·µ»ØLCDµÄID
+//è¿”å›LCDçš„ID
 unsigned int lcd_getdeviceid(void)
 {
     return deviceid;
@@ -149,7 +149,7 @@ static void lcd_SetCursor(unsigned int x,unsigned int y)
     write_reg(33,y);    /* 0-319 */
 }
 
-/* ¶ÁÈ¡Ö¸¶¨µØÖ·µÄGRAM */
+/* è¯»å–æŒ‡å®šåœ°å€çš„GRAM */
 static unsigned short lcd_read_gram(unsigned int x,unsigned int y)
 {
     unsigned short temp;
@@ -176,7 +176,7 @@ static void lcd_data_bus_test(void)
 {
     unsigned short temp1;
     unsigned short temp2;
-    /* [5:4]-ID~ID0 [3]-AM-1´¹Ö±-0Ë®Æ½ */
+    /* [5:4]-ID~ID0 [3]-AM-1å‚ç›´-0æ°´å¹³ */
     write_reg(0x0003,(1<<12)|(1<<5)|(1<<4) | (0<<3) );
 
     /* wirte */
@@ -222,7 +222,7 @@ static void lcd_gram_test(void)
 
     /* write */
     temp=0;
-    /* [5:4]-ID~ID0 [3]-AM-1´¹Ö±-0Ë®Æ½ */
+    /* [5:4]-ID~ID0 [3]-AM-1å‚ç›´-0æ°´å¹³ */
     write_reg(0x0003,(1<<12)|(1<<5)|(1<<4) | (0<<3) );
     lcd_SetCursor(0,0);
     rw_data_prepare();
@@ -308,7 +308,7 @@ void lcd_Initializtion(void)
         write_reg(0x0001,0x0100);                    //
 #endif
         write_reg(0x0002,0x0700); 				    //power on sequence
-        /* [5:4]-ID1~ID0 [3]-AM-1´¹Ö±-0Ë®Æ½ */
+        /* [5:4]-ID1~ID0 [3]-AM-1å‚ç›´-0æ°´å¹³ */
         write_reg(0x0003,(1<<12)|(1<<5)|(0<<4) | (1<<3) );
         write_reg(0x0004,0x0000);
         write_reg(0x0008,0x0207);
@@ -550,16 +550,16 @@ void lcd_Initializtion(void)
         delay(20);
     }
 
-    //Êı¾İ×ÜÏß²âÊÔ,ÓÃÓÚ²âÊÔÓ²¼şÁ¬½ÓÊÇ·ñÕı³£.
+    //æ•°æ®æ€»çº¿æµ‹è¯•,ç”¨äºæµ‹è¯•ç¡¬ä»¶è¿æ¥æ˜¯å¦æ­£å¸¸.
     lcd_data_bus_test();
-    //GRAM²âÊÔ,´Ë²âÊÔ¿ÉÒÔ²âÊÔLCD¿ØÖÆÆ÷ÄÚ²¿GRAM.²âÊÔÍ¨¹ı±£Ö¤Ó²¼şÕı³£
+    //GRAMæµ‹è¯•,æ­¤æµ‹è¯•å¯ä»¥æµ‹è¯•LCDæ§åˆ¶å™¨å†…éƒ¨GRAM.æµ‹è¯•é€šè¿‡ä¿è¯ç¡¬ä»¶æ­£å¸¸
     lcd_gram_test();
 
-    //ÇåÆÁ
+    //æ¸…å±
     lcd_clear( Blue );
 }
 
-/*  ÉèÖÃÏñËØµã ÑÕÉ«,X,Y */
+/*  è®¾ç½®åƒç´ ç‚¹ é¢œè‰²,X,Y */
 void rt_hw_lcd_set_pixel(const char* pixel, int x, int y)
 {
     lcd_SetCursor(x,y);
@@ -568,7 +568,7 @@ void rt_hw_lcd_set_pixel(const char* pixel, int x, int y)
     write_data(*(rt_uint16_t*)pixel);
 }
 
-/* »ñÈ¡ÏñËØµãÑÕÉ« */
+/* è·å–åƒç´ ç‚¹é¢œè‰² */
 void rt_hw_lcd_get_pixel(char* pixel, int x, int y)
 {
     unsigned short p;
@@ -576,10 +576,10 @@ void rt_hw_lcd_get_pixel(char* pixel, int x, int y)
     *(rt_uint16_t*)pixel = p;
 }
 
-/* »­Ë®Æ½Ïß */
+/* ç”»æ°´å¹³çº¿ */
 void rt_hw_lcd_draw_hline(const char* pixel, int x1, int x2, int y)
 {
-    /* [5:4]-ID~ID0 [3]-AM-1´¹Ö±-0Ë®Æ½ */
+    /* [5:4]-ID~ID0 [3]-AM-1å‚ç›´-0æ°´å¹³ */
     write_reg(0x0003,(1<<12)|(1<<5)|(1<<4) | (0<<3) );
 
     lcd_SetCursor(x1, y);
@@ -591,10 +591,10 @@ void rt_hw_lcd_draw_hline(const char* pixel, int x1, int x2, int y)
     }
 }
 
-/* ´¹Ö±Ïß */
+/* å‚ç›´çº¿ */
 void rt_hw_lcd_draw_vline(const char* pixel, int x, int y1, int y2)
 {
-    /* [5:4]-ID~ID0 [3]-AM-1´¹Ö±-0Ë®Æ½ */
+    /* [5:4]-ID~ID0 [3]-AM-1å‚ç›´-0æ°´å¹³ */
     write_reg(0x0003,(1<<12)|(1<<5)|(0<<4) | (1<<3) );
 
     lcd_SetCursor(x, y1);
@@ -613,7 +613,7 @@ void rt_hw_lcd_draw_blit_line(const char* pixels, int x, int y, rt_size_t size)
 
 	ptr = (rt_uint16_t*)pixels;
 
-    /* [5:4]-ID~ID0 [3]-AM-1´¹Ö±-0Ë®Æ½ */
+    /* [5:4]-ID~ID0 [3]-AM-1å‚ç›´-0æ°´å¹³ */
     write_reg(0x0003,(1<<12)|(1<<5)|(1<<4) | (0<<3) );
 
     lcd_SetCursor(x, y);
