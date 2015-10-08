@@ -222,10 +222,10 @@ static int http_connect(struct http_session* session,
 	/* set recv timeout option */
 	setsockopt(socket_handle, SOL_SOCKET, SO_RCVTIMEO, (void*)&timeout, sizeof(timeout));
 
-	peer_handle = connect( socket_handle, (struct sockaddr *) server, sizeof(*server));
-	if ( peer_handle < 0 )
+	rc = connect( socket_handle, (struct sockaddr *) server, sizeof(*server));
+	if ( rc < 0 )
 	{
-		rt_kprintf( "HTTP: CONNECT FAILED %i\n", peer_handle );
+		rt_kprintf( "HTTP: CONNECT FAILED %i\n", rc );
 		return -1;
 	}
 
@@ -239,7 +239,7 @@ static int http_connect(struct http_session* session,
 		else
 			length = rt_snprintf(buf, 512, _http_get, "/", host_addr);
 		
-		rc = send(peer_handle, buf, length, 0);
+		rc = send(socket_handle, buf, length, 0);
 		// rt_kprintf("HTTP request:\n%s", buf);
 		
 		/* release buffer */
@@ -252,7 +252,7 @@ static int http_connect(struct http_session* session,
 		int i;
 
 		// read a line from the header information.
-		rc = http_read_line( peer_handle, mimeBuffer, 100 );
+		rc = http_read_line( socket_handle, mimeBuffer, 100 );
 		// rt_kprintf(">> %s\n", mimeBuffer);
 
 		if ( rc < 0 ) return rc;
@@ -284,7 +284,7 @@ static int http_connect(struct http_session* session,
 
 	// We've sent the request, and read the headers.  SockHandle is
 	// now at the start of the main data read for a file io read.
-	return peer_handle;
+	return socket_handle;
 }
 
 struct http_session* http_session_open(const char* url)
